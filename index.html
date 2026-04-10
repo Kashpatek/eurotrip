@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Wedding Guys Trip - City Picker</title>
+<meta name="description" content="Pick your pre-wedding city: Barcelona, Madrid, Dubrovnik, Monaco, or Switzerland. Flights, hotels, day trips, and total costs.">
+<meta property="og:title" content="Pre-Wedding Guys Trip - City Picker">
+<meta property="og:description" content="6 European cities compared. Flights, hotels, day trips, nightlife, and costs for a guys trip before the Dolomites wedding.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a0f1a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(180deg, #0a0f1a 0%, #111827 100%);
+  color: #e0e0e0;
+  min-height: 100vh;
+  padding: 20px 14px 60px;
+}
+.wrap { max-width: 620px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 24px; }
+.header .tag { font-size: 11px; color: #F7B041; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.header h1 { font-size: 20px; font-weight: 700; color: #fff; margin-top: 4px; }
+.header .sub { font-size: 12px; color: #9CA3AF; margin-top: 6px; line-height: 1.5; }
+.city-btns { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+.city-btn {
+  flex: 1 1 auto; min-width: 90px; padding: 10px 12px; font-size: 13px; font-weight: 500;
+  background: rgba(255,255,255,0.03); color: #9CA3AF;
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 10px;
+  cursor: pointer; text-align: center; font-family: inherit; transition: all 0.2s;
+}
+.city-btn:hover { background: rgba(255,255,255,0.06); }
+.city-btn.active { font-weight: 700; }
+.placeholder { text-align: center; padding: 50px 20px; color: #6B7280; font-size: 14px; }
+.city-header { margin-bottom: 18px; }
+.city-header h2 { font-size: 22px; font-weight: 700; color: #fff; }
+.city-header .vibe { font-size: 14px; margin-top: 4px; font-weight: 500; }
+.scores { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+.score-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.score-row:last-child { margin-bottom: 0; }
+.score-label { font-size: 11px; color: #9CA3AF; text-transform: capitalize; width: 80px; }
+.score-bar { display: flex; gap: 2px; flex: 1; margin: 0 8px; }
+.score-pip { width: 8px; height: 8px; border-radius: 2px; }
+.score-val { font-size: 11px; color: #fff; width: 20px; text-align: right; }
+.card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
+}
+.card.dashed { border-style: dashed; border-color: rgba(255,255,255,0.12); }
+.card-tag {
+  display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 10px;
+  border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+}
+.card h3 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+.card .meta { font-size: 12px; color: #9CA3AF; }
+.card .body { font-size: 12px; color: #ccc; margin-top: 6px; line-height: 1.5; }
+.card .tip { font-size: 11px; color: #888; margin-top: 6px; line-height: 1.4; }
+.card .price { font-size: 14px; font-weight: 600; color: #fff; }
+.card .green { color: #2EAD8E; }
+.hotel-pick { font-size: 12px; color: #ccc; margin-bottom: 4px; padding-left: 8px; border-left: 2px solid rgba(255,255,255,0.1); }
+.do-item { font-size: 12px; color: #ccc; margin-bottom: 6px; line-height: 1.4; }
+.total-card { border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+.total-row { display: flex; justify-content: space-between; align-items: center; }
+.total-label .t { font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.total-label .s { font-size: 11px; color: #9CA3AF; margin-top: 2px; }
+.total-price { font-size: 20px; font-weight: 700; }
+.venice-card { background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08); border-radius: 12px; padding: 14px 16px; }
+.venice-card .tag { font-size: 11px; font-weight: 700; color: #9CA3AF; text-transform: uppercase; margin-bottom: 4px; }
+.venice-card .body { font-size: 12px; color: #888; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="tag">Pre-Wedding Guys Trip</div>
+    <h1>Pick Your City</h1>
+    <div class="sub">Fly in Aug 20ish. 2-3 days exploring. Get to Venice by Aug 24. Bus to Dolomites Aug 25.</div>
+  </div>
+  <div class="city-btns" id="cityBtns"></div>
+  <div id="content"><div class="placeholder">Pick a city above to see the full breakdown: flights, hotels, day trips, what to do, and total cost.</div></div>
+</div>
+
+<script>
+const OPTIONS = [
+  {
+    id: "barcelona", city: "Barcelona", country: "Spain", flag: "\u{1F1EA}\u{1F1F8}",
+    vibe: "Beach + nightlife + culture. The all-rounder.",
+    vibeScore: { nightlife: 10, beach: 9, sightseeing: 8, food: 9, budget: 7 },
+    color: "#E06347",
+    flight: { route: "SFO \u2192 BCN", price: "$750\u2013950 RT", time: "~12h (1 stop via LHR, CDG, or LIS)", airlines: "Level (direct seasonal), BA, Air France, TAP Portugal, Iberia", tip: "Level flies direct SFO\u2013BCN some summer dates. Check first. Otherwise BA via London or TAP via Lisbon are cheapest." },
+    hotel: { range: "$140\u2013220/night", total: "$280\u2013440 (2 nights)", picks: ["Hotel Jazz (4*, 8.3) \u2013 Rooftop pool, walkable to everything, ~$155/night", "Hotel 1898 (4*, 8.5) \u2013 Right on La Rambla, colonial building, ~$190/night", "Generator Barcelona (hostel/hotel hybrid, 8.0) \u2013 Group-friendly, rooftop bar, ~$80/night"] },
+    toVenice: { how: "Vueling or Ryanair BCN \u2192 VCE", price: "$40\u201380", time: "2h flight", note: "Multiple daily flights. Book 4\u20136 weeks early." },
+    dayTrip: { name: "Sitges (30 min train, $5)", desc: "Beach town south of Barcelona. Beautiful coastline, great bars, chill daytime energy. Take the morning train, beach all day, come back for Barcelona nightlife." },
+    doThis: ["Barceloneta Beach \u2013 daytime drinks, people watching, volleyball", "La Boqueria Market \u2013 best food market in Europe, go hungry", "Gothic Quarter \u2013 get lost in the medieval alleys, stumble into hidden plazas", "Park Guell \u2013 Gaudi's trippy mosaic park overlooking the city", "Sagrada Familia \u2013 book tickets in advance, it's unreal in person", "Nightlife: Razzmatazz (5 rooms, 5 genres), Pacha Barcelona, Opium on the beach, Sala Apolo (best club vibes)"],
+    totalEst: "$1,250\u2013$1,800"
+  },
+  {
+    id: "madrid", city: "Madrid", country: "Spain", flag: "\u{1F1EA}\u{1F1F8}",
+    vibe: "Late-night capital. Clubs close at 6am. Tapas + rooftops + energy.",
+    vibeScore: { nightlife: 10, beach: 2, sightseeing: 9, food: 10, budget: 8 },
+    color: "#F7B041",
+    flight: { route: "SFO \u2192 MAD", price: "$700\u2013950 RT", time: "~11\u201314h (Iberia sometimes direct, or 1 stop)", airlines: "Iberia (occasional direct), BA, TAP Portugal, Lufthansa, Delta", tip: "Iberia sometimes runs direct SFO\u2013MAD in summer. Otherwise TAP via Lisbon is usually cheapest at $700\u2013800." },
+    hotel: { range: "$120\u2013180/night", total: "$240\u2013360 (2 nights)", picks: ["Room Mate Oscar (4*, 8.5) \u2013 Rooftop pool, Chueca neighborhood, ~$160/night", "Hotel Preciados (4*, 8.2) \u2013 Steps from Puerta del Sol, great value, ~$130/night", "Only YOU Hotel Atocha (4*, 8.8) \u2013 Design hotel, cocktail bar, ~$180/night"] },
+    toVenice: { how: "Ryanair/Vueling MAD \u2192 VCE or train to BCN + fly", price: "$40\u2013100", time: "2.5h flight direct", note: "Ryanair flies MAD to Venice Treviso for cheap. Add $15 bus from Treviso to Venice center." },
+    dayTrip: { name: "Toledo (30 min train, $12 RT)", desc: "Medieval fortress city on a hill. Looks like a movie set. Swords, cathedrals, narrow streets, incredible views. Half day is enough." },
+    doThis: ["Mercado de San Miguel \u2013 tapas + wine market right off Plaza Mayor", "Tapas crawl in La Latina \u2013 Cava Baja street is legendary, go Sunday afternoon", "Retiro Park \u2013 rent rowboats on the lake, chill with a beer", "Rooftop bars \u2013 Circulo de Bellas Artes (best view in Madrid, $5 entry)", "Prado Museum \u2013 even if you're not art guys, it's free last 2 hours of the day", "Nightlife: Kapital (7 floors, 7 genres), Mondo Disko, Teatro Barcelo, Joy Eslava. Nothing opens before midnight. Peak is 2\u20134am."],
+    totalEst: "$1,100\u2013$1,600"
+  },
+  {
+    id: "dubrovnik", city: "Dubrovnik", country: "Croatia", flag: "\u{1F1ED}\u{1F1F7}",
+    vibe: "Walled city on the Adriatic. Boat parties, cliffs, crystal water.",
+    vibeScore: { nightlife: 6, beach: 9, sightseeing: 8, food: 7, budget: 7 },
+    color: "#0B86D1",
+    flight: { route: "SFO \u2192 DBV", price: "$800\u20131,100 RT", time: "~14\u201318h (2 stops typical)", airlines: "BA via LHR, Lufthansa via FRA/MUC, Turkish via IST", tip: "No direct or 1-stop options. Turkish via Istanbul is often cheapest. Or fly into Split (sometimes cheaper) and bus to Dubrovnik (4h, $20)." },
+    hotel: { range: "$120\u2013200/night", total: "$240\u2013400 (2 nights)", picks: ["Hotel Lero (4*, 8.3) \u2013 10 min walk to Old Town, pool, ~$140/night", "Berkeley Hotel & Spa (4*, 8.7) \u2013 Modern, great reviews, ~$170/night", "Fresh Sheets Kathedral (boutique, 9.2) \u2013 Inside Old Town walls, ~$160/night"] },
+    toVenice: { how: "Croatia Airlines / Volotea DBV \u2192 VCE", price: "$50\u2013130", time: "1.5h direct", note: "Summer seasonal routes. Book early. Alternatively Ryanair to Venice Treviso." },
+    dayTrip: { name: "Montenegro / Bay of Kotor (2h bus, ~$20 RT)", desc: "Cross the border into Montenegro. Kotor is a medieval walled town inside a fjord. Insane scenery. Cheap drinks. Our Lady of the Rocks island. Come back same day." },
+    doThis: ["Walk the City Walls \u2013 full loop around Old Town, ~$35, absolutely mandatory", "Buza Bar \u2013 cliff bar literally carved into the city wall, drinks over the Adriatic", "Lokrum Island \u2013 10 min ferry, nude beach, Game of Thrones Iron Throne replica, peacocks everywhere", "Banje Beach \u2013 main beach below Old Town, beach club vibes", "Cable car to Mt. Srd \u2013 sunset views over the entire coast", "Nightlife: More chill than Barcelona/Madrid. Revelin (club in a 16th century fortress), Culture Club, or just bar hop the Stradun."],
+    totalEst: "$1,300\u2013$1,900"
+  },
+  {
+    id: "monaco", city: "Monaco / Nice", country: "French Riviera", flag: "\u{1F1EB}\u{1F1F7}",
+    vibe: "Yacht life, casino, beach clubs, champagne energy. Stay in Nice, day trip Monaco.",
+    vibeScore: { nightlife: 7, beach: 9, sightseeing: 7, food: 9, budget: 5 },
+    color: "#905CCB",
+    flight: { route: "SFO \u2192 NCE (Nice)", price: "$750\u20131,000 RT", time: "~12\u201315h (1\u20132 stops)", airlines: "Air France via CDG (best option), Lufthansa via FRA, BA via LHR", tip: "Fly into Nice airport. Monaco is 20 min by train ($5). No airport in Monaco. Air France via Paris is usually the cleanest routing." },
+    hotel: { range: "$130\u2013200/night (Nice) / $400+ (Monaco)", total: "$260\u2013400 (2 nights in Nice)", picks: ["Hotel Aston La Scala Nice (4*, 8.3) \u2013 Rooftop pool, central, ~$170/night", "Boscolo Nice Hotel & Spa (5*, 8.6) \u2013 Splurge, beautiful building, ~$220/night", "Villa Rivoli Nice (3*, 8.8) \u2013 Charming boutique, great reviews, ~$130/night"] },
+    toVenice: { how: "EasyJet Nice \u2192 Venice ($40\u201390) OR scenic train via Milan (6\u20137h)", price: "$40\u201390", time: "1.5h flight or 6\u20137h train", note: "Train: Nice \u2192 Milan (4.5h) \u2192 Venice (2.5h). Scenic through the Italian Riviera. But flight is faster and often cheaper." },
+    dayTrip: { name: "Monaco (20 min train from Nice, $5)", desc: "Casino Monte-Carlo (free to walk through), Prince's Palace, F1 hairpin turn, Port Hercules (mega yachts), grab a drink at the Hotel de Paris terrace. Half day is plenty." },
+    doThis: ["Promenade des Anglais \u2013 iconic seafront walk, rent bikes", "Vieux Nice (Old Town) \u2013 narrow alleys, Cours Saleya flower market, socca stands", "Beach clubs \u2013 Castel Plage, Ruhl Plage, Blue Beach. Loungers + service + swimming", "Casino Monte-Carlo \u2013 walk in free, minimum bet $5 at slots. Dress code for main rooms.", "Eze Village \u2013 medieval hilltop village between Nice and Monaco, incredible views", "Nightlife: Nice has solid scene. High Club, Le Shapko, Glam Club. In Monaco: Jimmy'z (bottle service, $$$), Twiga, Sass Cafe."],
+    totalEst: "$1,300\u2013$1,800"
+  },
+  {
+    id: "switzerland", city: "Interlaken / Lucerne", country: "Switzerland", flag: "\u{1F1E8}\u{1F1ED}",
+    vibe: "Adrenaline + Alps. Paragliding, canyoning, jaw-dropping scenery. Less nightlife, more adventure.",
+    vibeScore: { nightlife: 4, beach: 3, sightseeing: 10, food: 7, budget: 3 },
+    color: "#2EAD8E",
+    flight: { route: "SFO \u2192 ZRH (Zurich)", price: "$800\u20131,100 RT", time: "~12\u201314h (1 stop typical)", airlines: "SWISS via ZRH (cleanest), Lufthansa via FRA, United via various", tip: "SWISS flies direct SFO\u2013ZRH some days. From Zurich, train to Interlaken is 2h ($40\u201360) or Lucerne is 45 min ($25)." },
+    hotel: { range: "$140\u2013280/night", total: "$280\u2013560 (2 nights)", picks: ["Backpackers Villa Interlaken (3*, 8.5) \u2013 Social vibe, group-friendly, ~$90/night", "Hotel Rossli Interlaken (3*, 8.0) \u2013 Central, affordable for Swiss prices, ~$140/night", "Hotel des Alpes Lucerne (3*, 8.3) \u2013 Right on the river, Chapel Bridge views, ~$180/night"] },
+    toVenice: { how: "EasyJet ZRH \u2192 VCE (1.5h) OR scenic train via Milan (5\u20137h)", price: "$50\u2013100", time: "1.5h flight or 5\u20137h scenic train through the Alps", note: "The train through the Gotthard Base Tunnel and into Italy is beautiful. But if short on time, just fly." },
+    dayTrip: { name: "Jungfraujoch 'Top of Europe' ($200 RT) or Grindelwald First (cheaper)", desc: "Train to 11,332 ft. Snow, ice palace, panoramic views of Eiger/Monch/Jungfrau. Expensive but bucket list. Grindelwald First Cliff Walk is a cheaper alternative with a glass-bottom skybridge." },
+    doThis: ["Paragliding over Interlaken \u2013 tandem, no experience needed, ~$180. You will not regret this.", "Canyoning \u2013 rappelling down waterfalls, jumping into pools, ~$120", "Lake Brienz or Lake Thun \u2013 crystal clear turquoise, rent a boat or just swim", "Harder Kulm viewpoint \u2013 funicular up, dual-lake panorama, sunset drinks", "Chapel Bridge in Lucerne \u2013 oldest covered bridge in Europe, quick photo op", "Nightlife: Limited. Interlaken has Brasserie 17, Husi Bierhaus. Zurich has better nightlife (Hive Club, Zukunft, Mascotte). Switzerland is more about the daytime adventure."],
+    totalEst: "$1,500\u2013$2,200"
+  }
+];
+
+let selected = null;
+
+function renderButtons() {
+  const container = document.getElementById('cityBtns');
+  container.innerHTML = OPTIONS.map(o => 
+    `<button class="city-btn" data-id="${o.id}" onclick="selectCity('${o.id}')">${o.flag} ${o.city}</button>`
+  ).join('');
+}
+
+function renderScoreBar(value, color) {
+  let pips = '';
+  for (let i = 0; i < 10; i++) {
+    pips += `<div class="score-pip" style="background:${i < value ? color : 'rgba(255,255,255,0.08)'}"></div>`;
+  }
+  return pips;
+}
+
+function selectCity(id) {
+  selected = id;
+  document.querySelectorAll('.city-btn').forEach(btn => {
+    const opt = OPTIONS.find(o => o.id === btn.dataset.id);
+    if (btn.dataset.id === id) {
+      btn.classList.add('active');
+      btn.style.background = opt.color + '20';
+      btn.style.color = opt.color;
+      btn.style.borderColor = opt.color + '55';
+      btn.style.fontWeight = '700';
+    } else {
+      btn.classList.remove('active');
+      btn.style.background = 'rgba(255,255,255,0.03)';
+      btn.style.color = '#9CA3AF';
+      btn.style.borderColor = 'rgba(255,255,255,0.06)';
+      btn.style.fontWeight = '500';
+    }
+  });
+  renderCity(id);
+}
+
+function renderCity(id) {
+  const o = OPTIONS.find(x => x.id === id);
+  const c = o.color;
+  const content = document.getElementById('content');
+
+  content.innerHTML = `
+    <div class="city-header">
+      <h2>${o.flag} ${o.city}, ${o.country}</h2>
+      <div class="vibe" style="color:${c}">${o.vibe}</div>
+    </div>
+
+    <div class="scores">
+      ${Object.entries(o.vibeScore).map(([k, v]) => `
+        <div class="score-row">
+          <span class="score-label">${k}</span>
+          <div class="score-bar">${renderScoreBar(v, c)}</div>
+          <span class="score-val">${v}</span>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="card">
+      <div class="card-tag" style="background:${c}22;color:${c}">Flight from SFO</div>
+      <div class="price">${o.flight.price}</div>
+      <div class="meta">${o.flight.route} &middot; ${o.flight.time}</div>
+      <div class="body">${o.flight.airlines}</div>
+      <div class="tip">${o.flight.tip}</div>
+    </div>
+
+    <div class="card">
+      <div class="card-tag" style="background:${c}22;color:${c}">Hotels (2 nights)</div>
+      <div class="price">${o.hotel.total}</div>
+      <div class="meta">${o.hotel.range}</div>
+      <div style="margin-top:8px">
+        ${o.hotel.picks.map(p => `<div class="hotel-pick" style="border-left-color:${c}33">${p}</div>`).join('')}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-tag" style="background:${c}22;color:${c}">Getting to Venice</div>
+      <div class="price">${o.toVenice.price}</div>
+      <div class="meta">${o.toVenice.how} &middot; ${o.toVenice.time}</div>
+      <div class="tip">${o.toVenice.note}</div>
+    </div>
+
+    <div class="card dashed">
+      <div class="card-tag" style="background:${c}22;color:${c}">Nearby Day Trip</div>
+      <h3>${o.dayTrip.name}</h3>
+      <div class="body">${o.dayTrip.desc}</div>
+    </div>
+
+    <div class="card">
+      <div class="card-tag" style="background:${c}22;color:${c}">What to Do (guys trip edition)</div>
+      ${o.doThis.map(item => `<div class="do-item">${item}</div>`).join('')}
+    </div>
+
+    <div class="total-card" style="background:${c}12;border:1px solid ${c}33">
+      <div class="total-row">
+        <div class="total-label">
+          <div class="t" style="color:${c}">Total Estimate (per person)</div>
+          <div class="s">Flight RT + 2 nights hotel + transport to Venice + Venice 1 night ($150) + bus ($20)</div>
+        </div>
+        <div class="total-price" style="color:${c}">${o.totalEst}</div>
+      </div>
+    </div>
+
+    <div class="venice-card">
+      <div class="tag">Then: Venice + Dolomites</div>
+      <div class="body">Arrive Venice Aug 23-24. One night in Venice ($150-250). Explore canals, cicchetti bars, Rialto. Aug 25 AM: Cortina Express bus from Piazzale Roma to Dolomites (2.5h, $18-25). Book bus at cortinaexpress.it or atvo.it. Book EARLY, August sells out.</div>
+    </div>
+  `;
+}
+
+renderButtons();
+</script>
+</body>
+</html>
