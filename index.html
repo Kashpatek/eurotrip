@@ -2,265 +2,613 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pre-Wedding Guys Trip - City Picker</title>
-<meta name="description" content="Pick your pre-wedding city: Barcelona, Madrid, Dubrovnik, Monaco, or Switzerland. Flights, hotels, day trips, and total costs.">
-<meta property="og:title" content="Pre-Wedding Guys Trip - City Picker">
-<meta property="og:description" content="6 European cities compared. Flights, hotels, day trips, nightlife, and costs for a guys trip before the Dolomites wedding.">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#0a0f1a">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Passport to the Dolomites</title>
+<meta name="theme-color" content="#F5F0EA">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: linear-gradient(180deg, #0a0f1a 0%, #111827 100%);
-  color: #e0e0e0;
-  min-height: 100vh;
-  padding: 20px 14px 60px;
-}
-.wrap { max-width: 620px; margin: 0 auto; }
-.header { text-align: center; margin-bottom: 24px; }
-.header .tag { font-size: 11px; color: #F7B041; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-.header h1 { font-size: 20px; font-weight: 700; color: #fff; margin-top: 4px; }
-.header .sub { font-size: 12px; color: #9CA3AF; margin-top: 6px; line-height: 1.5; }
-.city-btns { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
-.city-btn {
-  flex: 1 1 auto; min-width: 90px; padding: 10px 12px; font-size: 13px; font-weight: 500;
-  background: rgba(255,255,255,0.03); color: #9CA3AF;
-  border: 1px solid rgba(255,255,255,0.06); border-radius: 10px;
-  cursor: pointer; text-align: center; font-family: inherit; transition: all 0.2s;
-}
-.city-btn:hover { background: rgba(255,255,255,0.06); }
-.city-btn.active { font-weight: 700; }
-.placeholder { text-align: center; padding: 50px 20px; color: #6B7280; font-size: 14px; }
-.city-header { margin-bottom: 18px; }
-.city-header h2 { font-size: 22px; font-weight: 700; color: #fff; }
-.city-header .vibe { font-size: 14px; margin-top: 4px; font-weight: 500; }
-.scores { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 14px; margin-bottom: 14px; }
-.score-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-.score-row:last-child { margin-bottom: 0; }
-.score-label { font-size: 11px; color: #9CA3AF; text-transform: capitalize; width: 80px; }
-.score-bar { display: flex; gap: 2px; flex: 1; margin: 0 8px; }
-.score-pip { width: 8px; height: 8px; border-radius: 2px; }
-.score-val { font-size: 11px; color: #fff; width: 20px; text-align: right; }
-.card {
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
-}
-.card.dashed { border-style: dashed; border-color: rgba(255,255,255,0.12); }
-.card-tag {
-  display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 10px;
-  border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
-}
-.card h3 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 2px; }
-.card .meta { font-size: 12px; color: #9CA3AF; }
-.card .body { font-size: 12px; color: #ccc; margin-top: 6px; line-height: 1.5; }
-.card .tip { font-size: 11px; color: #888; margin-top: 6px; line-height: 1.4; }
-.card .price { font-size: 14px; font-weight: 600; color: #fff; }
-.card .green { color: #2EAD8E; }
-.hotel-pick { font-size: 12px; color: #ccc; margin-bottom: 4px; padding-left: 8px; border-left: 2px solid rgba(255,255,255,0.1); }
-.do-item { font-size: 12px; color: #ccc; margin-bottom: 6px; line-height: 1.4; }
-.total-card { border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
-.total-row { display: flex; justify-content: space-between; align-items: center; }
-.total-label .t { font-size: 11px; font-weight: 700; text-transform: uppercase; }
-.total-label .s { font-size: 11px; color: #9CA3AF; margin-top: 2px; }
-.total-price { font-size: 20px; font-weight: 700; }
-.venice-card { background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08); border-radius: 12px; padding: 14px 16px; }
-.venice-card .tag { font-size: 11px; font-weight: 700; color: #9CA3AF; text-transform: uppercase; margin-bottom: 4px; }
-.venice-card .body { font-size: 12px; color: #888; line-height: 1.5; }
+:root{--gold:#B8956A;--ink:#1A1A1A;--warm:#F5F0EA;--stone:#E8E2D9;--grey:#9A9488;--card:#fff;--sh:0 2px 24px rgba(0,0,0,.05)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:linear-gradient(170deg,#FAF8F5 0%,#F0EBE3 40%,#E8E0D6 100%);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+h1,h2,h3,.ser{font-family:'Cormorant Garamond',Georgia,serif}
+
+/* ─── SCREEN SYSTEM ─── */
+.scr{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;position:fixed;inset:0;z-index:50;background:linear-gradient(170deg,#FAF8F5,#EDE7DE);overflow:hidden}
+.scr .inner{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.scr.active .inner{opacity:1;transform:none}
+.scr.exit{pointer-events:none}
+.scr.exit .inner{opacity:0;transform:translateY(-30px) scale(.97);filter:blur(4px);transition:all .5s cubic-bezier(.4,0,1,1)}
+.scr.gone{display:none}
+
+/* ─── PASSPORT ─── */
+.passport{width:240px;height:340px;background:linear-gradient(160deg,#2C3E50,#1A252F);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .5s cubic-bezier(.22,1,.36,1),box-shadow .5s;box-shadow:0 30px 60px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.06);position:relative;overflow:hidden}
+.passport:hover{transform:scale(1.03) rotate(-1deg);box-shadow:0 40px 80px rgba(0,0,0,.25)}
+.passport::before{content:'';position:absolute;inset:10px;border:1px solid rgba(255,255,255,.06);border-radius:3px}
+.passport::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 50%);pointer-events:none}
+.passport .emb{font-size:44px;margin-bottom:16px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.passport .t1{font-family:'Cormorant Garamond',serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.passport .t2{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);letter-spacing:1px;margin:8px 0;font-weight:300;text-align:center;line-height:1.15}
+.passport .t3{font-family:'Cormorant Garamond',serif;font-size:10px;color:rgba(255,255,255,.2);letter-spacing:3px;text-transform:uppercase;margin-top:8px}
+.passport .tap{position:absolute;bottom:20px;font-size:10px;color:rgba(255,255,255,.15);animation:pulse 2.5s ease infinite;letter-spacing:2px;text-transform:uppercase}
+@keyframes pulse{0%,100%{opacity:.1}50%{opacity:.4}}
+
+/* ─── STEP LABELS ─── */
+.step{font-size:11px;color:var(--gold);letter-spacing:5px;text-transform:uppercase;font-weight:600;margin-bottom:16px;opacity:0;animation:fadeIn .6s .2s forwards}
+.qtitle{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,7vw,46px);font-weight:300;color:var(--ink);margin-bottom:8px;text-align:center;line-height:1.1;opacity:0;animation:slideUp .7s .3s forwards}
+.qsub{font-size:14px;color:var(--grey);max-width:420px;text-align:center;line-height:1.7;opacity:0;animation:slideUp .7s .4s forwards}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* ─── CHOICE CARDS ─── */
+.choices{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:540px;margin-top:20px;opacity:0;animation:slideUp .7s .5s forwards}
+.ch{padding:22px 16px;border-radius:14px;border:1px solid rgba(0,0,0,.05);background:var(--card);text-align:center;transition:all .35s cubic-bezier(.22,1,.36,1);min-width:140px;flex:1;box-shadow:var(--sh)}
+.ch:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 40px rgba(184,149,106,.15)}
+.ch:active{transform:translateY(-2px) scale(.98)}
+.ch .ico{font-size:28px;margin-bottom:8px}
+.ch .lb{font-size:15px;font-weight:600;color:var(--ink);font-family:'Cormorant Garamond',serif;font-size:18px}
+.ch .ds{font-size:11px;color:var(--grey);margin-top:6px;line-height:1.5}
+
+/* ─── CALENDAR ─── */
+.cal{max-width:460px;width:100%;margin-top:16px;opacity:0;animation:slideUp .7s .5s forwards}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-day{font-size:9px;text-align:center;color:var(--grey);padding:6px 0;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.cal-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;border:2px solid transparent;font-family:'Cormorant Garamond',serif;font-weight:600}
+.cal-cell:hover:not(.locked):not(.empty){background:rgba(184,149,106,.1);border-color:var(--gold)}
+.cal-cell.empty{cursor:default}
+.cal-cell.locked{background:rgba(184,149,106,.08);color:var(--grey);cursor:default;font-size:12px}
+.cal-cell.locked::after{content:'💍';font-size:7px;margin-top:1px}
+.cal-cell.arrive{background:var(--gold);color:#fff;border-color:var(--gold)}
+.cal-cell.depart{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cal-cell.range{background:rgba(184,149,106,.1)}
+.cal-cell .mo{font-size:8px;color:var(--grey);font-family:'DM Sans',sans-serif;font-weight:400}
+.cal-legend{display:flex;gap:20px;justify-content:center;margin-top:12px;font-size:11px;color:var(--grey)}
+.cal-legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.cal-legend .la::before{background:var(--gold)}
+.cal-legend .ld::before{background:var(--ink)}
+.cal-legend .lw::before{background:rgba(184,149,106,.2)}
+.cal-ok{margin-top:20px;padding:14px 48px;border-radius:8px;background:var(--stone);color:var(--grey);font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:all .3s;pointer-events:none}
+.cal-ok.ready{background:var(--ink);color:#fff;pointer-events:auto;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cal-ok.ready:hover{background:var(--gold)}
+
+/* ─── MUSIC ─── */
+.music-btn{position:fixed;bottom:20px;right:20px;z-index:999;width:44px;height:44px;border-radius:50%;background:rgba(26,26,26,.85);color:var(--gold);font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.15);transition:all .3s;opacity:0;pointer-events:none;backdrop-filter:blur(8px);border:1px solid rgba(184,149,106,.15)}
+.music-btn.visible{opacity:.6;pointer-events:auto}
+.music-btn:hover{opacity:1;transform:scale(1.1)}
+.music-btn.playing{opacity:.8}
+.music-btn .eq{display:flex;gap:2px;align-items:flex-end;height:14px}
+.music-btn .eq span{width:3px;background:var(--gold);border-radius:1px;animation:eq .8s ease infinite}
+.music-btn .eq span:nth-child(1){animation-delay:0s;height:6px}
+.music-btn .eq span:nth-child(2){animation-delay:.2s;height:10px}
+.music-btn .eq span:nth-child(3){animation-delay:.4s;height:4px}
+.music-btn.paused .eq span{animation:none;height:3px}
+@keyframes eq{0%,100%{height:4px}50%{height:14px}}
+
+/* ─── MAIN ─── */
+#main{display:none;padding:0 0 80px}
+#main.show{display:block;animation:fu .6s cubic-bezier(.22,1,.36,1)}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.topbar{background:rgba(245,240,234,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.05);padding:12px 20px;position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between}
+.topbar .tl{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600}
+.topbar .tm{font-size:10px;color:var(--grey);margin-top:1px;letter-spacing:.5px}
+.topbar .rs{font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.pills{display:flex;gap:6px;padding:10px 20px;overflow-x:auto;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pill{padding:5px 12px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(184,149,106,.08);color:var(--gold);white-space:nowrap;letter-spacing:.5px}
+
+/* ─── MAP ─── */
+.mapw{position:relative;width:100%;max-width:680px;margin:0 auto;aspect-ratio:1000/684;padding:0 16px}
+.mapw img{width:100%;height:100%;object-fit:contain;opacity:.6}
+.dot{position:absolute;width:10px;height:10px;border-radius:50%;cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1);z-index:2;border:2px solid var(--card);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.dot:hover{transform:scale(2);z-index:5;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.dot .tp{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);border-radius:6px;padding:5px 10px;font-size:10px;font-weight:600;color:#fff;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.dot .tp::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--ink)}
+.dot:hover .tp{opacity:1}
+
+/* ─── GRID ─── */
+.gw{padding:0 20px;max-width:680px;margin:0 auto}
+.gw>h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin:4px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}
+.st{border-radius:10px;padding:14px;cursor:pointer;border:1.5px solid rgba(0,0,0,.04);transition:all .3s cubic-bezier(.22,1,.36,1);background:var(--card);box-shadow:var(--sh);position:relative;overflow:hidden}
+.st:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.08);border-color:rgba(184,149,106,.3)}
+.st .fl{font-size:24px;margin-bottom:4px}
+.st .cn{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600}
+.st .co{font-size:9px;color:var(--grey);letter-spacing:1.5px;text-transform:uppercase}
+.st .pr{font-size:12px;font-weight:700;color:var(--gold);margin-top:6px}
+
+/* ─── HAT TRICK BTN ─── */
+.hat-btn{display:block;margin:0 auto 24px;padding:14px 32px;border-radius:50px;background:var(--ink);color:var(--gold);font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:all .3s;box-shadow:0 8px 24px rgba(0,0,0,.12);font-family:'Cormorant Garamond',serif;font-size:18px}
+.hat-btn:hover{background:var(--gold);color:var(--ink);transform:scale(1.05)}
+
+/* ─── HAT TRICK OVERLAY ─── */
+#hatOverlay{display:none;position:fixed;inset:0;z-index:200;background:var(--ink);flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+#hatOverlay.show{display:flex}
+#hatOverlay::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(184,149,106,.08) 0%,transparent 60%);animation:hatPulse 3s ease infinite}
+@keyframes hatPulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.3);opacity:1}}
+.hat-close{position:absolute;top:20px;right:20px;color:rgba(255,255,255,.4);font-size:24px;z-index:201}
+.hat-city{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,12vw,80px);font-weight:300;color:var(--gold);text-align:center;transition:all .15s;line-height:1.1}
+.hat-flag{font-size:clamp(60px,15vw,100px);margin-bottom:16px;transition:all .15s}
+.hat-vibe{font-size:14px;color:rgba(255,255,255,.4);max-width:360px;text-align:center;margin-top:12px;line-height:1.5}
+.hat-price{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);margin-top:16px;font-weight:600}
+.hat-actions{display:flex;gap:12px;margin-top:32px}
+.hat-actions button{padding:14px 28px;border-radius:50px;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;transition:all .3s}
+.hat-shuffle{background:var(--gold);color:var(--ink)}
+.hat-shuffle:hover{transform:scale(1.05)}
+.hat-lock{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff}
+.hat-lock:hover{border-color:var(--gold);color:var(--gold)}
+.hat-spinning .hat-flag,.hat-spinning .hat-city{animation:hatSpin .12s steps(1) infinite}
+
+/* ─── DETAIL ─── */
+#detail{display:none;padding:20px;max-width:680px;margin:0 auto}
+#detail.show{display:block;animation:fu .4s ease}
+.bk{font-size:11px;color:var(--gold);margin-bottom:16px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.dh{margin-bottom:16px}
+.dh h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,38px);font-weight:300}
+.dh .vb{font-size:14px;margin-top:6px;color:var(--gold);font-weight:500;line-height:1.5}
+.scs{display:grid;grid-template-columns:1fr 1fr;gap:3px 14px;background:var(--card);border-radius:10px;padding:12px;margin-bottom:12px;box-shadow:var(--sh)}
+.sr{display:flex;align-items:center;gap:5px}
+.sr .sl{font-size:9px;color:var(--grey);text-transform:uppercase;width:54px;flex-shrink:0;letter-spacing:.5px}
+.sr .sb{display:flex;gap:2px;flex:1}
+.sr .sp{width:7px;height:7px;border-radius:2px}
+.sr .sv{font-size:10px;font-weight:600;width:14px;text-align:right}
+.sec{background:var(--card);border:1px solid rgba(0,0,0,.04);border-radius:10px;padding:14px;margin-bottom:8px;box-shadow:var(--sh)}
+.sec.da{border-style:dashed;border-color:rgba(0,0,0,.1);box-shadow:none}
+.stg{font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.spr{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600}
+.sme{font-size:11px;color:var(--grey)}
+.sbd{font-size:12px;color:#555;line-height:1.6;margin-top:6px}
+.stp{font-size:11px;color:var(--grey);margin-top:6px;line-height:1.5}
+.hp{font-size:11px;color:#555;margin-bottom:4px;padding-left:8px;border-left:2px solid var(--gold)}
+.di{font-size:12px;color:#444;margin-bottom:5px;line-height:1.5}
+.ttog{display:flex;gap:6px;margin:8px 0}
+.ttog button{flex:1;padding:10px;border-radius:8px;font-size:12px;font-weight:600;background:var(--warm);color:var(--grey);transition:all .2s}
+.ttog button.sel{background:var(--ink);color:#fff}
+.tc{border-radius:10px;padding:14px;margin-bottom:8px;background:var(--card);box-shadow:var(--sh);border:1px solid rgba(184,149,106,.12)}
+.tr{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ta{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--gold);white-space:nowrap}
+.cost-toggle{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.05)}
+.cost-toggle label{font-size:11px;color:var(--grey);cursor:pointer}
+.cost-toggle input{accent-color:var(--gold)}
+.vp{background:rgba(184,149,106,.05);border:1px solid rgba(184,149,106,.1);border-radius:10px;padding:14px;margin-bottom:8px}
+.vp h4{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.vp p{font-size:12px;color:#666;line-height:1.6}
+
+@media(max-width:420px){.grid{grid-template-columns:repeat(2,1fr);gap:6px}.ch{min-width:100px;padding:14px 10px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="header">
-    <div class="tag">Pre-Wedding Guys Trip</div>
-    <h1>Pick Your City</h1>
-    <div class="sub">Fly in Aug 20ish. 2-3 days exploring. Get to Venice by Aug 24. Bus to Dolomites Aug 25.</div>
+<audio id="bgMusic" loop preload="auto"><source src="song.mp3" type="audio/mpeg"></audio>
+<button id="musicBtn" class="music-btn" onclick="toggleMusic()"><div class="eq"><span></span><span></span><span></span></div></button>
+
+<!-- S1: PASSPORT -->
+<div class="scr active" id="s1"><div class="inner">
+  <div class="passport" onclick="startTrip()">
+    <div class="emb">✦</div>
+    <div class="t1">Summer 2026</div>
+    <div class="t2">Passport to<br>the Dolomites</div>
+    <div class="t3">15 cities &middot; real prices</div>
+    <div class="tap">tap to open</div>
   </div>
-  <div class="city-btns" id="cityBtns"></div>
-  <div id="content"><div class="placeholder">Pick a city above to see the full breakdown: flights, hotels, day trips, what to do, and total cost.</div></div>
+</div></div>
+
+<!-- S2: CALENDAR -->
+<div class="scr gone" id="s2"><div class="inner">
+  <div class="step">Select Your Dates</div>
+  <div class="qtitle">When are you in Europe?</div>
+  <div class="qsub">Tap arrival, then departure. Wedding is Aug 26-30. Be in Venice by Aug 25.</div>
+  <div class="cal" id="calWrap"></div>
+  <div class="cal-legend"><span class="la">Arrive</span><span class="ld">Depart</span><span class="lw">Wedding</span></div>
+  <button class="cal-ok" id="calOk" onclick="confirmDates()">Continue</button>
+</div></div>
+
+<!-- S3: DEPARTURE -->
+<div class="scr gone" id="s3"><div class="inner">
+  <div class="step">Departure City</div>
+  <div class="qtitle">Where are you<br>flying from?</div>
+  <div class="choices">
+    <button class="ch" onclick="pk('dep','SFO')"><div class="ico">🌉</div><div class="lb">San Francisco</div><div class="ds">SFO</div></button>
+    <button class="ch" onclick="pk('dep','ATL')"><div class="ico">🍑</div><div class="lb">Atlanta</div><div class="ds">ATL</div></button>
+    <button class="ch" onclick="pk('dep','CHS')"><div class="ico">🌴</div><div class="lb">Charleston</div><div class="ds">CHS</div></button>
+  </div>
+</div></div>
+
+<!-- S4: FLIGHT TYPE -->
+<div class="scr gone" id="s4"><div class="inner">
+  <div class="step">Flight Strategy</div>
+  <div class="qtitle">How are you booking?</div>
+  <div class="choices">
+    <button class="ch" onclick="pk('ft','rt')"><div class="ico">🔄</div><div class="lb">Round Trip</div><div class="ds">Same city in &amp; out</div></button>
+    <button class="ch" onclick="pk('ft','oj')"><div class="ico">✈️</div><div class="lb">Open Jaw</div><div class="ds">Fly in city, home from Venice</div></button>
+    <button class="ch" onclick="pk('ft','ow')"><div class="ico">🎯</div><div class="lb">One-Way Legs</div><div class="ds">Book each leg separate</div></button>
+  </div>
+</div></div>
+
+<!-- S5: VENICE -->
+<div class="scr gone" id="s5"><div class="inner">
+  <div class="step">Venice</div>
+  <div class="qtitle">When do you<br>tour Venice?</div>
+  <div class="qsub">You pass through either way.</div>
+  <div class="choices">
+    <button class="ch" onclick="pk('ven','before')"><div class="ico">🏛️</div><div class="lb">Venice First</div><div class="ds">Explore, then your city</div></button>
+    <button class="ch" onclick="pk('ven','after')"><div class="ico">🎬</div><div class="lb">Venice After</div><div class="ds">City first. Film Fest Sep 2!</div></button>
+    <button class="ch" onclick="pk('ven','both')"><div class="ico">💎</div><div class="lb">Both Sides</div><div class="ds">Stop before + after</div></button>
+  </div>
+</div></div>
+
+<!-- MAIN VIEW -->
+<div id="main">
+  <div class="topbar">
+    <div><div class="tl" id="tT"></div><div class="tm" id="tM"></div></div>
+    <button class="rs" onclick="restart()">Start Over</button>
+  </div>
+  <div class="pills" id="pills"></div>
+  <div class="mapw" id="mapW"><img src="europe.svg" alt="Europe"></div>
+  <div class="gw">
+    <h3>Select a Destination</h3>
+    <button class="hat-btn" onclick="openHat()">🎰 Hat Trick &mdash; Shuffle Random</button>
+    <div class="grid" id="grid"></div>
+  </div>
+  <div id="detail"></div>
+</div>
+
+<!-- HAT TRICK OVERLAY -->
+<div id="hatOverlay">
+  <button class="hat-close" onclick="closeHat()">✕</button>
+  <div class="hat-flag" id="hatFlag">🇪🇸</div>
+  <div class="hat-city" id="hatCity">Barcelona</div>
+  <div class="hat-vibe" id="hatVibe"></div>
+  <div class="hat-price" id="hatPrice"></div>
+  <div class="hat-actions">
+    <button class="hat-shuffle" onclick="shuffleHat()">🎰 Shuffle</button>
+    <button class="hat-lock" onclick="lockHat()">Lock This In →</button>
+  </div>
 </div>
 
 <script>
-const OPTIONS = [
-  {
-    id: "barcelona", city: "Barcelona", country: "Spain", flag: "\u{1F1EA}\u{1F1F8}",
-    vibe: "Beach + nightlife + culture. The all-rounder.",
-    vibeScore: { nightlife: 10, beach: 9, sightseeing: 8, food: 9, budget: 7 },
-    color: "#E06347",
-    flight: { route: "SFO \u2192 BCN", price: "$750\u2013950 RT", time: "~12h (1 stop via LHR, CDG, or LIS)", airlines: "Level (direct seasonal), BA, Air France, TAP Portugal, Iberia", tip: "Level flies direct SFO\u2013BCN some summer dates. Check first. Otherwise BA via London or TAP via Lisbon are cheapest." },
-    hotel: { range: "$140\u2013220/night", total: "$280\u2013440 (2 nights)", picks: ["Hotel Jazz (4*, 8.3) \u2013 Rooftop pool, walkable to everything, ~$155/night", "Hotel 1898 (4*, 8.5) \u2013 Right on La Rambla, colonial building, ~$190/night", "Generator Barcelona (hostel/hotel hybrid, 8.0) \u2013 Group-friendly, rooftop bar, ~$80/night"] },
-    toVenice: { how: "Vueling or Ryanair BCN \u2192 VCE", price: "$40\u201380", time: "2h flight", note: "Multiple daily flights. Book 4\u20136 weeks early." },
-    dayTrip: { name: "Sitges (30 min train, $5)", desc: "Beach town south of Barcelona. Beautiful coastline, great bars, chill daytime energy. Take the morning train, beach all day, come back for Barcelona nightlife." },
-    doThis: ["Barceloneta Beach \u2013 daytime drinks, people watching, volleyball", "La Boqueria Market \u2013 best food market in Europe, go hungry", "Gothic Quarter \u2013 get lost in the medieval alleys, stumble into hidden plazas", "Park Guell \u2013 Gaudi's trippy mosaic park overlooking the city", "Sagrada Familia \u2013 book tickets in advance, it's unreal in person", "Nightlife: Razzmatazz (5 rooms, 5 genres), Pacha Barcelona, Opium on the beach, Sala Apolo (best club vibes)"],
-    totalEst: "$1,250\u2013$1,800"
-  },
-  {
-    id: "madrid", city: "Madrid", country: "Spain", flag: "\u{1F1EA}\u{1F1F8}",
-    vibe: "Late-night capital. Clubs close at 6am. Tapas + rooftops + energy.",
-    vibeScore: { nightlife: 10, beach: 2, sightseeing: 9, food: 10, budget: 8 },
-    color: "#F7B041",
-    flight: { route: "SFO \u2192 MAD", price: "$700\u2013950 RT", time: "~11\u201314h (Iberia sometimes direct, or 1 stop)", airlines: "Iberia (occasional direct), BA, TAP Portugal, Lufthansa, Delta", tip: "Iberia sometimes runs direct SFO\u2013MAD in summer. Otherwise TAP via Lisbon is usually cheapest at $700\u2013800." },
-    hotel: { range: "$120\u2013180/night", total: "$240\u2013360 (2 nights)", picks: ["Room Mate Oscar (4*, 8.5) \u2013 Rooftop pool, Chueca neighborhood, ~$160/night", "Hotel Preciados (4*, 8.2) \u2013 Steps from Puerta del Sol, great value, ~$130/night", "Only YOU Hotel Atocha (4*, 8.8) \u2013 Design hotel, cocktail bar, ~$180/night"] },
-    toVenice: { how: "Ryanair/Vueling MAD \u2192 VCE or train to BCN + fly", price: "$40\u2013100", time: "2.5h flight direct", note: "Ryanair flies MAD to Venice Treviso for cheap. Add $15 bus from Treviso to Venice center." },
-    dayTrip: { name: "Toledo (30 min train, $12 RT)", desc: "Medieval fortress city on a hill. Looks like a movie set. Swords, cathedrals, narrow streets, incredible views. Half day is enough." },
-    doThis: ["Mercado de San Miguel \u2013 tapas + wine market right off Plaza Mayor", "Tapas crawl in La Latina \u2013 Cava Baja street is legendary, go Sunday afternoon", "Retiro Park \u2013 rent rowboats on the lake, chill with a beer", "Rooftop bars \u2013 Circulo de Bellas Artes (best view in Madrid, $5 entry)", "Prado Museum \u2013 even if you're not art guys, it's free last 2 hours of the day", "Nightlife: Kapital (7 floors, 7 genres), Mondo Disko, Teatro Barcelo, Joy Eslava. Nothing opens before midnight. Peak is 2\u20134am."],
-    totalEst: "$1,100\u2013$1,600"
-  },
-  {
-    id: "dubrovnik", city: "Dubrovnik", country: "Croatia", flag: "\u{1F1ED}\u{1F1F7}",
-    vibe: "Walled city on the Adriatic. Boat parties, cliffs, crystal water.",
-    vibeScore: { nightlife: 6, beach: 9, sightseeing: 8, food: 7, budget: 7 },
-    color: "#0B86D1",
-    flight: { route: "SFO \u2192 DBV", price: "$800\u20131,100 RT", time: "~14\u201318h (2 stops typical)", airlines: "BA via LHR, Lufthansa via FRA/MUC, Turkish via IST", tip: "No direct or 1-stop options. Turkish via Istanbul is often cheapest. Or fly into Split (sometimes cheaper) and bus to Dubrovnik (4h, $20)." },
-    hotel: { range: "$120\u2013200/night", total: "$240\u2013400 (2 nights)", picks: ["Hotel Lero (4*, 8.3) \u2013 10 min walk to Old Town, pool, ~$140/night", "Berkeley Hotel & Spa (4*, 8.7) \u2013 Modern, great reviews, ~$170/night", "Fresh Sheets Kathedral (boutique, 9.2) \u2013 Inside Old Town walls, ~$160/night"] },
-    toVenice: { how: "Croatia Airlines / Volotea DBV \u2192 VCE", price: "$50\u2013130", time: "1.5h direct", note: "Summer seasonal routes. Book early. Alternatively Ryanair to Venice Treviso." },
-    dayTrip: { name: "Montenegro / Bay of Kotor (2h bus, ~$20 RT)", desc: "Cross the border into Montenegro. Kotor is a medieval walled town inside a fjord. Insane scenery. Cheap drinks. Our Lady of the Rocks island. Come back same day." },
-    doThis: ["Walk the City Walls \u2013 full loop around Old Town, ~$35, absolutely mandatory", "Buza Bar \u2013 cliff bar literally carved into the city wall, drinks over the Adriatic", "Lokrum Island \u2013 10 min ferry, nude beach, Game of Thrones Iron Throne replica, peacocks everywhere", "Banje Beach \u2013 main beach below Old Town, beach club vibes", "Cable car to Mt. Srd \u2013 sunset views over the entire coast", "Nightlife: More chill than Barcelona/Madrid. Revelin (club in a 16th century fortress), Culture Club, or just bar hop the Stradun."],
-    totalEst: "$1,300\u2013$1,900"
-  },
-  {
-    id: "monaco", city: "Monaco / Nice", country: "French Riviera", flag: "\u{1F1EB}\u{1F1F7}",
-    vibe: "Yacht life, casino, beach clubs, champagne energy. Stay in Nice, day trip Monaco.",
-    vibeScore: { nightlife: 7, beach: 9, sightseeing: 7, food: 9, budget: 5 },
-    color: "#905CCB",
-    flight: { route: "SFO \u2192 NCE (Nice)", price: "$750\u20131,000 RT", time: "~12\u201315h (1\u20132 stops)", airlines: "Air France via CDG (best option), Lufthansa via FRA, BA via LHR", tip: "Fly into Nice airport. Monaco is 20 min by train ($5). No airport in Monaco. Air France via Paris is usually the cleanest routing." },
-    hotel: { range: "$130\u2013200/night (Nice) / $400+ (Monaco)", total: "$260\u2013400 (2 nights in Nice)", picks: ["Hotel Aston La Scala Nice (4*, 8.3) \u2013 Rooftop pool, central, ~$170/night", "Boscolo Nice Hotel & Spa (5*, 8.6) \u2013 Splurge, beautiful building, ~$220/night", "Villa Rivoli Nice (3*, 8.8) \u2013 Charming boutique, great reviews, ~$130/night"] },
-    toVenice: { how: "EasyJet Nice \u2192 Venice ($40\u201390) OR scenic train via Milan (6\u20137h)", price: "$40\u201390", time: "1.5h flight or 6\u20137h train", note: "Train: Nice \u2192 Milan (4.5h) \u2192 Venice (2.5h). Scenic through the Italian Riviera. But flight is faster and often cheaper." },
-    dayTrip: { name: "Monaco (20 min train from Nice, $5)", desc: "Casino Monte-Carlo (free to walk through), Prince's Palace, F1 hairpin turn, Port Hercules (mega yachts), grab a drink at the Hotel de Paris terrace. Half day is plenty." },
-    doThis: ["Promenade des Anglais \u2013 iconic seafront walk, rent bikes", "Vieux Nice (Old Town) \u2013 narrow alleys, Cours Saleya flower market, socca stands", "Beach clubs \u2013 Castel Plage, Ruhl Plage, Blue Beach. Loungers + service + swimming", "Casino Monte-Carlo \u2013 walk in free, minimum bet $5 at slots. Dress code for main rooms.", "Eze Village \u2013 medieval hilltop village between Nice and Monaco, incredible views", "Nightlife: Nice has solid scene. High Club, Le Shapko, Glam Club. In Monaco: Jimmy'z (bottle service, $$$), Twiga, Sass Cafe."],
-    totalEst: "$1,300\u2013$1,800"
-  },
-  {
-    id: "switzerland", city: "Interlaken / Lucerne", country: "Switzerland", flag: "\u{1F1E8}\u{1F1ED}",
-    vibe: "Adrenaline + Alps. Paragliding, canyoning, jaw-dropping scenery. Less nightlife, more adventure.",
-    vibeScore: { nightlife: 4, beach: 3, sightseeing: 10, food: 7, budget: 3 },
-    color: "#2EAD8E",
-    flight: { route: "SFO \u2192 ZRH (Zurich)", price: "$800\u20131,100 RT", time: "~12\u201314h (1 stop typical)", airlines: "SWISS via ZRH (cleanest), Lufthansa via FRA, United via various", tip: "SWISS flies direct SFO\u2013ZRH some days. From Zurich, train to Interlaken is 2h ($40\u201360) or Lucerne is 45 min ($25)." },
-    hotel: { range: "$140\u2013280/night", total: "$280\u2013560 (2 nights)", picks: ["Backpackers Villa Interlaken (3*, 8.5) \u2013 Social vibe, group-friendly, ~$90/night", "Hotel Rossli Interlaken (3*, 8.0) \u2013 Central, affordable for Swiss prices, ~$140/night", "Hotel des Alpes Lucerne (3*, 8.3) \u2013 Right on the river, Chapel Bridge views, ~$180/night"] },
-    toVenice: { how: "EasyJet ZRH \u2192 VCE (1.5h) OR scenic train via Milan (5\u20137h)", price: "$50\u2013100", time: "1.5h flight or 5\u20137h scenic train through the Alps", note: "The train through the Gotthard Base Tunnel and into Italy is beautiful. But if short on time, just fly." },
-    dayTrip: { name: "Jungfraujoch 'Top of Europe' ($200 RT) or Grindelwald First (cheaper)", desc: "Train to 11,332 ft. Snow, ice palace, panoramic views of Eiger/Monch/Jungfrau. Expensive but bucket list. Grindelwald First Cliff Walk is a cheaper alternative with a glass-bottom skybridge." },
-    doThis: ["Paragliding over Interlaken \u2013 tandem, no experience needed, ~$180. You will not regret this.", "Canyoning \u2013 rappelling down waterfalls, jumping into pools, ~$120", "Lake Brienz or Lake Thun \u2013 crystal clear turquoise, rent a boat or just swim", "Harder Kulm viewpoint \u2013 funicular up, dual-lake panorama, sunset drinks", "Chapel Bridge in Lucerne \u2013 oldest covered bridge in Europe, quick photo op", "Nightlife: Limited. Interlaken has Brasserie 17, Husi Bierhaus. Zurich has better nightlife (Hive Club, Zukunft, Mascotte). Switzerland is more about the daytime adventure."],
-    totalEst: "$1,500\u2013$2,200"
-  }
+
+const C=[
+{id:"lisbon",city:"Lisbon",co:"Portugal",fl:"🇵🇹",x:30.5,y:84.8,clr:"#C75D3A",
+vibe:"Cheapest major city in Western Europe. Incredible food, hills with soul, Bairro Alto nightlife.",
+sc:{nightlife:8,food:9,sightseeing:8,budget:10,beach:7},
+f:{SFO:["$650-900","~11-14h","TAP direct seasonal, BA, Lufthansa"],ATL:["$600-850","~9h","TAP direct seasonal, Delta via CDG"],CHS:["$700-950","~13h, 2 stops","AA via CLT, Delta via ATL"]},
+h:{r:"$100-170/nt",t:"$200-340",p:["Hotel Lisboa Plaza (4★ 8.5) ~$130/nt","1908 Lisboa Hotel (4★ 8.8) ~$150/nt","Destination Hostel (9.0) ~$40/nt"]},
+tv:{fly:{p:"$50-120",t:"3h",d:"TAP/Ryanair LIS to VCE."},train:{p:"N/A",t:"24h+",d:"Not practical. Fly."}},
+dt:{n:"Sintra (40min train, $5)",d:"Fairytale palaces in misty hills. Pena Palace, Moorish Castle."},
+todo:["Bairro Alto bar crawl - dozens of tiny bars spilling into streets","Time Out Market - massive food hall","Tram 28 - iconic yellow tram through old neighborhoods","Pasteis de Belem - legendary custard tarts","LX Factory - warehouse bars + street art","NIGHTLIFE: Lux Fragil (best club), Pensao Amor, Music Box"]},
+
+{id:"madrid",city:"Madrid",co:"Spain",fl:"🇪🇸",x:39.8,y:83,clr:"#D4A03C",
+vibe:"Late-night capital. Clubs close at 6am. Tapas, rooftops, raw energy.",
+sc:{nightlife:10,food:10,sightseeing:9,budget:8,beach:2},
+f:{SFO:["$700-950","~11-14h","Iberia sometimes direct, BA, TAP"],ATL:["$650-850","~10-13h","Delta via CDG, Iberia"],CHS:["$750-1000","~14h","AA via CLT, Delta via ATL"]},
+h:{r:"$120-180/nt",t:"$240-360",p:["Room Mate Oscar (4★ 8.5) rooftop ~$160/nt","Hotel Preciados (4★ 8.2) ~$130/nt","Only YOU Atocha (4★ 8.8) ~$180/nt"]},
+tv:{fly:{p:"$40-100",t:"2.5h",d:"Ryanair/Vueling MAD to VCE."},train:{p:"$30-80",t:"~9h via BCN",d:"AVE to BCN (2.5h $20) + fly. No direct."}},
+dt:{n:"Toledo (30min train, $12)",d:"Medieval fortress city. Movie-set vibes."},
+todo:["Mercado de San Miguel - tapas + wine off Plaza Mayor","La Latina tapas crawl - Cava Baja, Sunday afternoon","Retiro Park - rowboats, beers on grass","Rooftop: Circulo de Bellas Artes ($5, best view)","Prado Museum - free last 2 hours","NIGHTLIFE: Kapital (7 floors), Mondo Disko, Teatro Barcelo. Peak 2-4am."]},
+
+{id:"barcelona",city:"Barcelona",co:"Spain",fl:"🇪🇸",x:46.8,y:78.9,clr:"#C75D3A",
+vibe:"Beach + nightlife + culture. The all-rounder.",
+sc:{nightlife:10,beach:9,food:9,sightseeing:8,budget:7},
+f:{SFO:["$750-950","~12h","Level direct seasonal, BA, TAP"],ATL:["$700-900","~10h","Delta via CDG, Iberia"],CHS:["$800-1050","~13h","AA via CLT, Delta via ATL"]},
+h:{r:"$140-220/nt",t:"$280-440",p:["Hotel Jazz (4★ 8.3) rooftop pool ~$155/nt","Hotel 1898 (4★ 8.5) La Rambla ~$190/nt","Generator BCN (8.0) group rooftop ~$80/nt"]},
+tv:{fly:{p:"$40-80",t:"2h",d:"Vueling/Ryanair BCN to VCE. Multiple daily."},train:{p:"$50-90",t:"~11h",d:"Via Milan. Long. Fly."}},
+dt:{n:"Sitges (30min train, $5)",d:"Beach town, great bars. Back for BCN nightlife."},
+todo:["Barceloneta Beach - drinks, volleyball","La Boqueria Market - best in Europe","Gothic Quarter - medieval alleys, hidden plazas","Sagrada Familia - book ahead","Park Guell - Gaudi's trippy mosaic park","NIGHTLIFE: Razzmatazz (5 rooms), Pacha, Opium beach, Sala Apolo"]},
+
+{id:"ibiza",city:"Ibiza",co:"Spain",fl:"🇪🇸",x:44,y:86.3,clr:"#D4A03C",
+vibe:"THE electronic music island. Superclubs, beach clubs, Cafe del Mar.",
+sc:{nightlife:10,beach:9,food:7,sightseeing:4,budget:3},
+f:{SFO:["$800-1100","~14h","Via BCN/MAD"],ATL:["$750-1050","~12h","Iberia via MAD"],CHS:["$850-1200","~15h","Via CLT/MAD"]},
+h:{r:"$150-300/nt",t:"$300-600",p:["Hotel Argos (3★ 8.3) ~$150/nt","Sir Joan (4★ 8.8) rooftop ~$280/nt","Hostal Parque (7.8) budget ~$80/nt"]},
+tv:{fly:{p:"$50-110",t:"2h via BCN",d:"Vueling IBZ to BCN to VCE."},train:{p:"N/A",t:"N/A",d:"Island. Fly."}},
+dt:{n:"Formentera (30min ferry, $25)",d:"Caribbean-like water. Ses Illetes. Rent a scooter."},
+todo:["Cafe del Mar - THE sunset, arrive 7pm","Dalt Vila - walled old town, UNESCO","Cala Conta - turquoise water, beach bars","Playa d'en Bossa - Bora Bora, daytime party","NIGHTLIFE: Ushuaia, Amnesia, Pacha, DC-10, Hi. $50-80 entry."]},
+
+{id:"nice",city:"Nice / Monaco",co:"Riviera",fl:"🇫🇷",x:53,y:74.3,clr:"#7B6BA5",
+vibe:"Yacht life, casino, beach clubs. Stay Nice, day trip Monaco.",
+sc:{nightlife:7,beach:9,food:9,sightseeing:7,budget:5},
+f:{SFO:["$750-1000","~12-15h","Air France via CDG"],ATL:["$700-950","~11h","Delta via CDG"],CHS:["$800-1100","~14h","Delta via ATL"]},
+h:{r:"$130-200/nt",t:"$260-400",p:["Aston La Scala (4★ 8.3) rooftop ~$170/nt","Villa Rivoli (3★ 8.8) boutique ~$130/nt","Boscolo Nice (5★ 8.6) ~$220/nt"]},
+tv:{fly:{p:"$40-90",t:"1.5h",d:"EasyJet NCE to VCE."},train:{p:"$50-80",t:"~6h",d:"Nice to Milan (4.5h) + Venice. Scenic Riviera ride."}},
+dt:{n:"Monaco (20min train, $5)",d:"Casino Monte-Carlo, F1 hairpin, mega yachts. Half day."},
+todo:["Promenade des Anglais - seafront, rent bikes","Vieux Nice - alleys, flower market, socca","Beach clubs - Castel Plage, Ruhl Plage","Casino Monte-Carlo - free entry slots","Eze Village - medieval hilltop, incredible views","NIGHTLIFE: High Club Nice. Monaco: Jimmy'z ($$$), Twiga"]},
+
+{id:"rome",city:"Rome",co:"Italy",fl:"🇮🇹",x:57.5,y:81.1,clr:"#C75D3A",
+vibe:"Eternal City. History, incredible food, Trastevere, dolce vita.",
+sc:{nightlife:7,food:10,sightseeing:10,budget:6,beach:3},
+f:{SFO:["$650-900","~12h","United, Lufthansa, BA"],ATL:["$600-850","~10h","Delta DIRECT ATL-FCO"],CHS:["$700-950","~13h","Delta via ATL"]},
+h:{r:"$130-220/nt",t:"$260-440",p:["Martis Palace (4★ 8.7) Pantheon ~$170/nt","Santa Maria (3★ 9.0) Trastevere ~$140/nt","The Yellow (8.3) party hostel ~$40/nt"]},
+tv:{fly:{p:"$30-70",t:"1h",d:"Ryanair/ITA FCO to VCE. Super cheap."},train:{p:"$25-50",t:"3.5h",d:"Trenitalia high-speed. Excellent option."}},
+dt:{n:"Ostia Antica (30min train, $3)",d:"Ancient Roman port. Like Pompeii without crowds."},
+todo:["Colosseum + Forum - skip-the-line, go early","Trastevere - THE dinner + nightlife hood","Pantheon - free, 2000yr dome","Vatican/Sistine Chapel - staggering","Piazza Navona + Campo de' Fiori","NIGHTLIFE: Trastevere crawl, Testaccio (Goa Club), Salotto 42"]},
+
+{id:"amsterdam",city:"Amsterdam",co:"Netherlands",fl:"🇳🇱",x:46,y:55.6,clr:"#5A8F6A",
+vibe:"Canals, coffee shops, museums, legendary nightlife. Group-friendly.",
+sc:{nightlife:9,food:8,sightseeing:8,budget:6,beach:3},
+f:{SFO:["$700-950","~11h","KLM, United, BA"],ATL:["$680-900","~9h","Delta DIRECT ATL-AMS"],CHS:["$780-1050","~12h","Delta via ATL"]},
+h:{r:"$150-250/nt",t:"$300-500",p:["Hotel V Nesplein (4★ 8.6) ~$180/nt","Mr. Jordaan (4★ 8.9) ~$220/nt","Generator AMS (8.2) ~$70/nt"]},
+tv:{fly:{p:"$50-100",t:"1.5h",d:"EasyJet/Transavia AMS to VCE."},train:{p:"$80-140",t:"~12h",d:"Via Paris + Milan. Long. Fly."}},
+dt:{n:"Rotterdam (40min train, $15)",d:"Modern architecture, Markthal food hall, cube houses."},
+todo:["Canal boat tour - private BYOB options","Vondelpark - beers, people watching","Rijksmuseum / Van Gogh Museum","Jordaan neighborhood - best bars","Red Light District - experience it once","NIGHTLIFE: De School, Shelter, Paradiso. World-class."]},
+
+{id:"berlin",city:"Berlin",co:"Germany",fl:"🇩🇪",x:59,y:52.9,clr:"#555",
+vibe:"Best club scene in the world. Raw, creative, cheap, 72-hour parties.",
+sc:{nightlife:10,food:7,sightseeing:7,budget:9,beach:1},
+f:{SFO:["$700-950","~12h","Lufthansa, United"],ATL:["$650-900","~10h","Delta via AMS, Lufthansa"],CHS:["$750-1000","~13h","Delta via ATL"]},
+h:{r:"$100-170/nt",t:"$200-340",p:["Oderberger (4★ 8.8) bathhouse ~$160/nt","Michelberger (3★ 8.4) creative ~$120/nt","Generator Mitte (8.1) ~$45/nt"]},
+tv:{fly:{p:"$40-80",t:"1.5h",d:"EasyJet/Ryanair BER to VCE."},train:{p:"$50-90",t:"~10h",d:"DB to Munich + Venice. Long. Fly."}},
+dt:{n:"Potsdam (30min S-Bahn, $4)",d:"Sanssouci Palace. Prussian Versailles."},
+todo:["Brandenburg Gate + Reichstag dome (free)","East Side Gallery - Berlin Wall street art","Museum Island - 5 world-class museums","Kreuzberg - best food, bars, culture","Tempelhof - sunset drinks on the runway","NIGHTLIFE: Berghain (legendary), Tresor, Sisyphos, Watergate, KitKat"]},
+
+{id:"prague",city:"Prague",co:"Czechia",fl:"🇨🇿",x:59,y:59.6,clr:"#D4A03C",
+vibe:"Absurdly cheap. Beautiful. Beer $1.50. Legendary guys trip city.",
+sc:{nightlife:9,food:7,sightseeing:9,budget:10,beach:1},
+f:{SFO:["$700-950","~13h","Lufthansa, BA, Turkish"],ATL:["$630-900","~11h","Delta via AMS, Lufthansa"],CHS:["$730-1000","~14h","Delta via ATL"]},
+h:{r:"$80-150/nt",t:"$160-300",p:["Maximilian (4★ 8.7) Old Town ~$120/nt","Mosaic House (4★ 8.5) ~$90/nt","Czech Inn (8.3) ~$35/nt"]},
+tv:{fly:{p:"$40-90",t:"1.5h",d:"Ryanair/Wizz PRG to Venice Treviso."},train:{p:"$40-70",t:"~7h",d:"RegioJet to Vienna + train to Venice. Scenic Alps."}},
+dt:{n:"Kutna Hora (1h train, $8)",d:"Bone Church - 40,000 human skeletons. Wild."},
+todo:["Charles Bridge at sunrise","Czech beer - best in the world, $1.50 a pint","Old Town Square - astronomical clock","Petrin Hill - funicular, panoramic views","Organized pub crawl - THE pub crawl city","NIGHTLIFE: Karlovy Lazne (5-floor bathhouse), Cross Club (insane), Roxy"]},
+
+{id:"budapest",city:"Budapest",co:"Hungary",fl:"🇭🇺",x:67.2,y:65.5,clr:"#5A8F6A",
+vibe:"Thermal baths, ruin bars, Danube views. Cheap, wild, unforgettable.",
+sc:{nightlife:9,food:8,sightseeing:9,budget:10,beach:4},
+f:{SFO:["$650-800","~13h","Lufthansa, SWISS"],ATL:["$600-800","~11h","Delta via AMS, Lufthansa"],CHS:["$700-900","~14h","Delta via ATL"]},
+h:{r:"$80-140/nt",t:"$160-280",p:["Hotel Moments (4★ 8.7) ~$130/nt","Roombach (3★ 8.4) nightlife area ~$90/nt","Maverick Lodge (8.6) ~$30/nt"]},
+tv:{fly:{p:"$40-80",t:"1.5h",d:"Wizz/Ryanair BUD to Venice Treviso."},train:{p:"$35-60",t:"~8h",d:"Vienna (2.5h) + Venice (5.5h). Gorgeous Alps."}},
+dt:{n:"Szentendre (40min, $4)",d:"Artist village on the Danube Bend. Or river cruise."},
+todo:["Szechenyi Thermal Bath - outdoor with beers, MUST","Ruin bars - Szimpla Kert + dozens. Pub crawl them.","Parliament lit up on the Danube at night","Fisherman's Bastion - best panoramic view","Gellert Hill sunset + baths below","NIGHTLIFE: Szimpla Kert, Instant-Fogas, Akvarium. Absurdly cheap."]},
+
+{id:"split",city:"Split",co:"Croatia",fl:"🇭🇷",x:62.5,y:77.5,clr:"#5A8F6A",
+vibe:"Roman palace turned party city. Cheaper than Dubrovnik, better nightlife.",
+sc:{nightlife:8,beach:8,sightseeing:7,food:7,budget:8},
+f:{SFO:["$750-1050","~14h","BA, Lufthansa"],ATL:["$700-1000","~12h","Delta via AMS, BA"],CHS:["$800-1100","~15h","Delta via ATL"]},
+h:{r:"$100-180/nt",t:"$200-360",p:["Hotel Luxe (4★ 8.5) waterfront ~$150/nt","Heritage Antique (4★ 9.0) in Palace ~$170/nt","Tchaikovsky (9.1) ~$35/nt"]},
+tv:{fly:{p:"$40-90",t:"1h",d:"Volotea/EasyJet SPU to VCE. Summer seasonal."},train:{p:"N/A",t:"N/A",d:"No practical train. Fly."}},
+dt:{n:"Hvar Island (2h ferry, $25)",d:"THE party island. Beach clubs, yachts, lavender fields."},
+todo:["Diocletian's Palace - 1700yr Roman palace you walk through","Riva waterfront - sunset drinks","Marjan Hill - panoramic views, hidden beaches","Bacvice Beach - picigin, lively","Blue Cave + Hvar boat tour","NIGHTLIFE: Central Club, Inbox, Zenta Beach. Wilder than Dubrovnik."]},
+
+{id:"dubrovnik",city:"Dubrovnik",co:"Croatia",fl:"🇭🇷",x:64.2,y:80.7,clr:"#4A7FAF",
+vibe:"Walled city on the Adriatic. Cliff bars, crystal water, GoT vibes.",
+sc:{nightlife:6,beach:9,sightseeing:8,food:7,budget:7},
+f:{SFO:["$800-1100","~15h","BA, Lufthansa, Turkish"],ATL:["$750-1050","~13h","Delta via AMS, BA"],CHS:["$850-1200","~16h","Delta via ATL"]},
+h:{r:"$120-200/nt",t:"$240-400",p:["Hotel Lero (4★ 8.3) pool ~$140/nt","Berkeley (4★ 8.7) ~$170/nt","Fresh Sheets (9.2) inside walls ~$160/nt"]},
+tv:{fly:{p:"$50-130",t:"1.5h",d:"Croatia Airlines/Volotea DBV to VCE."},train:{p:"N/A",t:"N/A",d:"No train. Fly."}},
+dt:{n:"Montenegro / Kotor (2h bus, $20)",d:"Medieval walled town in a fjord. Insane scenery."},
+todo:["City Walls - full loop ~$35, mandatory","Buza Bar - cliff bar over the Adriatic","Lokrum Island - 10min ferry, peacocks, GoT throne","Banje Beach - club below Old Town","Cable car Mt. Srd - sunset views","NIGHTLIFE: Revelin (fortress club), Culture Club, Stradun bar hop"]},
+
+{id:"athens",city:"Athens",co:"Greece",fl:"🇬🇷",x:72.8,y:90.4,clr:"#4A7FAF",
+vibe:"Ancient ruins + raw modern energy. Cheap rooftops with Acropolis views.",
+sc:{nightlife:8,food:9,sightseeing:9,budget:9,beach:5},
+f:{SFO:["$750-1000","~14h","Lufthansa, Turkish, BA"],ATL:["$700-950","~11h","Delta DIRECT seasonal"],CHS:["$800-1100","~15h","Delta via ATL"]},
+h:{r:"$90-160/nt",t:"$180-320",p:["Electra Metropolis (5★ 9.0) Acropolis view ~$160/nt","Athens Was (4★ 8.8) ~$140/nt","Bedbox (8.5) ~$30/nt"]},
+tv:{fly:{p:"$60-130",t:"2.5h",d:"Aegean/Volotea ATH to VCE."},train:{p:"N/A",t:"N/A",d:"No practical train. Fly."}},
+dt:{n:"Cape Sounion (1.5h bus, $15)",d:"Temple of Poseidon on a cliff. Sunset is legendary."},
+todo:["Acropolis + Parthenon - 8am opening","Plaka - tavernas under the Acropolis","Monastiraki Flea Market","Rooftop at A for Athens - Acropolis lit up","Athens Riviera - tram to beach clubs","NIGHTLIFE: Psyrri crawl, Gazi clubs, six d.o.g.s. Cheap warm nights."]},
+
+{id:"mykonos",city:"Mykonos",co:"Greece",fl:"🇬🇷",x:74.8,y:93.6,clr:"#4A7FAF",
+vibe:"Greek island party mecca. Beach clubs, white alleys, DJs, sunsets.",
+sc:{nightlife:9,beach:10,food:8,sightseeing:5,budget:3},
+f:{SFO:["$900-1300","~16h","Via Athens + Aegean"],ATL:["$850-1200","~14h","Delta to ATH + Aegean"],CHS:["$950-1350","~17h","Delta via ATL/ATH"]},
+h:{r:"$180-350/nt",t:"$360-700",p:["Semeli (4★ 8.9) town center ~$250/nt","Ilio Maris (4★ 8.6) ~$200/nt","MyCocoon (8.0) budget ~$60/nt"]},
+tv:{fly:{p:"$80-160",t:"3h via ATH",d:"Aegean JMK to ATH to VCE. Or Volotea direct ~$100."},train:{p:"N/A",t:"N/A",d:"Island. Fly."}},
+dt:{n:"Delos (30min boat, $25)",d:"UNESCO. Birthplace of Apollo. Ancient ruins."},
+todo:["Paradise Beach - THE party beach, DJs from 4pm","Super Paradise - upscale party beach","Little Venice - sunset drinks, windmill views","Nammos Beach Club - the splurge","Mykonos Town - white alleys, get lost","NIGHTLIFE: Cavo Paradiso (clifftop superclub), Scandinavian Bar, Void"]},
+
+{id:"swiss",city:"Interlaken",co:"Switzerland",fl:"🇨🇭",x:53,y:66.1,clr:"#5A8F6A",
+vibe:"Adrenaline + Alps. Paragliding, canyoning. Less nightlife, all adventure.",
+sc:{nightlife:4,sightseeing:10,food:7,budget:3,beach:3},
+f:{SFO:["$800-1100","~12h","SWISS direct some days"],ATL:["$750-1050","~12h","Lufthansa, SWISS, Delta"],CHS:["$850-1150","~14h","Delta via ATL"]},
+h:{r:"$140-280/nt",t:"$280-560",p:["Hotel Rossli (3★ 8.0) ~$140/nt","Victoria Jungfrau (5★ 9.2) ~$400/nt","Backpackers Villa (3★ 8.5) ~$90/nt"]},
+tv:{fly:{p:"$50-90",t:"1.5h",d:"EasyJet ZRH to VCE."},train:{p:"$60-100",t:"~6h",d:"Through Gotthard Tunnel to Italy. Beautiful ride."}},
+dt:{n:"Jungfraujoch Top of Europe ($200)",d:"11,332 ft. Snow, ice palace. Bucket list."},
+todo:["Paragliding - tandem ~$180. DO THIS.","Canyoning - rappelling waterfalls ~$120","Lake Brienz - turquoise, rent a boat","Harder Kulm - dual-lake panorama, sunset","Lauterbrunnen - 72 waterfalls in one valley","NIGHTLIFE: Limited. Brasserie 17. This is daytime adventure."]}
 ];
 
-let selected = null;
+let cfg={arrive:null,depart:null,arriveLabel:'',departLabel:'',dep:'',ft:'',ven:'',when:''};
+let cur=1;let musicOn=false;let hatTimer=null;let hatIdx=0;
 
-function renderButtons() {
-  const container = document.getElementById('cityBtns');
-  container.innerHTML = OPTIONS.map(o => 
-    `<button class="city-btn" data-id="${o.id}" onclick="selectCity('${o.id}')">${o.flag} ${o.city}</button>`
-  ).join('');
+// ─── MUSIC ───
+function startTrip(){
+  const a=document.getElementById('bgMusic');
+  a.volume=0.35;
+  a.play().then(()=>{musicOn=true;document.getElementById('musicBtn').classList.add('visible','playing')}).catch(()=>{document.getElementById('musicBtn').classList.add('visible','paused')});
+  goTo(2);
+}
+function toggleMusic(){
+  const a=document.getElementById('bgMusic'),b=document.getElementById('musicBtn');
+  if(musicOn){a.pause();musicOn=false;b.classList.remove('playing');b.classList.add('paused')}
+  else{a.play();musicOn=true;b.classList.add('playing');b.classList.remove('paused')}
 }
 
-function renderScoreBar(value, color) {
-  let pips = '';
-  for (let i = 0; i < 10; i++) {
-    pips += `<div class="score-pip" style="background:${i < value ? color : 'rgba(255,255,255,0.08)'}"></div>`;
-  }
-  return pips;
+// ─── SCREEN TRANSITIONS ───
+function goTo(n){
+  const old=document.getElementById('s'+cur);
+  if(old){old.classList.add('exit');setTimeout(()=>old.classList.add('gone'),600)}
+  cur=n;
+  if(n===0){setTimeout(()=>{document.getElementById('main').classList.add('show');renderMain()},300);return}
+  const nw=document.getElementById('s'+n);
+  if(!nw)return;
+  setTimeout(()=>{nw.classList.remove('gone');setTimeout(()=>nw.classList.add('active'),30)},350);
+  if(n===2)setTimeout(buildCal,500);
+}
+function pk(key,val){cfg[key]=val;const seq={dep:4,ft:5,ven:0};setTimeout(()=>goTo(seq[key]),200)}
+function restart(){
+  cfg={arrive:null,depart:null,arriveLabel:'',departLabel:'',dep:'',ft:'',ven:'',when:''};
+  document.getElementById('main').classList.remove('show');
+  document.getElementById('detail').className='';document.getElementById('detail').innerHTML='';
+  document.querySelectorAll('.scr').forEach(s=>{s.classList.remove('active','exit');s.classList.add('gone')});
+  const s1=document.getElementById('s1');s1.classList.remove('gone');setTimeout(()=>s1.classList.add('active'),30);cur=1;
 }
 
-function selectCity(id) {
-  selected = id;
-  document.querySelectorAll('.city-btn').forEach(btn => {
-    const opt = OPTIONS.find(o => o.id === btn.dataset.id);
-    if (btn.dataset.id === id) {
-      btn.classList.add('active');
-      btn.style.background = opt.color + '20';
-      btn.style.color = opt.color;
-      btn.style.borderColor = opt.color + '55';
-      btn.style.fontWeight = '700';
-    } else {
-      btn.classList.remove('active');
-      btn.style.background = 'rgba(255,255,255,0.03)';
-      btn.style.color = '#9CA3AF';
-      btn.style.borderColor = 'rgba(255,255,255,0.06)';
-      btn.style.fontWeight = '500';
-    }
+// ─── CALENDAR ───
+// Aug 21 (Fri) to Sep 6 (Sun) 2026. Wedding lock: Aug 26-30. Venice by Aug 25.
+function buildCal(){
+  const w=document.getElementById('calWrap');if(!w)return;
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let html='<div class="cal-grid">';
+  days.forEach(d=>html+=`<div class="cal-day">${d}</div>`);
+  // Aug 21 2026 = Friday (index 4 in Mon-based week). Need 4 empties.
+  for(let i=0;i<4;i++) html+=`<div class="cal-cell empty"></div>`;
+  const dates=[];
+  for(let d=21;d<=31;d++) dates.push({d,m:8,label:'Aug '+d});
+  for(let d=1;d<=6;d++) dates.push({d,m:9,label:'Sep '+d});
+  dates.forEach(dt=>{
+    const num=dt.m===8?dt.d:dt.d+31;
+    const isWed=dt.m===8&&dt.d>=26&&dt.d<=30;
+    html+=`<div class="cal-cell${isWed?' locked':''}" data-num="${num}" onclick="pickDate(${num},'${dt.label}')">
+      <span>${dt.d}</span>${dt.m===9?'<span class="mo">Sep</span>':''}
+    </div>`;
   });
-  renderCity(id);
+  html+='</div>';w.innerHTML=html;
+}
+function pickDate(num,label){
+  if(num>=26&&num<=30)return;
+  if(!cfg.arrive||cfg.depart){cfg.arrive=num;cfg.arriveLabel=label;cfg.depart=null;cfg.departLabel=''}
+  else if(num>cfg.arrive){cfg.depart=num;cfg.departLabel=label}
+  else{cfg.arrive=num;cfg.arriveLabel=label;cfg.depart=null;cfg.departLabel=''}
+  updateCal();
+}
+function updateCal(){
+  document.querySelectorAll('.cal-cell').forEach(el=>{
+    if(el.classList.contains('empty')||el.classList.contains('locked'))return;
+    el.classList.remove('arrive','depart','range');
+    const n=+el.dataset.num;
+    if(cfg.arrive&&n===cfg.arrive)el.classList.add('arrive');
+    if(cfg.depart&&n===cfg.depart)el.classList.add('depart');
+    if(cfg.arrive&&cfg.depart&&n>cfg.arrive&&n<cfg.depart)el.classList.add('range');
+  });
+  const btn=document.getElementById('calOk');
+  if(cfg.arrive&&cfg.depart){
+    btn.classList.add('ready');
+    cfg.when=cfg.arrive<26?'before':'after';
+    if(cfg.arrive<26&&cfg.depart>30)cfg.when='both';
+  }else btn.classList.remove('ready');
+}
+function confirmDates(){if(cfg.arrive&&cfg.depart)goTo(3)}
+
+// ─── MAIN ───
+function renderMain(){
+  const wl={before:'Before Wedding',after:'After Wedding',both:'Before + After'};
+  const fl={rt:'Round Trip',oj:'Open Jaw',ow:'One-Way'};
+  const vl={before:'Venice First',after:'Venice After',both:'Venice Both'};
+  document.getElementById('tT').textContent=wl[cfg.when]||'Trip';
+  document.getElementById('tM').textContent=cfg.dep+' · '+cfg.arriveLabel+' → '+cfg.departLabel;
+  document.getElementById('pills').innerHTML=[wl[cfg.when],cfg.dep,fl[cfg.ft],vl[cfg.ven],cfg.arriveLabel+' → '+cfg.departLabel].map(t=>`<span class="pill">${t}</span>`).join('');
+  renderMap();renderGrid();
 }
 
-function renderCity(id) {
-  const o = OPTIONS.find(x => x.id === id);
-  const c = o.color;
-  const content = document.getElementById('content');
-
-  content.innerHTML = `
-    <div class="city-header">
-      <h2>${o.flag} ${o.city}, ${o.country}</h2>
-      <div class="vibe" style="color:${c}">${o.vibe}</div>
-    </div>
-
-    <div class="scores">
-      ${Object.entries(o.vibeScore).map(([k, v]) => `
-        <div class="score-row">
-          <span class="score-label">${k}</span>
-          <div class="score-bar">${renderScoreBar(v, c)}</div>
-          <span class="score-val">${v}</span>
-        </div>
-      `).join('')}
-    </div>
-
-    <div class="card">
-      <div class="card-tag" style="background:${c}22;color:${c}">Flight from SFO</div>
-      <div class="price">${o.flight.price}</div>
-      <div class="meta">${o.flight.route} &middot; ${o.flight.time}</div>
-      <div class="body">${o.flight.airlines}</div>
-      <div class="tip">${o.flight.tip}</div>
-    </div>
-
-    <div class="card">
-      <div class="card-tag" style="background:${c}22;color:${c}">Hotels (2 nights)</div>
-      <div class="price">${o.hotel.total}</div>
-      <div class="meta">${o.hotel.range}</div>
-      <div style="margin-top:8px">
-        ${o.hotel.picks.map(p => `<div class="hotel-pick" style="border-left-color:${c}33">${p}</div>`).join('')}
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-tag" style="background:${c}22;color:${c}">Getting to Venice</div>
-      <div class="price">${o.toVenice.price}</div>
-      <div class="meta">${o.toVenice.how} &middot; ${o.toVenice.time}</div>
-      <div class="tip">${o.toVenice.note}</div>
-    </div>
-
-    <div class="card dashed">
-      <div class="card-tag" style="background:${c}22;color:${c}">Nearby Day Trip</div>
-      <h3>${o.dayTrip.name}</h3>
-      <div class="body">${o.dayTrip.desc}</div>
-    </div>
-
-    <div class="card">
-      <div class="card-tag" style="background:${c}22;color:${c}">What to Do (guys trip edition)</div>
-      ${o.doThis.map(item => `<div class="do-item">${item}</div>`).join('')}
-    </div>
-
-    <div class="total-card" style="background:${c}12;border:1px solid ${c}33">
-      <div class="total-row">
-        <div class="total-label">
-          <div class="t" style="color:${c}">Total Estimate (per person)</div>
-          <div class="s">Flight RT + 2 nights hotel + transport to Venice + Venice 1 night ($150) + bus ($20)</div>
-        </div>
-        <div class="total-price" style="color:${c}">${o.totalEst}</div>
-      </div>
-    </div>
-
-    <div class="venice-card">
-      <div class="tag">Then: Venice + Dolomites</div>
-      <div class="body">Arrive Venice Aug 23-24. One night in Venice ($150-250). Explore canals, cicchetti bars, Rialto. Aug 25 AM: Cortina Express bus from Piazzale Roma to Dolomites (2.5h, $18-25). Book bus at cortinaexpress.it or atvo.it. Book EARLY, August sells out.</div>
-    </div>
-  `;
+// ─── MAP ───
+function renderMap(){
+  const m=document.getElementById('mapW');
+  // Keep the img, add dots
+  const existing=m.querySelectorAll('.dot');existing.forEach(d=>d.remove());
+  C.forEach(c=>{
+    const d=document.createElement('div');d.className='dot';
+    d.style.cssText=`left:${c.x}%;top:${c.y}%;background:${c.clr}`;
+    d.innerHTML=`<span class="tp">${c.fl} ${c.city} — ${c.f[cfg.dep][0]}</span>`;
+    d.onclick=()=>showDetail(c.id);
+    m.appendChild(d);
+  });
+  // Add Venice + Dolomites markers
+  const v=document.createElement('div');v.className='dot';
+  v.style.cssText='left:56.5%;top:72%;background:var(--gold);width:8px;height:8px;border-width:1.5px;cursor:default;opacity:.7';
+  v.innerHTML='<span class="tp">🏛️ Venice</span>';m.appendChild(v);
+  const dl=document.createElement('div');dl.className='dot';
+  dl.style.cssText='left:55%;top:68%;background:var(--gold);width:8px;height:8px;border-width:1.5px;cursor:default;opacity:.5;border-style:dashed';
+  dl.innerHTML='<span class="tp">⛰️ Dolomites</span>';m.appendChild(dl);
 }
 
-renderButtons();
+function renderGrid(){
+  document.getElementById('grid').innerHTML=C.map(c=>`<div class="st" onclick="showDetail('${c.id}')">
+    <div class="fl">${c.fl}</div><div class="cn">${c.city}</div><div class="co">${c.co}</div><div class="pr">${c.f[cfg.dep][0]}</div>
+  </div>`).join('');
+}
+
+// ─── DETAIL ───
+function pip(v,clr){let h='';for(let i=0;i<10;i++)h+=`<div class="sp" style="background:${i<v?clr:'rgba(0,0,0,.06)'}"></div>`;return h}
+
+function showDetail(id){
+  const c=C.find(x=>x.id===id);const fl=c.f[cfg.dep];const d=document.getElementById('detail');
+  const fL=parseInt(fl[0].replace(/\D/,'')),fH=parseInt(fl[0].split('-')[1]||fL);
+  const hL=parseInt(c.h.t.match(/\d+/)[0]),hH=parseInt(c.h.t.match(/-(\d+)/)?.[1]||hL);
+  const tvL=parseInt(c.tv.fly.p.replace(/\D/,'')),tvH=parseInt(c.tv.fly.p.split('-')[1]||tvL);
+  const bus=22,ven=175;
+  const tL=fL+hL+tvL+ven+bus,tH=fH+hH+tvH+250+bus;
+  const tL2=fL+hL+tvL+ven,tH2=fH+hH+tvH+250;
+
+  let vp='';const iB=cfg.when==='before'||cfg.when==='both';
+  if(iB){
+    if(cfg.ven==='before')vp=`Fly ${cfg.dep} → Venice (1-2 nights) → ${c.city} (2-3 days) → Venice → bus to Dolomites Aug 26 AM.`;
+    else if(cfg.ven==='after')vp=`Fly ${cfg.dep} → ${c.city} (2-3 days) → Venice by Aug 25 (1-2 nights) → bus to Dolomites Aug 26.`;
+    else vp=`Fly ${cfg.dep} → Venice (1 night) → ${c.city} (2-3 days) → Venice (1+ nights) → bus Aug 26.`;
+  }else{
+    if(cfg.ven==='before')vp=`Bus back to Venice Aug 30 → Venice (1-2 nights, Film Fest opens Sep 2!) → ${c.city} (2-3 days) → fly home to ${cfg.dep}.`;
+    else if(cfg.ven==='after')vp=`Aug 30 → ${c.city} (2-3 days) → Venice (1-2 nights, Film Fest!) → fly home from VCE.`;
+    else vp=`Venice Aug 30 (1 night) → ${c.city} (2-3 days) → Venice (1 night, Film Fest) → fly home.`;
+  }
+  let ft='';
+  if(cfg.ft==='rt')ft=`Round Trip: ${cfg.dep}↔${c.city}. Need separate Venice positioning legs.`;
+  else if(cfg.ft==='oj')ft=`Open Jaw: ${cfg.dep}→${c.city} + Venice→${cfg.dep}. Google Flights supports this. Often same price.`;
+  else ft=`One-Ways: Book each leg separately. ${cfg.dep}→${c.city} + ${c.city}→Venice + Venice→${cfg.dep}. Max flex.`;
+
+  d.className='show';
+  d.innerHTML=`<button class="bk" onclick="hideDetail()">← All Cities</button>
+<div class="dh"><h2>${c.fl} ${c.city}, ${c.co}</h2><div class="vb">${c.vibe}</div></div>
+<div class="scs">${Object.entries(c.sc).map(([k,v])=>`<div class="sr"><span class="sl">${k}</span><div class="sb">${pip(v,c.clr)}</div><span class="sv">${v}</span></div>`).join('')}</div>
+<div class="sec"><div class="stg">✈️ Flight from ${cfg.dep}</div><div class="spr">${fl[0]}</div><div class="sme">${fl[1]}</div><div class="sbd">${fl[2]}</div><div class="stp">${ft}</div></div>
+<div class="sec"><div class="stg">🏨 Hotels · 2 Nights</div><div class="spr">${c.h.t}</div><div class="sme">${c.h.r}</div><div style="margin-top:8px">${c.h.p.map(p=>`<div class="hp">${p}</div>`).join('')}</div></div>
+<div class="sec"><div class="stg">🚄 To Venice · Train vs Flight</div><div class="ttog"><button class="sel" onclick="togTV(this,'fly','${id}')">✈️ Fly</button><button onclick="togTV(this,'train','${id}')">🚆 Train</button></div><div id="tvI"><div class="spr">${c.tv.fly.p}</div><div class="sme">${c.tv.fly.t}</div><div class="sbd">${c.tv.fly.d}</div></div></div>
+<div class="sec da"><div class="stg">📍 Day Trip</div><div class="spr" style="font-size:16px">${c.dt.n}</div><div class="sbd">${c.dt.d}</div></div>
+<div class="sec"><div class="stg">🔥 What To Do</div>${c.todo.map(t=>`<div class="di">${t}</div>`).join('')}</div>
+<div class="vp"><h4>🏛️ Venice + Dolomites Plan</h4><p>${vp}</p><p style="margin-top:6px;font-size:10px;color:var(--grey)">Cortina Express / ATVO: Venice Piazzale Roma → Cortina. 2.5h, $18-25. Book at cortinaexpress.it. Aug sells out.</p></div>
+<div class="tc" id="cc"><div class="tr"><div><div style="font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px">Per Person Estimate</div><div style="font-size:10px;color:var(--grey);margin-top:2px">Flight + 2nt hotel + Venice transport + 1nt Venice + bus</div></div><div class="ta" id="tA">$${tL.toLocaleString()}-${tH.toLocaleString()}</div></div>
+<div class="cost-toggle"><input type="checkbox" id="noDol" onchange="togDol(${tL},${tH},${tL2},${tH2})"><label for="noDol">Remove Dolomites bus cost (already covered)</label></div></div>
+<div style="text-align:center;padding:16px 0;font-size:10px;color:var(--grey);letter-spacing:2px;text-transform:uppercase">${cfg.arriveLabel} → ${cfg.departLabel}</div>`;
+  d.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function togTV(btn,mode,id){
+  const c=C.find(x=>x.id===id);btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');
+  const i=c.tv[mode];document.getElementById('tvI').innerHTML=`<div class="spr">${i.p}</div><div class="sme">${i.t}</div><div class="sbd">${i.d}</div>`;
+}
+function togDol(tL,tH,tL2,tH2){
+  const n=document.getElementById('noDol').checked;
+  document.getElementById('tA').textContent=n?`$${tL2.toLocaleString()}-${tH2.toLocaleString()}`:`$${tL.toLocaleString()}-${tH.toLocaleString()}`;
+}
+function hideDetail(){document.getElementById('detail').className='';document.getElementById('detail').innerHTML='';document.querySelector('.gw').scrollIntoView({behavior:'smooth'})}
+
+// ─── HAT TRICK ───
+function openHat(){
+  document.getElementById('hatOverlay').classList.add('show');
+  shuffleHat();
+}
+function closeHat(){
+  clearInterval(hatTimer);document.getElementById('hatOverlay').classList.remove('show');
+}
+function shuffleHat(){
+  let count=0;const total=20;
+  clearInterval(hatTimer);
+  document.getElementById('hatOverlay').classList.add('hat-spinning');
+  hatTimer=setInterval(()=>{
+    hatIdx=(hatIdx+1)%C.length;
+    const c=C[hatIdx];
+    document.getElementById('hatFlag').textContent=c.fl;
+    document.getElementById('hatCity').textContent=c.city;
+    count++;
+    if(count>=total){
+      clearInterval(hatTimer);
+      document.getElementById('hatOverlay').classList.remove('hat-spinning');
+      const c=C[hatIdx];
+      document.getElementById('hatVibe').textContent=c.vibe;
+      document.getElementById('hatPrice').textContent=c.f[cfg.dep][0]+' from '+cfg.dep;
+    }else{
+      document.getElementById('hatVibe').textContent='';
+      document.getElementById('hatPrice').textContent='';
+    }
+  },100);
+}
+function lockHat(){closeHat();showDetail(C[hatIdx].id)}
 </script>
 </body>
 </html>
