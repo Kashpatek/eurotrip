@@ -6,609 +6,499 @@
 <title>Passport to the Dolomites</title>
 <meta name="theme-color" content="#F5F0EA">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#B8956A;--ink:#1A1A1A;--warm:#F5F0EA;--stone:#E8E2D9;--grey:#9A9488;--card:#fff;--sh:0 2px 24px rgba(0,0,0,.05)}
-*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:linear-gradient(170deg,#FAF8F5 0%,#F0EBE3 40%,#E8E0D6 100%);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-h1,h2,h3,.ser{font-family:'Cormorant Garamond',Georgia,serif}
-
-/* ─── SCREEN SYSTEM ─── */
-.scr{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;position:fixed;inset:0;z-index:50;background:linear-gradient(170deg,#FAF8F5,#EDE7DE);overflow:hidden}
-.scr .inner{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
-.scr.active .inner{opacity:1;transform:none}
-.scr.exit{pointer-events:none}
-.scr.exit .inner{opacity:0;transform:translateY(-30px) scale(.97);filter:blur(4px);transition:all .5s cubic-bezier(.4,0,1,1)}
-.scr.gone{display:none}
-
-/* ─── PASSPORT ─── */
-.passport{width:240px;height:340px;background:linear-gradient(160deg,#2C3E50,#1A252F);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .5s cubic-bezier(.22,1,.36,1),box-shadow .5s;box-shadow:0 30px 60px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.06);position:relative;overflow:hidden}
-.passport:hover{transform:scale(1.03) rotate(-1deg);box-shadow:0 40px 80px rgba(0,0,0,.25)}
-.passport::before{content:'';position:absolute;inset:10px;border:1px solid rgba(255,255,255,.06);border-radius:3px}
-.passport::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 50%);pointer-events:none}
-.passport .emb{font-size:44px;margin-bottom:16px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));animation:float 3s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.passport .t1{font-family:'Cormorant Garamond',serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,.3)}
-.passport .t2{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);letter-spacing:1px;margin:8px 0;font-weight:300;text-align:center;line-height:1.15}
-.passport .t3{font-family:'Cormorant Garamond',serif;font-size:10px;color:rgba(255,255,255,.2);letter-spacing:3px;text-transform:uppercase;margin-top:8px}
-.passport .tap{position:absolute;bottom:20px;font-size:10px;color:rgba(255,255,255,.15);animation:pulse 2.5s ease infinite;letter-spacing:2px;text-transform:uppercase}
-@keyframes pulse{0%,100%{opacity:.1}50%{opacity:.4}}
-
-/* ─── STEP LABELS ─── */
-.step{font-size:11px;color:var(--gold);letter-spacing:5px;text-transform:uppercase;font-weight:600;margin-bottom:16px;opacity:0;animation:fadeIn .6s .2s forwards}
-.qtitle{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,7vw,46px);font-weight:300;color:var(--ink);margin-bottom:8px;text-align:center;line-height:1.1;opacity:0;animation:slideUp .7s .3s forwards}
-.qsub{font-size:14px;color:var(--grey);max-width:420px;text-align:center;line-height:1.7;opacity:0;animation:slideUp .7s .4s forwards}
-@keyframes fadeIn{to{opacity:1}}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-
-/* ─── CHOICE CARDS ─── */
-.choices{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:540px;margin-top:20px;opacity:0;animation:slideUp .7s .5s forwards}
-.ch{padding:22px 16px;border-radius:14px;border:1px solid rgba(0,0,0,.05);background:var(--card);text-align:center;transition:all .35s cubic-bezier(.22,1,.36,1);min-width:140px;flex:1;box-shadow:var(--sh)}
-.ch:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 40px rgba(184,149,106,.15)}
-.ch:active{transform:translateY(-2px) scale(.98)}
-.ch .ico{font-size:28px;margin-bottom:8px}
-.ch .lb{font-size:15px;font-weight:600;color:var(--ink);font-family:'Cormorant Garamond',serif;font-size:18px}
-.ch .ds{font-size:11px;color:var(--grey);margin-top:6px;line-height:1.5}
-
-/* ─── CALENDAR ─── */
-.cal{max-width:460px;width:100%;margin-top:16px;opacity:0;animation:slideUp .7s .5s forwards}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.cal-day{font-size:9px;text-align:center;color:var(--grey);padding:6px 0;font-weight:600;letter-spacing:1px;text-transform:uppercase}
-.cal-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;border:2px solid transparent;font-family:'Cormorant Garamond',serif;font-weight:600}
-.cal-cell:hover:not(.locked):not(.empty){background:rgba(184,149,106,.1);border-color:var(--gold)}
-.cal-cell.empty{cursor:default}
-.cal-cell.locked{background:rgba(184,149,106,.08);color:var(--grey);cursor:default;font-size:12px}
-.cal-cell.locked::after{content:'💍';font-size:7px;margin-top:1px}
-.cal-cell.arrive{background:var(--gold);color:#fff;border-color:var(--gold)}
-.cal-cell.depart{background:var(--ink);color:#fff;border-color:var(--ink)}
-.cal-cell.range{background:rgba(184,149,106,.1)}
-.cal-cell .mo{font-size:8px;color:var(--grey);font-family:'DM Sans',sans-serif;font-weight:400}
-.cal-legend{display:flex;gap:20px;justify-content:center;margin-top:12px;font-size:11px;color:var(--grey)}
-.cal-legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
-.cal-legend .la::before{background:var(--gold)}
-.cal-legend .ld::before{background:var(--ink)}
-.cal-legend .lw::before{background:rgba(184,149,106,.2)}
-.cal-ok{margin-top:20px;padding:14px 48px;border-radius:8px;background:var(--stone);color:var(--grey);font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:all .3s;pointer-events:none}
-.cal-ok.ready{background:var(--ink);color:#fff;pointer-events:auto;box-shadow:0 8px 24px rgba(0,0,0,.15)}
-.cal-ok.ready:hover{background:var(--gold)}
-
-/* ─── MUSIC ─── */
-.music-btn{position:fixed;bottom:20px;right:20px;z-index:999;width:44px;height:44px;border-radius:50%;background:rgba(26,26,26,.85);color:var(--gold);font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.15);transition:all .3s;opacity:0;pointer-events:none;backdrop-filter:blur(8px);border:1px solid rgba(184,149,106,.15)}
-.music-btn.visible{opacity:.6;pointer-events:auto}
-.music-btn:hover{opacity:1;transform:scale(1.1)}
-.music-btn.playing{opacity:.8}
-.music-btn .eq{display:flex;gap:2px;align-items:flex-end;height:14px}
-.music-btn .eq span{width:3px;background:var(--gold);border-radius:1px;animation:eq .8s ease infinite}
-.music-btn .eq span:nth-child(1){animation-delay:0s;height:6px}
-.music-btn .eq span:nth-child(2){animation-delay:.2s;height:10px}
-.music-btn .eq span:nth-child(3){animation-delay:.4s;height:4px}
-.music-btn.paused .eq span{animation:none;height:3px}
-@keyframes eq{0%,100%{height:4px}50%{height:14px}}
-
-/* ─── MAIN ─── */
-#main{display:none;padding:0 0 80px}
-#main.show{display:block;animation:fu .6s cubic-bezier(.22,1,.36,1)}
-@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.topbar{background:rgba(245,240,234,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.05);padding:12px 20px;position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between}
-.topbar .tl{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600}
-.topbar .tm{font-size:10px;color:var(--grey);margin-top:1px;letter-spacing:.5px}
-.topbar .rs{font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600}
-.pills{display:flex;gap:6px;padding:10px 20px;overflow-x:auto;scrollbar-width:none}
-.pills::-webkit-scrollbar{display:none}
-.pill{padding:5px 12px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(184,149,106,.08);color:var(--gold);white-space:nowrap;letter-spacing:.5px}
-
-/* ─── MAP ─── */
-.mapw{position:relative;width:100%;max-width:680px;margin:0 auto;aspect-ratio:1000/684;padding:0 16px}
-.mapw img{width:100%;height:100%;object-fit:contain;opacity:.6}
-.dot{position:absolute;width:10px;height:10px;border-radius:50%;cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1);z-index:2;border:2px solid var(--card);box-shadow:0 2px 8px rgba(0,0,0,.12)}
-.dot:hover{transform:scale(2);z-index:5;box-shadow:0 4px 20px rgba(0,0,0,.2)}
-.dot .tp{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);border-radius:6px;padding:5px 10px;font-size:10px;font-weight:600;color:#fff;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;box-shadow:0 4px 12px rgba(0,0,0,.15)}
-.dot .tp::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--ink)}
-.dot:hover .tp{opacity:1}
-
-/* ─── GRID ─── */
-.gw{padding:0 20px;max-width:680px;margin:0 auto}
-.gw>h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin:4px 0 16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}
-.st{border-radius:10px;padding:14px;cursor:pointer;border:1.5px solid rgba(0,0,0,.04);transition:all .3s cubic-bezier(.22,1,.36,1);background:var(--card);box-shadow:var(--sh);position:relative;overflow:hidden}
-.st:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.08);border-color:rgba(184,149,106,.3)}
-.st .fl{font-size:24px;margin-bottom:4px}
-.st .cn{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600}
-.st .co{font-size:9px;color:var(--grey);letter-spacing:1.5px;text-transform:uppercase}
-.st .pr{font-size:12px;font-weight:700;color:var(--gold);margin-top:6px}
-
-/* ─── HAT TRICK BTN ─── */
-.hat-btn{display:block;margin:0 auto 24px;padding:14px 32px;border-radius:50px;background:var(--ink);color:var(--gold);font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:all .3s;box-shadow:0 8px 24px rgba(0,0,0,.12);font-family:'Cormorant Garamond',serif;font-size:18px}
-.hat-btn:hover{background:var(--gold);color:var(--ink);transform:scale(1.05)}
-
-/* ─── HAT TRICK OVERLAY ─── */
-#hatOverlay{display:none;position:fixed;inset:0;z-index:200;background:var(--ink);flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
-#hatOverlay.show{display:flex}
-#hatOverlay::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(184,149,106,.08) 0%,transparent 60%);animation:hatPulse 3s ease infinite}
-@keyframes hatPulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.3);opacity:1}}
-.hat-close{position:absolute;top:20px;right:20px;color:rgba(255,255,255,.4);font-size:24px;z-index:201}
-.hat-city{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,12vw,80px);font-weight:300;color:var(--gold);text-align:center;transition:all .15s;line-height:1.1}
-.hat-flag{font-size:clamp(60px,15vw,100px);margin-bottom:16px;transition:all .15s}
-.hat-vibe{font-size:14px;color:rgba(255,255,255,.4);max-width:360px;text-align:center;margin-top:12px;line-height:1.5}
-.hat-price{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);margin-top:16px;font-weight:600}
-.hat-actions{display:flex;gap:12px;margin-top:32px}
-.hat-actions button{padding:14px 28px;border-radius:50px;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;transition:all .3s}
-.hat-shuffle{background:var(--gold);color:var(--ink)}
-.hat-shuffle:hover{transform:scale(1.05)}
-.hat-lock{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff}
-.hat-lock:hover{border-color:var(--gold);color:var(--gold)}
-.hat-spinning .hat-flag,.hat-spinning .hat-city{animation:hatSpin .12s steps(1) infinite}
-
-/* ─── DETAIL ─── */
-#detail{display:none;padding:20px;max-width:680px;margin:0 auto}
-#detail.show{display:block;animation:fu .4s ease}
-.bk{font-size:11px;color:var(--gold);margin-bottom:16px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;font-weight:600}
-.dh{margin-bottom:16px}
-.dh h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,38px);font-weight:300}
-.dh .vb{font-size:14px;margin-top:6px;color:var(--gold);font-weight:500;line-height:1.5}
-.scs{display:grid;grid-template-columns:1fr 1fr;gap:3px 14px;background:var(--card);border-radius:10px;padding:12px;margin-bottom:12px;box-shadow:var(--sh)}
-.sr{display:flex;align-items:center;gap:5px}
-.sr .sl{font-size:9px;color:var(--grey);text-transform:uppercase;width:54px;flex-shrink:0;letter-spacing:.5px}
-.sr .sb{display:flex;gap:2px;flex:1}
-.sr .sp{width:7px;height:7px;border-radius:2px}
-.sr .sv{font-size:10px;font-weight:600;width:14px;text-align:right}
-.sec{background:var(--card);border:1px solid rgba(0,0,0,.04);border-radius:10px;padding:14px;margin-bottom:8px;box-shadow:var(--sh)}
-.sec.da{border-style:dashed;border-color:rgba(0,0,0,.1);box-shadow:none}
-.stg{font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.spr{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600}
-.sme{font-size:11px;color:var(--grey)}
-.sbd{font-size:12px;color:#555;line-height:1.6;margin-top:6px}
-.stp{font-size:11px;color:var(--grey);margin-top:6px;line-height:1.5}
-.hp{font-size:11px;color:#555;margin-bottom:4px;padding-left:8px;border-left:2px solid var(--gold)}
-.di{font-size:12px;color:#444;margin-bottom:5px;line-height:1.5}
-.ttog{display:flex;gap:6px;margin:8px 0}
-.ttog button{flex:1;padding:10px;border-radius:8px;font-size:12px;font-weight:600;background:var(--warm);color:var(--grey);transition:all .2s}
-.ttog button.sel{background:var(--ink);color:#fff}
-.tc{border-radius:10px;padding:14px;margin-bottom:8px;background:var(--card);box-shadow:var(--sh);border:1px solid rgba(184,149,106,.12)}
-.tr{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.ta{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--gold);white-space:nowrap}
-.cost-toggle{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.05)}
-.cost-toggle label{font-size:11px;color:var(--grey);cursor:pointer}
-.cost-toggle input{accent-color:var(--gold)}
-.vp{background:rgba(184,149,106,.05);border:1px solid rgba(184,149,106,.1);border-radius:10px;padding:14px;margin-bottom:8px}
-.vp h4{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.vp p{font-size:12px;color:#666;line-height:1.6}
-
-@media(max-width:420px){.grid{grid-template-columns:repeat(2,1fr);gap:6px}.ch{min-width:100px;padding:14px 10px}}
+:root{--gold:#B8956A;--ink:#1A1A1A;--warm:#F5F0EA;--stone:#E8E2D9;--grey:#9A9488;--card:#fff;--sh:0 2px 24px rgba(0,0,0,.05);--green:#5A8F6A;--red:#C75D3A}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'DM Sans',sans-serif;background:linear-gradient(170deg,#FAF8F5 0%,#F0EBE3 40%,#E8E0D6 100%);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif}
+.scr{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;position:fixed;inset:0;z-index:50;background:linear-gradient(170deg,#FAF8F5,#EDE7DE);overflow:hidden}.scr .inner{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}.scr.active .inner{opacity:1;transform:none}.scr.exit .inner{opacity:0;transform:translateY(-30px) scale(.97);filter:blur(4px);transition:all .5s}.scr.gone{display:none}
+.passport{width:240px;height:340px;background:linear-gradient(160deg,#2C3E50,#1A252F);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .5s cubic-bezier(.22,1,.36,1);box-shadow:0 30px 60px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.06);position:relative;overflow:hidden}.passport:hover{transform:scale(1.03) rotate(-1deg)}.passport::before{content:'';position:absolute;inset:10px;border:1px solid rgba(255,255,255,.06);border-radius:3px}.passport .emb{font-size:44px;margin-bottom:16px;animation:float 3s ease-in-out infinite}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}.passport .t1{font-family:'Cormorant Garamond',serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,.3)}.passport .t2{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);letter-spacing:1px;margin:8px 0;font-weight:300;text-align:center;line-height:1.15}.passport .t3{font-family:'Cormorant Garamond',serif;font-size:10px;color:rgba(255,255,255,.2);letter-spacing:3px;text-transform:uppercase;margin-top:8px}.passport .tap{position:absolute;bottom:20px;font-size:10px;color:rgba(255,255,255,.15);animation:pulse 2.5s ease infinite;letter-spacing:2px;text-transform:uppercase}@keyframes pulse{0%,100%{opacity:.1}50%{opacity:.4}}
+.step{font-size:11px;color:var(--gold);letter-spacing:5px;text-transform:uppercase;font-weight:600;margin-bottom:16px;opacity:0;animation:fadeIn .6s .2s forwards}.qtitle{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,7vw,46px);font-weight:300;color:var(--ink);margin-bottom:8px;text-align:center;line-height:1.1;opacity:0;animation:slideUp .7s .3s forwards}.qsub{font-size:14px;color:var(--grey);max-width:420px;text-align:center;line-height:1.7;opacity:0;animation:slideUp .7s .4s forwards}@keyframes fadeIn{to{opacity:1}}@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.choices{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:540px;margin-top:20px;opacity:0;animation:slideUp .7s .5s forwards}.ch{padding:22px 16px;border-radius:14px;border:1px solid rgba(0,0,0,.05);background:var(--card);text-align:center;transition:all .35s cubic-bezier(.22,1,.36,1);min-width:130px;flex:1;box-shadow:var(--sh)}.ch:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 40px rgba(184,149,106,.15)}.ch .ico{font-size:28px;margin-bottom:8px}.ch .lb{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600}.ch .ds{font-size:11px;color:var(--grey);margin-top:6px;line-height:1.5}
+.cal{max-width:460px;width:100%;margin-top:16px;opacity:0;animation:slideUp .7s .5s forwards}.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.cal-day{font-size:9px;text-align:center;color:var(--grey);padding:6px 0;font-weight:600;letter-spacing:1px;text-transform:uppercase}.cal-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;border:2px solid transparent}.cal-cell:hover:not(.locked):not(.empty){background:rgba(184,149,106,.1);border-color:var(--gold)}.cal-cell.empty{cursor:default}.cal-cell.locked{background:rgba(184,149,106,.08);color:var(--grey);cursor:default;font-size:12px}.cal-cell.locked::after{content:'💍';font-size:7px;margin-top:1px}.cal-cell.arrive{background:var(--gold);color:#fff;border-color:var(--gold)}.cal-cell.depart{background:var(--ink);color:#fff;border-color:var(--ink)}.cal-cell.range{background:rgba(184,149,106,.1)}.cal-cell .mo{font-size:8px;color:var(--grey);font-family:'DM Sans';font-weight:400}.cal-legend{display:flex;gap:20px;justify-content:center;margin-top:12px;font-size:11px;color:var(--grey)}.cal-legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}.cal-legend .la::before{background:var(--gold)}.cal-legend .ld::before{background:var(--ink)}.cal-legend .lw::before{background:rgba(184,149,106,.2)}.cal-ok{margin-top:20px;padding:14px 48px;border-radius:8px;background:var(--stone);color:var(--grey);font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:all .3s;pointer-events:none}.cal-ok.ready{background:var(--ink);color:#fff;pointer-events:auto;box-shadow:0 8px 24px rgba(0,0,0,.15)}.cal-ok.ready:hover{background:var(--gold)}
+.music-btn{position:fixed;bottom:20px;right:20px;z-index:999;width:44px;height:44px;border-radius:50%;background:rgba(26,26,26,.85);color:var(--gold);font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.15);transition:all .3s;opacity:0;pointer-events:none;backdrop-filter:blur(8px);border:1px solid rgba(184,149,106,.15)}.music-btn.visible{opacity:.6;pointer-events:auto}.music-btn:hover{opacity:1;transform:scale(1.1)}.music-btn.playing{opacity:.8}.music-btn .eq{display:flex;gap:2px;align-items:flex-end;height:14px}.music-btn .eq span{width:3px;background:var(--gold);border-radius:1px;animation:eqa .8s ease infinite}.music-btn .eq span:nth-child(1){animation-delay:0s;height:6px}.music-btn .eq span:nth-child(2){animation-delay:.2s;height:10px}.music-btn .eq span:nth-child(3){animation-delay:.4s;height:4px}.music-btn.paused .eq span{animation:none;height:3px}@keyframes eqa{0%,100%{height:4px}50%{height:14px}}
+#main{display:none;padding:0 0 80px}#main.show{display:block;animation:fu .6s cubic-bezier(.22,1,.36,1)}@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.topbar{background:rgba(245,240,234,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.05);padding:12px 20px;position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between}.topbar .tl{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600}.topbar .tm{font-size:10px;color:var(--grey);margin-top:1px}.topbar .rs{font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.pills{display:flex;gap:6px;padding:10px 20px;overflow-x:auto;scrollbar-width:none}.pills::-webkit-scrollbar{display:none}.pill{padding:5px 12px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(184,149,106,.08);color:var(--gold);white-space:nowrap}
+.abar{display:flex;gap:8px;padding:8px 20px;max-width:680px;margin:0 auto;flex-wrap:wrap}.abtn{padding:10px 16px;border-radius:8px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .3s;display:flex;align-items:center;gap:6px}.abtn.p{background:var(--ink);color:var(--gold);box-shadow:0 4px 12px rgba(0,0,0,.1)}.abtn.p:hover{background:var(--gold);color:var(--ink)}.abtn.s{background:var(--card);color:var(--ink);border:1px solid rgba(0,0,0,.08);box-shadow:var(--sh)}.abtn.s:hover{border-color:var(--gold)}
+.mapw{position:relative;width:100%;max-width:680px;margin:0 auto;aspect-ratio:1000/684;padding:0 16px}.dot{position:absolute;width:10px;height:10px;border-radius:50%;cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1);z-index:2;border:2px solid var(--card);box-shadow:0 2px 8px rgba(0,0,0,.12)}.dot:hover{transform:scale(2);z-index:5}.dot .tp{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);border-radius:6px;padding:5px 10px;font-size:10px;font-weight:600;color:#fff;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}.dot .tp::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--ink)}.dot:hover .tp{opacity:1}
+.chwrap{padding:0 20px;max-width:680px;margin:0 auto 12px}.chart-row{display:flex;align-items:center;gap:8px;margin-bottom:3px;cursor:pointer;padding:2px 0}.chart-row:hover{opacity:.8}.chart-lbl{font-size:10px;width:72px;text-align:right;flex-shrink:0;font-weight:500}.chart-bar{height:16px;border-radius:3px;transition:width .6s cubic-bezier(.22,1,.36,1);min-width:4px}.chart-pr{font-size:9px;color:var(--grey);margin-left:6px;white-space:nowrap}
+.gw{padding:0 20px;max-width:680px;margin:0 auto}.gw>h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin:4px 0 16px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}
+.st{border-radius:10px;padding:14px;cursor:pointer;border:1.5px solid rgba(0,0,0,.04);transition:all .3s;background:var(--card);box-shadow:var(--sh);position:relative;overflow:hidden}.st:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.08)}.st.cmp{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}.st .fl{font-size:24px;margin-bottom:4px}.st .cn{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600}.st .co{font-size:9px;color:var(--grey);letter-spacing:1.5px;text-transform:uppercase}.st .pr{font-size:12px;font-weight:700;color:var(--gold);margin-top:6px}.st .rtg{position:absolute;top:8px;right:8px;font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px}
+.hat-btn{display:block;margin:0 auto 12px;padding:14px 32px;border-radius:50px;background:var(--ink);color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:all .3s;box-shadow:0 8px 24px rgba(0,0,0,.12)}.hat-btn:hover{background:var(--gold);color:var(--ink);transform:scale(1.05)}
+#hatO{display:none;position:fixed;inset:0;z-index:200;background:var(--ink);flex-direction:column;align-items:center;justify-content:center;overflow:hidden;opacity:0;transition:opacity .3s}#hatO.show{opacity:1}#hatO::before{content:'';position:absolute;inset:0;background:radial-gradient(circle,rgba(184,149,106,.08),transparent 60%);animation:hp 3s ease infinite;pointer-events:none}@keyframes hp{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.3);opacity:1}}.hcl{position:absolute;top:20px;right:20px;color:rgba(255,255,255,.4);font-size:24px;z-index:10}.hfl,.hci,.hvb,.hpr,.hac{position:relative;z-index:2}.hci{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,12vw,80px);font-weight:300;color:var(--gold);text-align:center;line-height:1.1}.hfl{font-size:clamp(60px,15vw,100px);margin-bottom:16px}.hvb{font-size:14px;color:rgba(255,255,255,.4);max-width:360px;text-align:center;margin-top:12px;line-height:1.5}.hpr{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);margin-top:16px;font-weight:600}.hac{display:flex;gap:12px;margin-top:32px;z-index:3}.hac button{padding:14px 28px;border-radius:50px;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;transition:all .3s}.hsh{background:var(--gold);color:var(--ink)}.hsh:hover{transform:scale(1.05)}.hlk{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff}.hlk:hover{border-color:var(--gold);color:var(--gold)}
+#compO{display:none;position:fixed;inset:0;z-index:180;background:rgba(245,240,234,.97);backdrop-filter:blur(8px);overflow-y:auto;padding:20px}#compO.show{display:block;animation:fu .3s ease}.comp-cl{position:sticky;top:0;z-index:5;font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:16px;background:rgba(245,240,234,.9);padding:8px 0}.comp-h{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;text-align:center;margin-bottom:16px}.comp-g{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:680px;margin:0 auto}.comp-col{background:var(--card);border-radius:10px;padding:14px;box-shadow:var(--sh)}.comp-col h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:8px}.comp-r{font-size:11px;color:#555;margin-bottom:5px;display:flex;justify-content:space-between}.comp-r .v{font-weight:600;color:var(--ink)}.comp-s{font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:10px 0 4px;font-weight:700}.comp-w{background:rgba(90,143,106,.05);border:1px solid rgba(90,143,106,.15)}
+#aiO{display:none;position:fixed;inset:0;z-index:190;background:rgba(245,240,234,.97);backdrop-filter:blur(8px);overflow-y:auto;padding:20px}#aiO.show{display:flex;flex-direction:column;align-items:center;animation:fu .3s ease}.ai-cl{position:absolute;top:20px;right:20px;font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600;z-index:5}.ai-c{max-width:560px;width:100%;margin-top:60px}.ai-c h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:16px}.ai-r{background:var(--card);border-radius:10px;padding:20px;box-shadow:var(--sh);font-size:13px;line-height:1.8;color:#444;white-space:pre-wrap}
+#detail{display:none;padding:20px;max-width:680px;margin:0 auto}#detail.show{display:block;animation:fu .4s ease}.bk{font-size:11px;color:var(--gold);margin-bottom:16px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;font-weight:600}.dh{margin-bottom:16px}.dh h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,38px);font-weight:300}.dh .vb{font-size:14px;margin-top:6px;color:var(--gold);font-weight:500;line-height:1.5}
+.scs{display:grid;grid-template-columns:1fr 1fr;gap:3px 14px;background:var(--card);border-radius:10px;padding:12px;margin-bottom:12px;box-shadow:var(--sh)}.sr{display:flex;align-items:center;gap:5px}.sr .sl{font-size:9px;color:var(--grey);text-transform:uppercase;width:54px;flex-shrink:0}.sr .sb{display:flex;gap:2px;flex:1}.sr .sp{width:7px;height:7px;border-radius:2px}.sr .sv{font-size:10px;font-weight:600;width:14px;text-align:right}
+.sec{background:var(--card);border:1px solid rgba(0,0,0,.04);border-radius:10px;padding:14px;margin-bottom:8px;box-shadow:var(--sh)}.sec.da{border-style:dashed;border-color:rgba(0,0,0,.1);box-shadow:none}.stg{font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}.spr{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600}.sme{font-size:11px;color:var(--grey)}.sbd{font-size:12px;color:#555;line-height:1.6;margin-top:6px}.stp{font-size:11px;color:var(--grey);margin-top:6px;line-height:1.5}.hp{font-size:11px;color:#555;margin-bottom:4px;padding-left:8px;border-left:2px solid var(--gold)}.di{font-size:12px;color:#444;margin-bottom:5px;line-height:1.5}
+.ttog{display:flex;gap:6px;margin:8px 0}.ttog button{flex:1;padding:10px;border-radius:8px;font-size:12px;font-weight:600;background:var(--warm);color:var(--grey);transition:all .2s}.ttog button.sel{background:var(--ink);color:#fff}
+.tc{border-radius:10px;padding:14px;margin-bottom:8px;background:var(--card);box-shadow:var(--sh);border:1px solid rgba(184,149,106,.12)}.tr{display:flex;justify-content:space-between;align-items:center;gap:10px}.ta{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--gold);white-space:nowrap}.cost-toggle{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.05)}.cost-toggle label{font-size:11px;color:var(--grey);cursor:pointer}.cost-toggle input{accent-color:var(--gold)}
+.vp{background:rgba(184,149,106,.05);border:1px solid rgba(184,149,106,.1);border-radius:10px;padding:14px;margin-bottom:8px}.vp h4{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}.vp p{font-size:12px;color:#666;line-height:1.6}
+.prac{background:var(--card);border:1px solid rgba(0,0,0,.04);border-radius:10px;margin-bottom:8px;box-shadow:var(--sh);overflow:hidden}.prac-h{padding:12px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px}.prac-h::after{content:'▾';transition:transform .2s}.prac.open .prac-h::after{transform:rotate(180deg)}.prac-b{max-height:0;overflow:hidden;transition:max-height .3s ease}.prac.open .prac-b{max-height:800px}.prac-bi{padding:0 14px 14px}.prac-r{display:flex;gap:8px;margin-bottom:5px;font-size:11px;color:#555;line-height:1.5}.prac-r .k{color:var(--grey);min-width:65px;flex-shrink:0;font-weight:600;text-transform:uppercase;font-size:9px;padding-top:2px;letter-spacing:.5px}
+.bkl{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;background:var(--gold);color:#fff;font-size:12px;font-weight:600;letter-spacing:1px;text-decoration:none;transition:all .2s;margin-top:8px}.bkl:hover{background:var(--ink)}
+.shbtn{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:8px;background:var(--card);border:1px solid rgba(0,0,0,.06);font-size:11px;font-weight:600;color:var(--ink);margin-top:12px;transition:all .2s;box-shadow:var(--sh)}.shbtn:hover{border-color:var(--gold)}.shbtn.copied{background:var(--green);color:#fff;border-color:var(--green)}
+@media(max-width:420px){.grid{grid-template-columns:repeat(2,1fr);gap:6px}.ch{min-width:100px;padding:14px 10px}.comp-g{grid-template-columns:1fr;gap:8px}}
 </style>
 </head>
 <body>
 <audio id="bgMusic" loop preload="auto"><source src="song.mp3" type="audio/mpeg"></audio>
 <button id="musicBtn" class="music-btn" onclick="toggleMusic()"><div class="eq"><span></span><span></span><span></span></div></button>
-
-<!-- S1: PASSPORT -->
-<div class="scr active" id="s1"><div class="inner">
-  <div class="passport" onclick="startTrip()">
-    <div class="emb">✦</div>
-    <div class="t1">Summer 2026</div>
-    <div class="t2">Passport to<br>the Dolomites</div>
-    <div class="t3">15 cities &middot; real prices</div>
-    <div class="tap">tap to open</div>
-  </div>
-</div></div>
-
-<!-- S2: CALENDAR -->
-<div class="scr gone" id="s2"><div class="inner">
-  <div class="step">Select Your Dates</div>
-  <div class="qtitle">When are you in Europe?</div>
-  <div class="qsub">Tap arrival, then departure. Wedding is Aug 26-30. Be in Venice by Aug 25.</div>
-  <div class="cal" id="calWrap"></div>
-  <div class="cal-legend"><span class="la">Arrive</span><span class="ld">Depart</span><span class="lw">Wedding</span></div>
-  <button class="cal-ok" id="calOk" onclick="confirmDates()">Continue</button>
-</div></div>
-
-<!-- S3: DEPARTURE -->
-<div class="scr gone" id="s3"><div class="inner">
-  <div class="step">Departure City</div>
-  <div class="qtitle">Where are you<br>flying from?</div>
-  <div class="choices">
-    <button class="ch" onclick="pk('dep','SFO')"><div class="ico">🌉</div><div class="lb">San Francisco</div><div class="ds">SFO</div></button>
-    <button class="ch" onclick="pk('dep','ATL')"><div class="ico">🍑</div><div class="lb">Atlanta</div><div class="ds">ATL</div></button>
-    <button class="ch" onclick="pk('dep','CHS')"><div class="ico">🌴</div><div class="lb">Charleston</div><div class="ds">CHS</div></button>
-  </div>
-</div></div>
-
-<!-- S4: FLIGHT TYPE -->
-<div class="scr gone" id="s4"><div class="inner">
-  <div class="step">Flight Strategy</div>
-  <div class="qtitle">How are you booking?</div>
-  <div class="choices">
-    <button class="ch" onclick="pk('ft','rt')"><div class="ico">🔄</div><div class="lb">Round Trip</div><div class="ds">Same city in &amp; out</div></button>
-    <button class="ch" onclick="pk('ft','oj')"><div class="ico">✈️</div><div class="lb">Open Jaw</div><div class="ds">Fly in city, home from Venice</div></button>
-    <button class="ch" onclick="pk('ft','ow')"><div class="ico">🎯</div><div class="lb">One-Way Legs</div><div class="ds">Book each leg separate</div></button>
-  </div>
-</div></div>
-
-<!-- S5: VENICE -->
-<div class="scr gone" id="s5"><div class="inner">
-  <div class="step">Venice</div>
-  <div class="qtitle">When do you<br>tour Venice?</div>
-  <div class="qsub">You pass through either way.</div>
-  <div class="choices">
-    <button class="ch" onclick="pk('ven','before')"><div class="ico">🏛️</div><div class="lb">Venice First</div><div class="ds">Explore, then your city</div></button>
-    <button class="ch" onclick="pk('ven','after')"><div class="ico">🎬</div><div class="lb">Venice After</div><div class="ds">City first. Film Fest Sep 2!</div></button>
-    <button class="ch" onclick="pk('ven','both')"><div class="ico">💎</div><div class="lb">Both Sides</div><div class="ds">Stop before + after</div></button>
-  </div>
-</div></div>
-
-<!-- MAIN VIEW -->
+<div class="scr active" id="s1"><div class="inner"><div class="passport" onclick="startTrip()"><div class="emb">✦</div><div class="t1">Summer 2026</div><div class="t2">Passport to<br>the Dolomites</div><div class="t3">19 cities &middot; real prices</div><div class="tap">tap to open</div></div></div></div>
+<div class="scr gone" id="s2"><div class="inner"><div class="step">Select Your Dates</div><div class="qtitle">When are you in Europe?</div><div class="qsub">Tap arrival, then departure. Wedding is Aug 26-30. Venice by Aug 25.</div><div class="cal" id="calWrap"></div><div class="cal-legend"><span class="la">Arrive</span><span class="ld">Depart</span><span class="lw">Wedding</span></div><button class="cal-ok" id="calOk" onclick="confirmDates()">Continue</button></div></div>
+<div class="scr gone" id="s3"><div class="inner"><div class="step">Departure City</div><div class="qtitle">Where are you<br>flying from?</div><div class="choices"><button class="ch" onclick="pk('dep','SFO')"><div class="ico">🌉</div><div class="lb">San Francisco</div><div class="ds">SFO</div></button><button class="ch" onclick="pk('dep','ATL')"><div class="ico">🍑</div><div class="lb">Atlanta</div><div class="ds">ATL</div></button><button class="ch" onclick="pk('dep','CHS')"><div class="ico">🌴</div><div class="lb">Charleston</div><div class="ds">CHS</div></button></div></div></div>
+<div class="scr gone" id="s4"><div class="inner"><div class="step">Flight Strategy</div><div class="qtitle">How are you booking?</div><div class="choices"><button class="ch" onclick="pk('ft','rt')"><div class="ico">🔄</div><div class="lb">Round Trip</div><div class="ds">Same city in &amp; out</div></button><button class="ch" onclick="pk('ft','oj')"><div class="ico">✈️</div><div class="lb">Open Jaw</div><div class="ds">Fly in city, home from Venice</div></button><button class="ch" onclick="pk('ft','ow')"><div class="ico">🎯</div><div class="lb">One-Way Legs</div><div class="ds">Book each leg separate</div></button></div></div></div>
+<div class="scr gone" id="s5"><div class="inner"><div class="step">Venice</div><div class="qtitle">When do you<br>tour Venice?</div><div class="choices"><button class="ch" onclick="pk('ven','before')"><div class="ico">🏛️</div><div class="lb">Venice First</div><div class="ds">Explore, then your city</div></button><button class="ch" onclick="pk('ven','after')"><div class="ico">🎬</div><div class="lb">Venice After</div><div class="ds">City first. Film Fest Sep 2!</div></button><button class="ch" onclick="pk('ven','both')"><div class="ico">💎</div><div class="lb">Both Sides</div><div class="ds">Stop before + after</div></button></div></div></div>
 <div id="main">
-  <div class="topbar">
-    <div><div class="tl" id="tT"></div><div class="tm" id="tM"></div></div>
-    <button class="rs" onclick="restart()">Start Over</button>
-  </div>
+  <div class="topbar"><div><div class="tl" id="tT"></div><div class="tm" id="tM"></div></div><button class="rs" onclick="restart()">Start Over</button></div>
   <div class="pills" id="pills"></div>
-  <div class="mapw" id="mapW"><img src="europe.svg" alt="Europe"></div>
+  <div class="abar">
+    <button class="abtn p" onclick="openAI()">✦ AI Pick for Your Group</button>
+    <button class="abtn s" id="compBtn" onclick="toggleCompare()">⚖️ Compare</button>
+    <button class="abtn s" onclick="toggleChart()">📊 Cost Chart</button>
+  </div>
+  <div class="mapw" id="mapW"><svg style="width:100%;height:100%;position:absolute;inset:0" baseprofile="tiny" fill="#E2D9CD" height="684" stroke="#C9B99A"   stroke-width=".4" version="1.2" viewBox="0 0 1000 684" width="1000" xmlns="http://www.w3.org/2000/svg">
+ <path d="M654.7 528.1l0.5 0.4 2 2.9 1.4 0.5 1.9 1.3 1.4 3.2 0.1 2.2-0.5 2.6 0.3 2.1-0.8 0.8 0.7 2 0.2 1.9 1.2 2.2 1.2 1.1 1.3 2.4 1.6-0.2 1.3 1.1 0 1.1 1.1 1.8-0.8 2.6-1.7 0.8-1.2 3.1-0.3 2-0.6 0.5-1.9 0.3-1.7 1.3 1 2.2-0.9 0.7-0.3 1.5-0.7 0.7-2.7-0.9-0.7-2.5-1.7-2.7-4.9-2.6-1.2-1.1 0.4-1.5-0.1-1.4-1.4-2.4 0.3-2.6 0.8-2.2-0.3-2.7 0.1-2.1-0.7-2.9 0.5-2.1 0.9-1.3-0.2-2.2-1.5-1.1-1.6-0.2 0-3.1-0.3-0.6 1.7 0-1.7-2.8 3.2-5.3 1.1 0.3 0.8 2.1 3.4-1.2z" id="AL" name="Albania">
+ </path>
+ <path d="M423.4 528.8l-2.8 1.1-0.7-0.4 0-2.1 0.9-0.7 2.6 0.6 0 1.5z" id="AD" name="Andorra">
+ </path>
+ <path d="M974.6 572.4l-3.2-2.8-2.3-1.7-1.6-0.7-3.5 0.4-2.9-0.9-1.8-0.9 0.5-0.6-1.9-3-0.8-1.9 1-1.4 0.2-2.3-1.7-3.3-1.7-1.2-1.3-1.6 4.4-0.3 5.3-1.3 3.2 0.3 1.1-0.2 3.5-0.1-0.5-0.7 2.3-0.5 1.3 1.5 1.6 1-0.9 0.9 2.3 1 1.2 0 3.3 2.5 0 0.7-1.9 1.5-0.2 1.1 3.2 3.4 2.4 1.4 3.2 1.5 0.2 0.9-0.9 2.5-3 0 0.6 0.9 1.9 1.2 6.1 4.4 1.5-0.3 2.2 0.9 0.2 1.3-1 1.4 1.9 1.4 0.8 1.5-1.8 0.5 1.4 1.5 0.5 2.6-2.2-0.1-2.5 0.5-3-4.7 0.1-1-3.1-2.1 0.1-1.7-0.8-1.2-1.7 0.2-1.9 0.9-2.9-1.6-1.2 0.2-0.3-1.1-1.8-1.7-3.2 0.9z" id="AM" name="Armenia">
+ </path>
+ <path d="M607.8 434.9l-0.9 2.4 0.1 0.8 1.6 2.9 2.3 2.9-0.6 0.7-0.6 1.9 0.7 2-3.9 0.3-2.5-0.9-1.3 1.4 2.6 0.7 0.5 1.1-0.5 1.4-2.2 1.2 0.4 1.5-0.5 0.7 1.1 1.6-0.3 1.8-2.5 0.5-1.8 1.7-1.3 0.9-0.1 1.9-2.4-0.5-1.6 0.2-2.3 1.1-2.8-0.2-2.6 0.2-1.9 0.7-1 1.3-3 1.2-5-0.7-5-0.9-2.6-0.5-4-0.3-8.6-1.5-1.1-0.5-3.1-3.5 0-2.3-4.7 1.5-3.1-0.2-3.4 0.3-1.4 0.6-1.2 2.2-1.1 0.4-2.1-0.4-0.9-0.8-3-0.3-0.5-1.5-0.8-0.3-2 1.9-2.3-0.4-1.5-0.8-0.4-1-3.3-0.8 0.3-0.8-1.1-2.5 1-3-0.9-0.7 1.7-0.5 0.7-0.5 3.5 1.6 0.9 1.4 1.2 0.3-0.1 1.3 1.6-0.5 1-1.6 0.2-1.9 2.8-0.1 2.7 0.4 1.4 1.9 3.8-0.5 1.1-0.9 3.9-1.5 5.7-0.5 0.1-1.4 2 0.3 1.5 0.8 2.5-0.5 1.1 0.5 0.2 1.1 1.2 0.9 1.7 0.4 0.3-1.5-0.3-1.9-1.7-0.3 0.6-1.3-0.1-1.3-2.5-2.8 0.6-1.3 3.1-1.8 2.9-0.8 1-1 0.7-2.9 2.3 0.9 1.3-0.9 0.2-2.8 2.2 1.2 0.8 1.3 3.9 0.4 1.4-0.7 2.5 0.4 0.1-1.1 1.3-1.6 1.2 0 0.3-3.2 1.2-0.2 1.6 0.8 1.4-0.4 4.8 1.7 1.5-0.1 3 1.7 3.8 0.2 1.2-0.9 5.1 1.5 1 1.6z" id="AT" name="Austria">
+ </path>
+ <path d="M470 401.8l1.6-0.5 0.8 0.8 1.2 0.1 3 2.3-0.4 1.5 1.7 0.7 0.4 2-2.3 1.3-0.6 1.7-1.7-0.7-1.3 1.3-1.4 2.5-0.2 1.7 2 2.4-1.1 1.7-3.4 0.4-2.8-2.6-3.3-1.5-1.7-0.1-0.4-2-0.6-0.6 0.8-2.7-1.9 0.6-0.5 1.4-1.3 0.6-2.2 0.3-2.3-0.3-0.5-0.6 0.7-1.4-0.7-0.7 0.4-1.6-1.6-1.1-3.6-0.4-0.9 0.3-0.6-2-4.2-1.1-0.5-2-1.6-1.8-3.2 1-2.9-2.4 0-1.2-0.9-2.2 5.1-2.5 4.7-1.7 0.3 1.3 1.2 0.7 1.2-0.6 3.9 1.1 3.2-1.5 0.6-1.2 2.1 0.3-0.2-0.9 1.4-0.7 1.5 0.8 1.5-1 1.1 1.3 2.5-0.8 0.5 1.6 2.6 1.4 1.9-0.4 1.7 1.3 2.6 1.1-1 2.9-1.1 1.3 0.7 1.1z" id="BE" name="Belgium">
+ </path>
+ <path d="M759.6 509.6l0.2 3.7-0.9 1.8-2-0.6-2.2 0.5-1 2-1.2 1.2 0 2.6 0.4 4.2-1.6 0.7-2.9 3.7 3 1.8 1.7 2.2 2.4 2.5 0.5 1.2-1.7-0.2-0.9 0.4-1.8 0-1.5 0.6-3.4-2.5-3.5 0.3-1.5 1.1-3.4 0.4-1 2.2-1.9 0.3-0.3 1.4-1.6-0.5-1.6 1.1 0.7 1 0.9 2.7-0.2 0.8-2.5 1.2-1.8-0.3-3.2 0.4-3.4 0.9-1.7-1.1-3.7-1.2-0.9 0.6-2.4-1.4-1.2-1.7-1.6 0.5-4.2-0.1-0.2 0.9-1.9 0.2-3 1.1-2.6-0.2-2.4 0.2-1 1-3-0.2 0-4.2 0.5-1.7-0.9-1-1.7-3.3-3.4-1.8-3.3-3.2 1-0.3 1.1-1.7-1.4-2.9 0-3.3 1.1-0.6 1.8-0.1 1.1-1.6 1.6-1.7 0.3-1.4-1.6-1-1.3-1.6-2.9-1.5-2.4-3.9-0.6-2.4 0.4-2.3 2.1-1 0.2-1.9 0.9-0.7 4.3 2.5-1.8 2 0.9 1.8 3.7-0.6 3.9 0.3 5.3 1 3.5 0.4 2.5-0.5 9.4 1.7 4.2 0.2 2.3-0.6 1.6-0.9 1.2-1.6 3.3-2.1 3.2-1.2 4.4-0.9 2.9-0.4 4.5 2.3 3.2 0.4 0.9 0.6 1.7-0.5 2.5 2.6 2.2 0.7 2.6 0.5 2 0z" id="BG" name="Bulgaria">
+ </path>
+ <path d="M638.2 492.2l2.8-0.7 1.5 0.8-0.5 2.5-1.6 2.7-0.1 2.6 0.5 0.8 2.4 1.2 3.3 2.9-0.3 0.8-3.1-0.1-0.5 0.8 3.2 3.7-0.2 2.2-2.5-0.3-0.7 0.8-3.2 0.5 1.4 2.2-2.3 0.2-2 1.7-0.5 1.7 0.1 1.5-1.7 0.2-0.5 0.7 0.6 3 1.1 1.6-0.1 0.8-1.1 1-1.7-0.7-6.2-3.8-0.6-0.9-1.6 0.1-1.1-0.6 0.3-1.6-3-2.5-1.5-1.6-0.4-2.2-2.4-1.1-5-4.1-1.7-2-2.8-2.3-2.3-2.4-1.3-4-3.4-3.2-1.9-1.3-0.1-1.4 0.3-5 1.2-0.6 1.8 0.4 1.7 1.8 1.8 1 2.7-3.2 3.2 0.3 1.5-1.2 2.7 1.6 2.5 0.1 2.8 0.7 1.7-0.6 1.6 1.3 2.2-1 1.8 0.3 1.8-0.2 2.6 0.7 2.2 0.2 1.1 0.8 1.3 2.2 2.2 0.2z" id="BA" name="Bosnia and Herzegovina">
+ </path>
+ <path d="M724.5 321.5l1.8 1.3 1.2-0.4 1.9-0.1 3.1 2.2 1.6-0.9 1.5-0.3 3.6 1.2 0.2 2.3 1.7 1.5 2.1-1.3 2.7-1.1 3.4 0 2.7 0.9 2.4 1.8 3.5 1.4 0.4 2.5-0.6 1.8 2.1 2.1 0.5 1.3-1.3 2 0 2 4.1 2 0.5 0.5-0.5 1.8 1.4 0.6 1.8 2.4 1.5 1.4 4.9 2.1 0.7 0.8-0.4 2.8 5.3 0.5 3.2 1.3 0 1.1 0.7 1.1 2.8 1.4 0.6 1.7-2.6 1-0.3 0.9-3 1.8-3.5-0.2-2.4-1.5-2.9 0.1-1.4 2.7 3.9 3.3 0.6 1-0.2 1.5 1 1.5 0.5 3.3 1.6 1.4 1.3 1.8-5-0.1-1.4 0.8-1.7-0.4-1.1 0.5-2.2 2.3-0.8 1.2-1 3.3 1.8 3.6-0.8 1.4-2.7-0.9-0.5-1.2-2-1.1-7.1 0.6-2.3 0.8-0.6-0.5-2.5-3-3.8 1.6-0.6 1.1-1-0.3-0.8-1.3-5.1-1-1.9 0.7-1.9-0.5-1.2 1.7-0.8-1.4-1.1-0.4-3 0.1-1-0.3-1.8-2.1-2.3 0-6.1-0.9-6.5-1.5-7.8-0.4-2.4 0.1-2.3 0.5-5.9 0.5-0.8 1.4-1.6 1.6-1.9 1.2-1.1-0.5-1.9-0.3-1.1 0.5 0.1 1.4-1-1.6-0.1-1.3 0.8-1.5-0.4-1.1 0.2-2.4-0.8-1-1.8-1-3.3-1.3 0-1.2 2-2.7 0.8-0.5 4-1.7 0.6-1.6-0.9-3.9-1.7-3.6-2.9-4.9-2.1-5.1 2.9 0.4 1.6-0.3 3.7-0.3 1.6 0.9 3.3-1.3 1.8 0.1 0.8-2.6 2 0.2 1.4-1.2 2.1-0.5 1-0.7 1.7 2.3 2-0.2 0-1-0.9-1.1-1.9-0.5 0.5-2 1-1.5-0.4-2.3 1.1-3 2.6-0.6 0.8-0.6 1-2 3.6 0.1 0.4-1.1 1.3-1-3.9-1 0.7-3.1 0-1.8 2.6-0.6 1.2-1.5 1.1-0.3 3 0.4 3.1 0.1 0.4-1.7 2.5-2.4 1.4-0.8 1.3-0.2z" id="BY" name="Belarus">
+ </path>
+ <path d="M514.1 449.1l0.8 1.1 2.6 1.3 1.2 0 0.9 0.7-1 3-0.5 1.5 0.1 1.7 1.2 0.1 3.3 0.8 0.4 1 1.5 0.8 2.3 0.4 2-1.9 0.8 0.3 0.5 1.5-0.5 3.1 0.5 1.8-1.9-0.2-1-0.9-1.3 0.3-0.6 1.8 1.5 3.5-1.2 0.3-1.4-1.9-0.7-0.1-2.9 1.1-2-0.8-0.8-2.1-2 0.1 0 2.9-0.5 1.1-2.2 2.6-0.2 1 0.7 1.7-1.2 0.7-0.9-1.4-1.3-1.2 0.4-1.2-2.2-0.6-2.4-2-0.2-2.5-1-0.6-3.4 2.9 0.6 1.5-1.6 2.2-2.4 1.4-3.1-0.8-2.6 1-2.4 0.5-1.4-0.7-0.9-1.4-2.3-2.3 0.5-1.7-0.8-2.2-2.2-0.3-1.9 0.1-2.3 1.5 0.5 1.3-2.3 1.6-1.4-0.1 0-1 1.5-1 0.3-1.5-0.8-0.7 1.1-2.9 3-2.2 0.5-2.9 2.1-0.9 3.8-4 0.6-0.9-1.3-1.1 1.8-1.4 1.1 0 0.8 0.8 2.7-0.3 0.8-1.4 1.5-0.7 1 0.3 2.8 0.1 3.3-0.6 2.6 0.2-0.2-1.5 1.3-1.2 1.3 0 1.4 1 0.8-0.2 1.1 0.9 3.7-0.2z" id="CH" name="Switzerland">
+ </path>
+ <path d="M578.9 400.5l2.1-0.4-0.1-1.9 3.3 0.8 0.3 1.1 1 1.1 4.6 1.1 2.7 1.1 0.8 0.9 3.2-0.7 1.8 1.2-0.7 1.1-1.6 1.2 1.6 0.9 2 1.8 1.5 1.9 1 0.4 3.5-2.5-1.7-2.4 1.3 0 2.2 0.6 3.3 1.9 3.6-0.7 0 1.6-1.4 0.5 2.7 2.3 1 0.6 1.8-1 3.5 1.8 0.5-0.2 2.7 0.8 0.5 1.8 2.8 2.2 0.5 1.6-2.8 0.3-2 1.5-0.6 0.8-2.3 1.2-0.7 3-1.6 0.8-2.1 1.9-1.5 0.7-1.7 0.2-3.6-0.5-1.4 1.2-1.1 2.8-1-1.6-5.1-1.5-1.2 0.9-3.8-0.2-3-1.7-1.5 0.1-4.8-1.7-1.4 0.4-1.6-0.8-1.2 0.2-0.3 3.2-1.2 0-1.3 1.6-0.1 1.1-2.5-0.4-1.4 0.7-3.9-0.4-0.8-1.3-2.2-1.2-0.6-0.7-2.9-2.2-1.3 0-1.3-1.6-2.5-1.5-2.9-2.6-1.3 0-2.3-2-1.8-2.7-1.4-1.5 1.2-1.7-0.6-1.6-2.3-1.3-2.5-3.4 0.5-0.7 1.9 2 1.9-2.6 1.1-0.6 2.6-0.6 2.1 0.4 0.8-1.3 2-0.3 0.6-1 1.6-0.7 1.1 0.1 0.6-1.2 4.4-1 3.5-1.5 1.9-0.6-1.5-1.5 0.8-0.6 2.2 0.4 1.5 1.5 0 0.9 1.4 0.6 0.9-0.7z" id="CZ" name="Czech Republic">
+ </path>
+ <path d="M567.9 355.2l-3.4-0.1-0.2-1.7-1.1-1-0.1-1 4.7 2.6 0.1 1.2z m-34.8-8.1l-1.8 0-1.4-0.7 0.8-1 1.7 0.4 0.7 1.3z m28.3 0.5l-1.3 0.7-1.3 0-1.3 1.3-2.1-1.1-0.5-1.1 0.1-2.2 0.6-1.4 2-0.9 0.9 1.2 1.7 0.6-0.5 1.7 1.7 1.2z m-46.6-6.6l1.8 0.7 1.6 1.6 0.1 1.4-1.7 1.6 3.2-0.3 0.8 1.2 1.7-0.4 4.5 1.8 3.2-0.9 0.7 1.4-0.6 1.5-2.2 1.6 1.4 1.2 2.1-0.2 3.6 0.9 3.3-2.5 1.1-0.5 3.6-0.3 5.1-4.5 5.3 0.9 1.5 1.9 3.7 2.1 3.2-0.2 1.3 2 0.8 2.5 1.9 1.3 2.8 0.5 0.7 2.6 1.8 4.1-0.3 2.7-1.9 1.8-0.7 1.6 1.6 1.4 3.3 2.1 1.4 1.7-0.6 2.6 2 2.3 0.8 1.9-0.7 2.6-0.8 1.1 1.9 3.1 0 1.6 2.2 0.9 1.6 3.2-0.4 2.3-1.6 3.6-0.9 0.7-1.4-0.6 0-0.9-1.5-1.5-2.2-0.4-0.8 0.6 1.5 1.5-1.9 0.6-3.5 1.5-4.4 1-0.6 1.2-1.1-0.1-1.6 0.7-0.6 1-2 0.3-0.8 1.3-2.1-0.4-2.6 0.6-1.1 0.6-1.9 2.6-1.9-2-0.5 0.7 2.5 3.4 2.3 1.3 0.6 1.6-1.2 1.7 1.4 1.5 1.8 2.7 2.3 2 1.3 0 2.9 2.6 2.5 1.5 1.3 1.6 1.3 0 2.9 2.2 0.6 0.7-0.2 2.8-1.3 0.9-2.3-0.9-0.7 2.9-1 1-2.9 0.8-3.1 1.8-0.6 1.3 2.5 2.8 0.1 1.3-0.6 1.3 1.7 0.3 0.3 1.9-0.3 1.5-1.7-0.4-1.2-0.9-0.2-1.1-1.1-0.5-2.5 0.5-1.5-0.8-2-0.3-0.1 1.4-5.7 0.5-3.9 1.5-1.1 0.9-3.8 0.5-1.4-1.9-2.7-0.4-2.8 0.1-0.2 1.9-1 1.6-1.6 0.5 0.1-1.3-1.2-0.3-0.9-1.4-3.5-1.6-0.7 0.5-2.2-1.2-5.1-2.3 1 1.6-3.7 0.2-1.1-0.9-0.8 0.2-1.4-1-1.3 0-1.3 1.2 0.2 1.5-2.6-0.2-3.3 0.6-2.8-0.1-1-0.3-1.1-1.3 0-1.5 0.6-2-0.2-2.4 0.3-1.5 1-1.8 1.4-5.5 3.5-3.8-0.1-1.3-1.6-0.6-4.8-0.8-2-1.4-3 0.6-2.1-0.1-0.3-0.9-1.4-0.4-1.8 0.7-3.5-4.3-1.4-0.1 0.6-3 0.9-0.9 0-1.4-2.8-1.1-1.5-1.6-0.3-2.2 0.6-1.7 2.3-1.3-0.4-2-1.7-0.7 0.4-1.5-3-2.3 0.6-2.4-1.9-1.2 0.5-0.8 2.2-1.6-0.7-1.2 1.3-2.8 0-1.2-3.1-4.1 0.7-1.1 1.8-0.7 2.3 0.8 4.5-1.3 0.7-1-1-0.9 0.3-0.9 2.6-1.6 0.6-2.6-0.8-1-2.6-0.3-0.7-1 0.6-1.6 3.1 0.1 1.1-3.8 0.7-1.7-0.1-4.3-1.7-1.4 0.5-2.7 1.1-1.4 0.9-0.4 4-0.3 4.5 0.1 1.9 2.2-0.6 1.2 1.6 0.3 0.9-2.4 1.4 0.8 1.1-0.1-0.5-1.7 0.2-1.6 0.9-1.4 3.3 0.6 3.6-0.3 0.1-0.6-2.8-0.5-0.9-1.1-0.2-3.9-1.5-0.8-1.6 0.3 0-1.5 3.4-1.1 0-1-3.4-3.8-0.2-1.6 2.7 0.1 5.2 1.3 3.1-0.7 1.5 0.4z" id="DE" name="Germany">
+ </path>
+ <path d="M533.5 340l2.1 1 2.4 0.3 0.4 1.9-3.5 0.7-5.1-2.1 0.1-2.5 2.3-0.2 1.3 0.9z m13.7-1.1l-2.3 0.1-1.9 1-0.3-1.2 1.6-1 1.2 0.2 1.7 0.9z m-28.8 1.2l-1.2 0.2-1.7-0.5-0.6-2.3 2.7 1.1 0.8 1.5z m8 2l-1.4-1.5 2.5-2.9 0.7-0.2-1.8 4.6z m50.1-4l-2.4-0.2-2.4-1 0.1-2 0.5-0.9 4.5 2.3-0.3 1.8z m-52.1-8.7l2.3 4.3-0.1 2.8-1.8 1.2-2.1 0-5.4-1.7-1.7-2.9-0.1-2.3 4.8-1.4 2.6 0.8 1.5-0.8z m23.3 0.2l-1 0.6-0.7-0.9 0.9-0.9 0.8 1.2z m-23.9-2.8l-0.9 0 0-3 1.5 1.6-0.6 1.4z m22.6 0l0.1 1.5-0.7 0.7-2 0.7-1.1 1.8 2 1.2 0.5 1.5-1 0.7-2.6 0.7 0 5.6-2.2 0.6-1.5-2.1-0.1-0.9-1.3-3.1-2-0.4-2.2 0.1-1.5-1.8 0.1-2.1-1-2-1.3-0.6 0.4-1.4 3.1-0.2 1.5-1.9 0-0.9 1.8-0.2 0.8 0.7 0.1 2.6 1.6 0.5 1.1-2.9-0.9-1.1 3.9-2.2 1.1-0.1 3 0.9-0.4 2.1 0.7 2z m-31.6 14.2l-1.5-0.4-3.1 0.7-5.2-1.3-2.7-0.1-0.5-2.1-0.8-1.4 1.1-0.3-0.9-3.9-3.2-1.3-2.5-1.4 0.5-5.6-1-2.3 0.1-6.9 1.3-0.1 3.1 0.8 1.5 0.9 0.6-1.9 1.6-1.6 2-0.8 1.6 1.3 0.3-4.5-1.6-0.5-1.3 0.4-1.3 1.9-1 2.4-1.9 0.2-1.5 0.7-2.4-1.4 0.1-1.4 1.6-1.9 2-1.9 2.2 0 1.6-0.6 3.9 0.1 2.8-1.3 2.8-3.6 1.5-1.5 3.3-0.5 3-1.7-0.8 2.5 1.2 1.7 0 3-0.9 1-1.4 2.5 0.2 5.6 2.5 1.5 4.1 0 1 1.1-0.7 2.2-2.6 1.4-0.9 0-1.4-1.1-1.1 0.9-1.2 5.1-2-0.1-1.2 0.5 1.4 1.2-1.3 0.8-3.4 3.1 1.1 3.4-0.2 0.9-1.5 1.3-0.6 1.1 2.3 0.3 1.3 2.9z" id="DK" name="Denmark">
+ </path>
+ <path d="M655.5 285.3l3.9 0.2 4 1.8-1.8 0.7-3.7 2.5-0.3 0.5-2.6-0.1-1.4 0.2-1 0.9-0.9 2.8-1.6 0.5-0.3-0.9 1.6-1.8-1.5-1.4-1.9-0.7 0.9-1.8-1.6-1.6 1.5-0.2 1 0.5 2-0.5 0.5-1 3.2-0.6z m8.3 1l-0.9 0.2-2.4-1.1 1-1 1.9 0.5 0.4 1.4z m-5.4-4l-0.8 0.7-0.9-0.6-0.9 1.6-1.3 0.3-1.9-2.5-2.9-0.5-1.3-0.7 4.5-0.4 1.2-1.6 1.3 0.1 0.4 0.9 2.1 0.3 0.9 1-0.4 1.4z m53.2 18.9l-1.9-0.2-3.4-1-4 1.2-2.8-1.1-3.5-2.7-0.6-0.7-2.3-0.5-5.6-2.5-1.1 0.7-1.5-1-8.4 2.8 1-3.4 0.1-3.6-2.3-0.4-0.9 1.3-1.3 0.3-4.1-1.3-1.2-2.1-1.6-1.1-0.8-1.2 0-1.8-1.5-2 0.7-1.1-0.7-2.8 3-1.2 3.3-0.2 0.9-1.3 2-1.3 2.3 0.2 3.1-1 6.3 0.1 0.4-1.7 3.2 0 7.6 1.2 1.8 0 2.8 1.2 1.4 0.3 4 0 6.3 0.5 1.2-1 1.5 1.2-1 1.4-1.2 0.4-0.9 3.2-0.8 1-1.7-0.3-2.5 0.2-2 0.5-1.3 1.1 0.1 1.1 2.6 2.3 1.4 2.8 2.6 2.2 0.8 1.3 2.4 2.9 1.8 2.5-2.3 0.6-1.2 2-0.2 2z" id="EE" name="Estonia">
+ </path>
+ <path d="M646.5 260l2 0.2-0.6 2.8-2.3-1.8 0.9-1.2z m-1.9 0.5l-2.1-0.6 0.9-0.8 1.2 1.4z m-6.5-2.7l-1.5 0.7-0.3-1.7 1.8 1z m25.5-62.9l-1.5 0.5-1.3-0.3-0.2-0.9 2-0.6 1 1.3z m30.1-54.6l-3.7 1.3 1.6 0.8 0.8 1.2-2 3.2 0.1 0.6 3.1 4 7.2 1.7 2.3 1.8 3.6 2.3 1.8 0.9 0.1 1.9-3 3-2.6 3.1-1.2 1.7 0.4 1.7 2.6 2.1 2.3 2.2 3 3.5 3 2.5 3 4.2 0.4 1.4-3.7 0.7 1.2 0.9-0.6 1.3 0.3 1.9-0.5 1.5 1.9 0.3 0.3 1.3-1.7 1 0 0.9 1.4 1.7 1 0.6 3.2 0.6 0.9 1.6-1 1.7 1.8 2.2 4.5 1.8 0.7 1.3 0.2 1.7-2.4 3-2 0.8 0.7 0.8 4.5 2.6 6.6 2.9 2.6 1.3 2.1 1.9 2.2 1.6 0.5 1-1.6 4.5-0.7 1.2-2.2 2.2-3.4 2.8-2.3 2.3-5.3 5.9-1.9 1.5-2.1 2.2-4.9 3.3-0.7 0.8-2.5 1.5-5.6 5.2-3.5 1-2.6-1.1-1.8 0.2-1.2 0.8-2.5 0.2-2 0.6-1-0.7-0.7 0.6-1.9 0.2-2-1 0.3 1.5-3.3 1.5-0.8-0.9-2 1-2.1 0.2-1.1 0.8-5.9 1.1-1.5 1.3-1.2-0.3-6.7 1.1-2.9-0.2-2.7 2-1.8 0.4 1.5-3-2.4-1.1-1.2-1.6-0.7 0.4-0.3 1.5-1.5 0.8-2-0.1-0.4-2.4 0.8-2.3-3.6-0.6-3.8-1.4-0.9-0.1-0.7-1.3-2 0.9-2.1-0.9-1.7-5.3 0-1.3 0.9-1.6-0.1-3.4-0.6-2 1.1-0.6-0.9-1.6-2.2-3-1.6-1.1 0.5-3.3-0.6-1.6-1.9-1.1-1.1-2.9 0.6-2.4 2.4-2.2 0-1.2 0.9-1.1-0.5-1.3 2.7-0.5 1 0.4 2.4-0.4 1.9-1-1.1-1.8 1.5-0.7 1.2-1.2-0.1-1 2.3-0.5 2.4-1.9 2.3-1.1 2.3-1.9 1.1-0.1 0.3-1.3 2.5-1.9 0.8-1.6 2.3-1.8 2.2-3.9 3.8-1.2 3.8 0.3-0.6-1.7 1-0.3-0.6-1.3-1-0.6 0-4.6-1.3-0.9-4.5-1.6-1.7-0.1-1.2-1.2-4.6-0.7-1.6-2.5-1.9-2.2-1.8-0.6-1.3-2.6 0-1.3 1.5-1.3-0.1-1.8 0.7-1.4-0.6-0.9-3.3-2.6-0.8-1.6 0.1-1.1 1-0.8-0.6-1.3-2.8-0.4 0.3-1.9-0.7-1.4-0.4-2.4 1.1-1-1.8-0.9-1.9-1.5-1.4-0.1-1.2-1.6-3.5-1.8-8.3-1.7-4.2-1.8-4.8-2.3-2.9-1.1-0.4-0.9-2.9-0.8 0.5-0.4 2.1 0 1.9 0.4 0.5-0.6-1-1.4 1.9-1.1 3.6 0 7.9 5.5 1.4 1.8 6.9 0.6 0.8 0.5 1.8-0.1 3.7-0.9 1.2-1.2 1.5 0.1 3.6 1.1 3.9 0.8 2.6 0.8 1.3-0.6 0.5-1.7 1.6-1.3 2.1-0.3 1.5-1.4-0.7-3.2 0.6-1.7 0.7-3.8 2.6-1.7 1.7-1.8 2.1-0.2 3.8 0.4 0.9-0.2 3.5-1.6 2.9-0.3 1.8 1.2 4.2 2 4.2 1.1 3.6 0.8 2.6 2.7-0.7 1-3.2 2.9 0 0.7 1.7 1.3z" id="FI" name="Finland">
+ </path>
+ <path d="M389.1 403.1l-1.6 1.3-1.3 0.2-2.5-1.2 0-0.5 2.5-1.1 2 0.6 0.9 0.7z m-36.5-39.7l1.3 0.9-3.4 1.9-1.2-0.6-0.9-1.2-0.1-1.9 1.2-0.5 1.8 0 1.3 1.4z m-23.3-11.4l-2.1 0.4-2.9 0 0.1-1.5-1.4-0.5-1.8-2.7-1.3-0.5-1.9 1.6 0.5 0.9-2.4 1.8-2.9-0.3-0.8-0.7-2.1-0.4-0.2-1-2.7-2 1-1.4 2.9-0.9-1-1.4 0.2-0.8 1.6 0.1 2.2-0.8 1.2-1.6 1-2.3 1.9-0.9 1.3 0.6 1.9-2 2.8-0.1 2.7-0.7 3.9 0.3 1.1 1.1 0.5 1.7 1.3 1.7 1.7 1.4 0 0.9-2 1.1 3.5 0.3 1.2 2.5-2.1 0.3-0.1 1.4 1.1 0.2-0.6 1.4-2.6 0.6-1.4 2.2-1 0.5-2.3-0.5z m13.7-20.2l-2.6-0.5-0.6-2 0.9-1.4 1.8 0.7 0.6 1.3-0.1 1.9z m-11.5-7.1l0.7 3.4-2.4 1.3-0.8-2.4-1.4 1 0.2-1.9 1.5-0.3 2.2-1.1z m1.7 1.7l-1.1-1.2 1.6-2.2 1.7-1-0.1 1.6-2.1 2.8z m2.5-7.8l-4.6 0.8 0.6-3-1.9-0.9 0.3-0.9 2.1-0.5 1.7 1.7 2.1 0.6-0.3 2.2z m-16.2-11.4l-1.5-0.2-0.4-1.4 0.2-2.3 1.6 0.2 0.1 3.7z m12.8-5.7l-0.1 2.8 2.9 0.8 2-0.1 0.4 0.6-3.3 2.7-0.7-0.1-0.2-2.2-1.4 0.3-1.9-0.3-1.2-1.9-2.7-0.5-0.9-1.1 1.4-0.6 0.3-1.2 2.8-0.6 1.5-0.7 0.9 1 0.2 1.1z m-11.9-2.6l1.2 0.9-1.1 1.3-1.5 0-2.2-1 0.2-0.5 3.4-0.7z m11.8-9.9l-1.6 2.6-1 0.7-0.2 1.7-3 1.6-3.2 2.4-1.4-1 2.6-1.7-2.1-1-0.2-2.6 0.8-0.7 1.4 0.7 1.9-0.3-0.7-1.2 6.3-3.2 0.4 2z m34.8-2.2l0 1.2-1.3 1.6-2.2 1.2-4.2 2.8-2.5 1.3-0.5 1.6 1.4 0.1 0.2 0.8-2.2 1.6-0.6 1.5 3-0.4 5.3-1.5 3.6 0.5 2.6-0.3 6.9 0.2 1.9-0.3 2.3 1.3 1 1.7-2.8 3.4-0.8 2.3-2 3.5-1.9 2-2 2.5-2.1 1.1-3.1 0.5 4.5 1.9-1.4 1.8-2.4 0.1-2.3 1.7-2.1 0.7 3.6 1.1 2.4-1 2.7-0.1 5.2 1.9 3.6 3.4 2 1.5 0.5 1.1 2.1 6.9 1.5 3.8 1.6 1.8 4.5 1.6 1.1 0.6 3.4 3.3 3.4 2.4-1.4 1.5 0.4 1.2 2.1 2.9 0.3 1.6-1.3-0.1-2.3-1.4-0.3 0.7 5 3.3 1.6 2 1 2.7-0.6 1.1-3 2.7 2.8 1.4 1.2-0.2 2-2.1 1.7-0.2 4.2 0.3 3.8 1 3.3 2.1 0.7 1.1 0.4 3.1-2.2 5.8-2.8 1.9-0.5 1.7-2.1 0.9-1.7-0.3-2.4 1.2 1.7 0.6 0 1.7-1.1 0.6-2.5 0.2 1.1 2 2.5 0.4 4.3-0.2 1.9 0.2-0.2 2.7-0.4 0.4-3.8 1.7-1 1.8-2.2-0.1-1.1 0.7-5.7 1.9-4.9-0.8-2.9 0.1-4 0.6-4.2-1.2-1.8-0.2-2.8 1.7-4.2 0.5-2-0.2 0.9 1.5-0.9 0.4-3.8-0.5-1 0.5-1.4-0.2-2.7-1.4-2.6-0.1-4.9 1.2-1 1.3-1.3 3.5-1.1 1.2-1.4 0.2-4.5-2.5-1.5 0.5-2.5 0.3-2.7 0.7-3.9 2.4-0.9 1.5-1.3 0.2-1.1-0.9-1.4-0.3-2.3 0.8-0.3-1.3 1-1 2.8-0.7 2.5-1.9 2.2-2.3 4.6-3.8 0.8-3.1 2.7-0.7 1.4-2.5 4.1-0.6 2.8 0 2.8 0.5 2.9-0.1 1.1-0.7 1.9-2.4 3.6-3-4.7 1-3.8 2.3-3.2-0.4-2.3-1.9-2.1-0.8-2.1 0.4-0.7-0.9-2.4-1.7-2.6 0-3.6 1.7-2.6-1.2-0.9-2.3 0.3-1.4 1.1-0.7 2.5-0.6 3.8-1.7 2.2-0.7 2.8-1.9 1.2-2.3-0.3-2 0.5-1.4-0.9-1.7 0.3-1.5-3 0.3-2.7 1.2-0.7-1.1 2.8-1.8 1-1.4 2.6-1.7 3.6-1.3 1.9 0.1 3.7-0.7 2.7 1.3-0.8-2.1 1.2-0.4 0.1-2.4 1.6-2.2-1.2-0.6 0.1-2 1.5-0.8 0.7-2.6-1.7-0.5-2.1 0.6-1.7-1.5-2.8-3.6-0.3-1.4 1.6-3.1 2.3-2-1.9-0.8-1.4 0.2-2.7 1.2-2 1.3-2.1 0-0.8-0.9-1.1 0.1-2.5 1.1-3.5-1.3-1.1 2.3-2.6-2.5-0.3-1.9 1.3 0 1.2-2.4 2.9-4 0.6-1.2-0.5-1.4-1.9-1.5 0.3-2.6 0.8-1 1.5-0.4-1.9-1.2-2.9 0.9-1.8 0.9 0.3-2-0.6-0.4-1.5 1.4 0.1 3.3-2.1 5.7-1.1 0.9-1.4-0.5 1.1-3.9 1.4-2.5-0.6-0.3 0.3-3.6 1-2.9 1.7-3.8 2.2-3.5-4.1 2.7-1 0.5-2.4-0.4-0.8-0.7-1-2.3 1.8-0.2 1.7-1.1-1.5-0.7 1.5-0.9 1.7-2.1 0.4-1.9-1-1.5-1.6-0.6-0.2-0.9 1.7-1.9-0.7-1.5 1.6-3.1 3 0.1 1.9-0.4-2.3-2 0.7-2.9 3.7-0.3-0.8-1.8 0.3-2 1.6-0.9 1.3 0.2 1 0.9 2.6-0.9 0.6 0.8 2.8-0.6 3.7-0.3 4.5-0.6 2.2-0.4 2.3 0.2-0.6 1.7z m-0.6-4l-1.3 0.1-1.3-1.4 1.5-0.3 1.1 1.6z m1.3-3.4l2.7 0.6-0.6 1.4-1.4-0.7-2 0.3-1.9-1 0.4-2.1 1.7-0.1 1.2 0.5-0.1 1.1z m3.7-2.3l-1 0.3-0.4-1.2-1.7-0.6 0.4-0.8 2.7 2.3z m16.1-19.5l1.6 1.8 1 0.5-1.3 3.8-0.2 1.6-1 1.7-0.8-0.4 0.9-2.9-0.5-1.1-1.7 0.3-0.4-0.9 1.6-1.4-0.8-2-1.1-0.2 1.5-1.6 1.2 0.8z m2.9 0.4l-1.4-1.3 1.3-0.6 0.1 1.9z" id="GB" name="United Kingdom">
+ </path>
+ <path d="M972.9 547.7l-2.3 0.5 0.5 0.7-3.5 0.1-1.1 0.2-3.2-0.3-5.3 1.3-4.4 0.3-1.3-1.2-1.9-0.2-1.1-1.7-3.5-2.5-1.2-0.4-0.6-1.1-1.4-0.3-1.4 0.4-0.9 1.9-3.4-0.8-3.6-0.1-1.1 1-4.3-1.3 1.9-3 0.4-1.7-0.4-2.4-1.7-2.7-3.7-8-1.1-1.2-4-1.4-1.1-1.6-3.2-2.1-4.1-0.9-4.8-2.9-2.9-1.7 0.9-2.1 0.8-0.2 4.8 0.9 1.5-0.4 5.9 2.5 3.6 0.7 3.1 1.7 6 0.5 2.8-0.6 1.8 0 2 1.1 2.4-0.2 3.2 1.2 1.5 1.6 3.5 1.4 2.8 0.8 3.2 1.5 0.2 2.4 2.5 0.4 4.3-2.1 2.1-0.7 1.8 0.2 1.9 1.9 0.8-2.2 4.6 1.7 2.1 1.8 2.8-0.1 2.2 1-0.2 4.2 2.9 1.4 1.6 1.2 3.4 0.7 3.1 1.5-1.2 2.1-1.2 0.3 0 1.3 1.1 0.8 0.9 1.5 4.5 2.6 0.9 0.8-0.2 2-1.8 1.4-4.1-2-1.7 0.5-3.2-0.9-1.4-1 0.1-0.7-4-1.4-1.9-0.4-3 2.5z" id="GE" name="Georgia">
+ </path>
+ <path d="M712.9 637.7l2.3 0 1.7-1 2.2 3.7 1.7-0.1 3.5-0.9 3.7 0.2 1.4 1 2.6 0.2 2.3 0.5 3.3-0.7 0.4 0.4 0.1 2.8 1.2 0.2 0.7-0.7 1.7-0.6 1.8 0 1.6-0.8-0.4 3.5-0.9 0.4-4.4-0.1-8.1 1-5.3 0.4-0.7-0.2-0.7-2.2-3.3-1.1-6.2-1-1.5-0.4-3.1 0.2-1.1-1-0.4-1.8 0.2-1.9 1.4 0.3 0.4-1.4 1.9 1.1z m43.4 1.1l-1.6-2.1 1.1-0.5 1.2 2.4-0.7 0.2z m-54.7-11.4l-1.4 0.2-0.7-2.2 0.5-1 2.1 2.1-0.5 0.9z m62.7 4.1l-1.7-0.4 0.4-1.8-0.7-1.6 2.3-2.7 3.2-1.3 0.9 0.9-0.9 2.5-0.9 1.3 0.4 1-1.6 0.2-1.4 1.9z m-19-10.3l-1.5 1.2-0.9-0.6 1.9-1.2 0.5 0.6z m6.2-2.2l0-0.7 1.3-1.1 2.5-1 1.2 0.6-2.5 1.4-1.5 0.1-1 0.7z m-22.2-5.4l-0.9 1.3-1.3-0.7 0.4-1.2 1.1-0.6 0.7 1.2z m3.6 1.6l-1.1 0.6-1.4-2.2 1.9-2 0.9 0.7 0.1 1.8-0.4 1.1z m5.4-8.8l0.6-1.6 1.6-0.1 0 1.1-2.2 0.6z m-21.7-0.7l-1-0.4 0.4-1.2 1.1 0.5-0.5 1.1z m31.6-3.7l2.8 0.7-0.7 1-1.6 0.9-1.7-0.9-1.2-1.2 2.4-0.5z m-76.7 0.1l0.4 1.2-1.1 1-1.6-1.2-1.2-1.8 0.9-1.1 0.9 1.2 1.7 0.7z m53.1 0.7l-1.4-0.1-2.4-2.1 0.9-1.4 0.9 1.2 1.3 0.1 0.7 2.3z m-57.3-9.7l0.3 1.8 0.9 0.3 1.3 1.6-0.2 1.2-2.1-0.8-1 0.2-1.1-2-1.3 0.2 0.6-1.8 1.4 0.1 1.2-0.8z m70.8 2.5l-1.1 0.9-1.8-1.7 1.4-1.3-2.1-2.4-0.1-1 2.1-0.5 1.3 0.9 0.6 1.2 0.4 2.6-0.7 1.3z m-70.2-6.1l-1.3 0.1-0.4-0.9 0.8-2.4 1.1 0.3 0.2 2.5-0.4 0.4z m34.6-5.4l0.9 1.7 5.5 2.5 2.8 0.3 1.7 2.6-0.2 0.6 1.5 3.8 1.1 0.9 2.7 0.3 0.4 1.9-0.9 0.8-1.9-0.7-2.1-1.6-0.4-1.3-2.2-2.9-3.6-0.2-1.5-0.7-0.6-1.7-1.5-0.9-2-1.9-1.5-1.1-3-1.1-0.6-0.7 1.9-1.3 2.1-0.5 1.4 1.2z m37.9-5.8l-0.1 0.9 1.9 1.5 0.7 1-1.2 2.1-4-0.8-0.8-0.8 1.6-1.3-0.9-0.5-1.2 1.5-2.2-0.7-0.9-0.9 0.7-1.4 1.5 0.1 1.7-0.8 0-0.6 2.3-0.2 0.9 0.9z m-81.3-1.6l-1.3 0.3-1.2-0.8-1.2-1.9-2.2-2.2 0.7-1.1 1.6-0.4 1.4 1.2-1.1 1.2 0.8 0.7 0.9 2.4 1.6 0.6z m67.8-8.6l-0.7 1.4-0.1 1.3-3.8-0.7-0.3-2.3 2.2-0.1 0.8 0.8 1-0.9 0.9 0.5z m2.4-6.9l-1.4 0.4-1.7-1.3 1.4-0.5 1.7 1.4z m-11.9-3l-1.6 0.6-1.8-1.1 1.1-2.3 1.3 0.1 1 1.3 0 1.4z m15.9-1.7l-0.5-0.7-2.1-1.2-4.6-0.6-2.3-0.9-0.9 0.2-2-1-1.2 0.4-2.5 1.7-1.5-0.2-1.6-1-2.2 0.4-1.7 1.9-1.8 1-1.8-0.4-2.3 0-0.2 1.1 2 2.1-0.5 1 0.5 1 2.1 0.1 2.5 1.3-0.7 0.7-3.2-1.2-1.2-0.1-1.2 1.2 3.5 2.7 0.5 1.4-0.6 0.9-1.5-0.8-2.5-3.2-3.1-0.6-0.4 0.6 1.2 2.4 2.9 1.7-0.6 0.6-3-1-1.1-1.6-0.4-2-5.5-2.8-1.4-2.8-2.2 1.3 0.4 2-0.6 3.8 0.4 1.3 3.5 3.7 1.3 2.7 2.6 2.1 2.6 3.2 0.7 1.8-1.3 1.1-1.3-0.5 0.3-1.9-2.2-1.2-1.9 1.2 1.5 2.3 0.5 1.2-0.4 1.3-1.6 0.8-2.6 0.1 2.4 1.4 3.3 1 1.6 1.1 1.5 0.1 1.7 2.1 2.6 0.6 1.7 2.1 2 0.5 1.7 0.8 1 2.1 0.3 2.9 0.6 2.1 0.1 1.7-1.1 0.5-1.3-1.6-4.2-3.6-1-0.4-1 0.7-2.9 0.5-1.9 1.3 1.5 1.3 0.1 1.2 0.8 1.5 2 0.4 2 2.4-3 1-1.1 0.7-0.8-0.5-0.2-1.2-4.3-2.2-0.6 0.6 0.7 2.4 1.3 1.6 2.2 4.3 1.3 3.7-0.2 2.1 1 1.5 0.1 1.5-1.7-1.2-2.2-2.5-0.8-1.5-2.2 0.1-1.3 3.3 0.2 1.9-1.6-1.1-0.2-2.9-2.1-2.8-0.9-0.4-1.3-1.9-1.5 0.6-0.1 2.9-0.4 1-2.2-1.9-2.3-3.5-0.2-1.8 1.4-1.7-0.3-1.2-1.6-2.5-2.1-1.5-1.2-0.5-0.7-1.6-2-1.3 0-1 2-1.7 1-2.6 1.9 0.5 1.4-0.2 2-2.4 1.6 0.1 3.9 2.1 4.2 1.2 2.1 1 1.2 1.1 1.6 0.3-0.5-1.4 0.8-0.4 2.1 0 0.2-1.6-2-0.6-0.8 0.2-2.4-1.4-2.3-0.8-2.2-1.5-1.2 1.3-1.2 0-3.4-0.9-2.1 0.7-4.2 0.7-1.1-1.3-2.6 1-1-0.7-1.9-4.2-1.7-1.9-1.2-0.5-0.2-1.9 1.5-0.2 2.4 0.9 0.9-0.6-0.6-1.6-2.5-0.2-1.8 0.5-2.8-2.2-1.5-1.7-2.2-1.1-1.7-3.4-2.6-2.6 2.7 0.9 0.7-0.7 0.3-1.5 0.9-0.7-1-2.2 1.7-1.3 1.9-0.3 0.6-0.5 0.3-2 1.2-3.1 1.7-0.8 0.8-2.6-1.1-1.8 0-1.1 4.6-0.3 0.9-0.6 2.3 0.6 2.4-1.3 1.7-2.5 0.8-0.3 3-0.4 3.3 0.6 2.9-1 0.2-2.1 2-0.3 3 0.2 1-1 2.4-0.2 2.6 0.2 3-1.1 1.9-0.2 0.2-0.9 4.2 0.1 1.6-0.5 1.2 1.7 2.4 1.4 0.9-0.6 3.7 1.2 1.7 1.1 3.4-0.9 3.2-0.4 1.8 0.3 2.5-1.2 0.2-0.8-0.9-2.7-0.7-1 1.6-1.1 1.6 0.5 1.2 0.3 2.3 1.5 0.9 3.1-3.4 2.5 0.5 4.4-2.5 3.2-0.8 0.4z" id="GR" name="Greece">
+ </path>
+ <path d="M611.2 521.2l2.3 0.4-1.1 0.9-1.2-1.3z m12.9 1.5l1.6-0.1 0.6 0.9 6.2 3.8 1.7 0.7 1.2 1.9-4.8-3.1-4.4-2.5-3.1-0.7-4.3-2-0.5-0.9 5.8 2z m-6.3-3.5l-0.8 0.1-5.6-0.1-1.7-0.3-0.5-1.3 1.8 0.2 0.5 0.6 6.3 0.8z m-5.3-2.3l-2 0.1-2.6-0.8 0.3-1.1 4.8 0.6-0.5 1.2z m-21.2-16.5l-0.3 0.4-3.3-2.7-0.3-1.9 2.8 2.7 1.1 1.5z m-4.9-6.5l-1.9-0.2 0.8-1.1 1.1 1.3z m-4.2 1.5l-0.9-0.1-1.7-4.2 0.4-1.2-0.8-2 0.9-0.3 0.5 2.1 1 0.9-0.1 1.6 0.7 3.2z m3.7-4.9l-1.5 0.3-1-1-1.3-0.2-1-1 1-0.7 0.5-1.2 3.3 3.8z m49.5-14.7l-0.7 1.5 1.6 2.7 0.2 1.6 1.3 0.4-0.4 2 1.2 1 3 1 0.9 1.5-2.3 0.1-1.7 0.4 0.7 2.6-1 1.6-2.2-0.2-1.3-2.2-1.1-0.8-2.2-0.2-2.6-0.7-1.8 0.2-1.8-0.3-2.2 1-1.6-1.3-1.7 0.6-2.8-0.7-2.5-0.1-2.7-1.6-1.5 1.2-3.2-0.3-2.7 3.2-1.8-1-1.7-1.8-1.8-0.4-1.2 0.6-0.3 5 0.1 1.4 1.9 1.3 3.4 3.2 1.3 4 2.3 2.4 2.8 2.3 1.7 2 5 4.1 2.4 1.1 0.4 2.2 1.5 1.6 3 2.5-0.3 1.6-3.5-2.8-2.6-1.5-3.1-2.8-3.8-1.1-2.7-1.2-3.3 0.6-1.8-0.2-0.7-2.2-5.8-3.9-4.3-4-0.8-1.3 3.1-1.2-1.4-0.8-3.9-3.4-1.2-1.6-0.1-4.1-0.8-1.7-2.9-2.2-1.1-1.1-2.1-0.7-1.4 0.9-0.3 1.9-3 5-1.3 0-3.1-4.2-0.5-1.9-1.3-3.9 0.7-0.5 0.5 0.6 3.3 0.8 1.4-1.3 1.1 0.5 3.6-0.1 0.6-0.3 1.2-2.2 2.6 2.1 1.5 0.7 1.3-0.5 2 0.7 1.6 0.2 1.2-0.4-0.8-2.3 0.7-0.7-1-1.1 2.1-1 2.1-0.6 0.4-1.1-0.2-2.2-0.9-0.9 0.4-1.4 4.4-1.7 0.7-1 2 0 0-1.7 0.9-0.8 2.5 0.6 2.9 1.2 1.7 1.2 0.9 1.3 2.7 1.8 2.2 2.2 1.3 0.7 2.5 0.6 1.3 1.3 3.3 0.9 4.9 0.2 2.5-0.9 1.1-1.4 2.9-0.4z" id="HR" name="Croatia">
+ </path>
+ <path d="M671 437.8l1.5 0 1.4 2.3 2.2 0.8 0.9 1.1 2.3 0.4 0.9 0.7 0.7 1.7-2.2 2.3-4.6 1.1-1.9 2.4-1.2 1 0.1 1.7-1.4 1.4-0.7 2.5-1.4 1.5 0 1.2-1.6 2.7 0.2 1.3-2.1 1.5-1.5 4.7-1.3 0.9-2.6-0.3-2.5 2-1.4-0.5-3.2 0.9-1-0.5-2.8-0.3-1.1 0.2-2.9-0.4-1 0.3-1.5 1.6-2.2 1-1.6-0.5-2.1 1.3-2.9 0.4-1.1 1.4-2.5 0.9-4.9-0.2-3.3-0.9-1.3-1.3-2.5-0.6-1.3-0.7-2.2-2.2-2.7-1.8-0.9-1.3-1.7-1.2-2.9-1.2-1.9-2.2-1.4-3.3-2.4-0.1 1.8-1.7 2.5-0.5 0.3-1.8-1.1-1.6 0.5-0.7-0.4-1.5 2.2-1.2 0.5-1.4-0.5-1.1-2.6-0.7 1.3-1.4 2.5 0.9 3.9-0.3-0.7-2 0.6-1.9 0.6-0.7 2.1 0.3 4.2 2.7 1.6 0.7 4.7 0.1 7-0.4 0.6-1-0.5-1.3 0.4-1 1.4-0.7 4.3-0.4 2.4-0.6 1-1.5 0.7-0.2 3.5 1.4 5-2.5 1.6-3.5 1.8-0.4 2.7 0.1 2.5 0.6 4.6-0.7 1.4 0.9 2.2 2.2 0.6 0.2 4.3-1.1z" id="HU" name="Hungary">
+ </path>
+ <path d="M329.3 352l0.7 1.1-2.2 0.4 1.5 5.2 0.6 0.9 0 4.1 0.9 3.2 0.1 2.5-1.3 1.8-0.9 2.1-0.2 1.8-1.6 2.1-1.5 0.9 1.6 1.5-2.8 0.8-2.6-0.3-1.3 0.8-3.9 0.2-3.7 0.7-1.7 1.8-2.5 0.7-1 1-2.3 0.8-1.7-1.2-1 0.2 0.2 2.1-2.9 1.3-1.8 0.3-1 0.7-5.8 1.4-1.9-0.5-3.3 0.8-1.2-0.1 1.6-1.8 1.6-1.3-3.8 0.6-1.4 0.5-0.6-0.6 3.2-1.9-3.3 0.1-3-0.4-0.4-1 2.9-2.3 2.4-0.9-0.1-0.9-5.1 0.1 0.5-1.1 1.7-1 1.8-0.1 1.5 0.6 1.1-0.8-0.6-1.7 3.9-2.3 3-0.3 3.3-0.7 3.3-0.8-2.4-1.2-2.3 1.8-2.6 0.3-1.9-0.5-2.1 0 2.7-2 1.6-1.7-0.8-0.7 2-2.3 3.6-1-1.6-1.3-3.9 0.2-1.4-1.3-2.6 0.1 0.4-1.2-3.5-0.2 0.5-1-0.6-1.1 2.8-0.6-0.2-2 1.9-0.8 2-0.4 0.1-1.1-2-0.2-2 0.4 0.8-2.1-0.8-1-0.4-1.7-0.9-1 2.8-0.2 1.2-0.5 4.7 0.1 1.9 1.3 1.7-1.2 4.8 0.9 0.6-2.6 3.8-1.5 1.2-2-3.7 0.4-3.6-1 0.7-0.8 2.1-0.7 1.9-1.6-0.3-1.1 1.7-2.7 3.1-0.8 2.4 0 1.6-0.9 1.2 2-1 1 0.6 0.9 1.2-0.8-0.5-2.1 0.9-1.3 1.9-0.3 0.6-0.8 3.2 1.7-2.5 1.5-0.5 0.7-1.9 0.9-1 2.3-1.2 1.6-2.2 0.8-1.6-0.1-0.2 0.8 1 1.4-2.9 0.9-1 1.4 2.7 2 0.2 1 2.1 0.4 0.8 0.7 2.9 0.3 2.4-1.8-0.5-0.9 1.9-1.6 1.3 0.5 1.8 2.7 1.4 0.5-0.1 1.5 2.9 0 2.1-0.4z" id="IE" name="Ireland">
+ </path>
+ <path d="M240.3 177.9l1.2 0.1 2.8-0.8 2.2-1.1 0.5 1.1-2.5 2.4 2.2 0.9 2 0.3-0.1 1.7-1.7 1.6 0.8 0.3 3.5-0.5 1 2.3 1.5-0.2 2.4 0.3 1.4 1.2 1.2-0.3 0.5 0.9-0.7 1.2-1.5 0.6 2.1 2.9 0 1.1-1 0.7-1.3 0-1 2.1-1.2 1.1-2 1-2.6-0.5-1.1 1.5 0.2 1.4-1.3 1.3-5.3 2.1-2.5 0-2.6 0.5-6.2 2-4.7 2.8-2 0.7-3.1 0.3-1.8 0.5-5.9 0.8-2 0.5-1.2 1.1-0.5 1.4-4 1.1-3.8 0.7-6.4-0.5-5.4-1.3-4.5-0.3-3.8-2.5-2.9-1-3.6-1.8-2.3 1.1-12.4 0.3-0.8-0.5-0.2-2.1 1.1-0.8 1.3 1.2 5-1.1 2.7-1.9 2.5-2.7-3.5 1.2-0.2-1.9-0.9-1.1-1.7-0.8-0.3-0.8 1.1-0.9-2.3-1.2-2.6 0.1-6.6-0.5-3.8 1-2 0.1-0.9-1 0-1.1 1.5-0.3 1.8 0.1 4.1-0.6 1.4-0.6 0.8 0.5 3.6-1.1 1 0.2 4-0.2 4.4-0.1 1.1-0.8 0.4-1.1-2.8 0.9-3.7-0.5-0.6-0.9 3.6-1.6 2.7-0.8-0.8-1.3-3.2 0.2-0.7-0.8-2.6-0.4-1.8 0.3-0.9-0.5-2.4 0.6-5.2 0.9-3.3 0.9-3.1-1.1-2.4-0.2 1.4-1.4 2-0.1 1.7 0.8 0.1-3.2 1.2 0.3 2.8 1.1-0.7-2.8 2.2 0.1-2.2-1.6 0.5-1 1.6-0.3 0.8-1 2.4 0 2.3 1.1 0.2 1.4 2.1 0 1.1-0.8 0.9 0.6 0.5 1.2 1.2 0 0.4-2.2-3.6-1.1-0.3-1.4 3.7-0.1-1.7-1.1-3 0.2-1.4-0.4 2.6-1.2 3.4 0 1.4 0.2 2.3 1.7 2 0.6 3.1 2.3 2.2 0.9 0 1.2 0.7 0.8-2.3 3.4 0.9 0.7-0.8 1.6 1.9 0.6 1 1.7 0.9-1.8 1.5-1.9 2.3-1.3 0.9 0.1 0.9 1 0.9 0.1 1.4-2 0.7-4.3 1.7-0.9 1.8 0.7 1.3 1.6 2.6 2.1 1.8-0.5 0.1-2.3 1-1.3 2-0.3 2.2-0.8 2.3-0.2 1.7 1.4 1.2 1.4 1.7 1.1 0.7 1.8 0.9-0.3-0.2-1.7-1.4-2.6 0.3-0.9 4.1 0.2 3 2.3 1.3-0.3 3.6-2.8 2.3 0.8 1.8 0.1 2.8-0.8 0.8-1.2-0.9-2.3 0.6-0.4 2.6-0.6 2.7 0.1 2.6 2.1-0.1 1 1.6 0.8z" id="IS" name="Iceland">
+ </path>
+ <path d="M602.6 595.6l-1.2 2.5-2.8 4.3-1.5 5.1 0.3 2 1.6 1.4-0.7 0.5 1.6 1.8 0.1 1.3-1.8 1.9-0.4 1.7 0.1 1.5-2.9-0.6-1.4 0.3-3.7-1.4-1.9-2.8-3-2-3 0-1.4-0.5-2.9-1.9-3-1.4-2.6-2.1-1.7-0.4-1.5-1-2.9 0-2.3-1.6-1.3-2.3 1.3-3.7 1.4-0.8 0.9-1.2 2.3 2.3 1.8-0.8 1.4-1.6 2.4 0.1 0.5 0.9 1.4 0.3 2.5 1.6 1.4 0.4 3.4-1 3 0.4 2.8-0.5 1.7-0.6 1.2-1 1.4-0.3 3.5 0.3 2-1.2 0.8 0.2 2-1.2 1.1 1.1z m-78.3-41.5l0.7 0.9 1.8 5-0.6 1.6-1.3 2 0.8 2.8-0.6 11.5-0.6 2.9-0.9 0.4-2.9-1.2-1.5 0.3-1.2-0.6-0.3 3-1.8 2.1-3-0.2-0.7-0.6-2.4-3.8-0.4-4.3 0.6-1.3 0-2.5 1.1-0.1 0-1.7-1.8-1.2 0-1.9 0.7-1.4-0.1-2.6-0.8-0.9-0.8-2.3-2.2-2.4 0.1-3.4 3.4 0.6 1.3-0.3 3.1-1.5 2.1-2.5 1.4-0.5 1.5-1.8 0.7 0.9 2.2 0.8 1.2 1.5 0.9 0.5-0.7 1.4 1 0.8z m8.3-30.8l0.3 1.4-2.5 0.5-1.1-1.1 2.9-0.2 0.4-0.6z m37.9-56.6l-0.2 0.9-3.3 2.3 0.7 1.4 2.3 0.7-1.6 2.1 0.3 1 1.3 0.2-0.4 2 1.9 1.1 1.5 1.3 0.2 1.3-1.5 0.1 0.7-0.6-2-2.2-2 0.9-3.2-0.9-2.1 2-1.5 0.4-1.7 1.1-3.2 1.2-1.8-0.4-1 0.7-0.4 3.1 0.8 0.6 1.5 2.6 1.7 1.1-0.7 1.9-0.9 0.7-1.3-0.5-0.3 1.7 0.9 4.5 1.4 3.2 1.2 1.3 2.7 2.2 2.7 1.1 5.1 3.7 2.8 1.1 0.7 0.7 1.8 2.8 1.6 3.2 1.8 5.1 1.3 2.5 2.3 2.9 4.8 4.1 4.3 2.9 4 1.9 3 0.3 7-0.4 2.6 0.7 0.4 1.2-0.4 0.9-2.9 2.1 0 1.7 1.5 1.2 7.1 3.2 7.2 2.6 2.2 1.4 2.7 2.1 6.4 2.9 1.1 1.4 4 3 1.8 2.4 0.5 1.8-1.5 4.4-1.6-0.5-1.9-1.3-3.1-5.4-5-0.5-2.9-1.3-0.7-1.4-2.3-0.4-1.3 0.9-1.4 2-1.5 3-1.5 4.3 0 1.7 1.1 1.7 2.9 1 2.4 1.5 1.6 1.6 0.3 3.8 0.9 2.1-0.9 1.3-1.9-0.3-2.5 0.7-1.7 1.4-0.7 1.4 0.5 3.4-0.3 1.4-3.3 2.5-1.6 2.5-1 2.3-4.3 0-1.1-1.5-0.1-2.2 0.6-1.3 1.6-0.7 0.9-2.8-0.5-2 1.1-1.6 2.8-0.7 0-2.9-1.4-1.3-1.4-5.1-2.4-4.3-1.4-3.8-1.1-1.8-1.4-1-3.7-0.3-4.6-2.6-0.3-1.1 0.6-1.1-1.1-2.8-2-1.7-2.6 0.6-1.2-0.1-0.1-1.5-2-1.3-2.7-0.2-0.7-0.7-2.6-4-1.7-1.7-2.3 0.1-3.9-0.9-2 0.7-3.2-2.6-2.8-0.9-5.7-5.3-1.8-2-3.5-2.2-2.3-3.2-1.8-1.2-4-1.4-0.3-1.3-3.1-3.1-1.7-1-1.3-2.1-2.5-0.5 0.1-2.7-1.2-3.5-1.7-2.2-1.2-5.3-0.8-1.5-1.8-1.1-4-1.2-5.7-3.4-1.1-0.1-3.4-1.3-2.1-0.2-2.6 1.2-3.1 3.2-2.5 3.4-0.9 0.6-3.4 1.2-3 0.5-0.2-1.5 2.1-2.6-0.3-2-3.3 0.6-5.1-2.4-0.9-0.9-0.1-1.4-0.7-1.3 1.4-2.5 0.8-0.7-0.5-1.7-3.2-1.4-1.5-3.1 0.8-0.4 1.9 0.2 1.7-1.3 1.2-0.3 0.8-2.5-1.8-1.6-1.7-2.6-0.9-0.6-0.1-1.6 2.6-1.7 1.4 0.7 2.4-0.5 2.6-1 3.1 0.8 2.4-1.4 1.6-2.2-0.6-1.5 3.4-2.9 1 0.6 0.2 2.5 2.4 2 2.2 0.6-0.4 1.2 1.3 1.2 0.9 1.4 1.2-0.7-0.7-1.7 0.2-1 2.2-2.6 0.5-1.1 0-2.9 2-0.1 0.8 2.1 2 0.8 2.9-1.1 0.7 0.1 1.4 1.9 1.2-0.3-1.5-3.5 0.6-1.8 1.3-0.3 1 0.9 1.9 0.2-0.5-1.8 0.5-3.1 3 0.3 0.9 0.8 2.1 0.4 1.1-0.4 1.2-2.2 1.4-0.6 3.4-0.3 3.1 0.2 4.7-1.5 0 2.3 3.1 3.5 1.1 0.5 8.6 1.5 4 0.3 2.6 0.5z" id="IT" name="Italy">
+ </path>
+ <path d="M519.4 458.5l-1.2-0.1-0.1-1.7 0.5-1.5 1.1 2.5-0.3 0.8z" id="LI" name="Liechtenstein">
+ </path>
+ <path d="M707.9 328.5l0 1.8-0.7 3.1 3.9 1-1.3 1-0.4 1.1-3.6-0.1-1 2-0.8 0.6-2.6 0.6-1.1 3 0.4 2.3-1 1.5-0.5 2 1.9 0.5 0.9 1.1 0 1-2 0.2-1.7-2.3-1 0.7-2.1 0.5-1.4 1.2-2-0.2-0.8 2.6-1.8-0.1-3.3 1.3-1.6-0.9-3.7 0.3-1.6 0.3-2.9-0.4-0.8-3-1.1-0.9-4.5-2.2-2.3-0.7-0.6 0.6-1.3-2 0-2.1 1-3.1-1.3-1.3-1.4-0.6-0.9-1.3-5.7-0.1-2.4-0.6-3.9-1.4-2-1.2-1.8 0.2-0.6-1.2 0.2-1.6-1.1-2.4-1.6-2.9-0.7-3.8 2.8-1.7 3.6-1.9 4.7-1.4 5.9 0.5 4.3-0.1 1 0.9 1.6-0.7 4.9 0.5 2.3 0.1 3.7 0.9 4.6-0.4 1.7-1.3 2.3-0.2 2.4 2.9 6.1 1 0.9 0.4 5.4 3.1 2.6 2.1 1.5 0.7 2.3 0.5z" id="LT" name="Lithuania">
+ </path>
+ <path d="M475.4 411.7l0.3 2.2 1.5 1.6 2.8 1.1 0 1.4-0.9 0.9-0.6 3-1.3-0.7-2 0.6-1.4 0-2.1-1.2 1.1-1.7-2-2.4 0.2-1.7 1.4-2.5 1.3-1.3 1.7 0.7z" id="LU" name="Luxembourg">
+ </path>
+ <path d="M711.6 301.2l1.9 0.3 0.5 1.1 3.2 1.7 0.7 2.2-0.8 1.6-0.3 3.1 1.8-0.3 1 0.6 0.3 1.2 1.7 2.1 1.3 0.8 1.9 4.2-0.3 1.7-1.3 0.2-1.4 0.8-2.5 2.4-0.4 1.7-3.1-0.1-3-0.4-1.1 0.3-1.2 1.5-2.6 0.6-2.3-0.5-1.5-0.7-2.6-2.1-5.4-3.1-0.9-0.4-6.1-1-2.4-2.9-2.3 0.2-1.7 1.3-4.6 0.4-3.7-0.9-2.3-0.1-4.9-0.5-1.6 0.7-1-0.9-4.3 0.1-5.9-0.5-4.7 1.4-3.6 1.9-2.8 1.7-0.8-2.8-0.6-5.5 0.1-2.8 1.9-1.6 0.8-1.2 0.6-4.5 2.5-3.6 2.4-0.4 3.1-1 3.5-0.9 1.4 1.9 4.9 3 1.2 1 2.3 3.4 4.4 1.8 3.1-0.6 3.6-2.4 1-1.1 0-1.1-1.2-4.7-1.1-2 0.1-1.3 8.4-2.8 1.5 1 1.1-0.7 5.6 2.5 2.3 0.5 0.6 0.7 3.5 2.7 2.8 1.1 4-1.2 3.4 1 1.9 0.2z" id="LV" name="Latvia">
+ </path>
+ <path d="M751.4 483.2l-2-2.3 0.9-0.7-1.4-5-0.1-2.6 0.9-4.8-0.5-2.9-1.4-2.3-1.4-2.9-3-2.1-1.3-1.7-2.1-1.8-2.5-3.2-1.5-1.3-3-4.9-2.5-3-2.5-1.6-2.1 0 0.2-0.6 2.3-1.4 0.7 0.2 4 0.1 1.2-1 0.8 0.3 1.6-1 3.5 1 3.6 2.4 2.5 0.3 0.6 1.2 5.6 0.6 1.4 1.9 1.4 1 1.4-0.7 1.4 1.4 0.6 2.3-0.6 3.1 0.6 1.2 2.3 1.2 2.9 2 0 2.4 0.9 1.9 2 1.3 2.1 0.8 1 1.6 0.2 2.9 2.9 1.7-0.6 0.7-2.9 0.4-1.2-1.3-1.6 0.6-2.1-0.8-1.9-0.2-2.1-1-2.5 1.6 0.5 2.1 1 1.7-0.4 2-2.3 1.7 0 1.3-2.5 2.9 0.5 1.4-0.4 1-2 0.2-1.1 0.7z" id="MD" name="Moldova">
+ </path>
+ <path d="M683.8 531.8l3.3 3.2 3.4 1.8 1.7 3.3 0.9 1-0.5 1.7 0 4.2-2 0.3-0.2 2.1-2.9 1-3.3-0.6-3 0.4-0.8 0.3-1.7 2.5-2.4 1.3-2.3-0.6-0.9 0.6-4.6 0.3-1.3-1.1-1.6 0.2-1.3-2.4-1.2-1.1-1.2-2.2-0.2-1.9-0.7-2 0.8-0.8-0.3-2.1 0.5-2.6 1.7 0.3 0.5-0.8 0.2-2.6 3.4-1.5 1-0.1 1.6 1.2 1.5-1.9 2.1-0.4 2.2-0.3 2-0.9 1.9 0.3 2.3-0.8 1.4 0.7z" id="MK" name="Macedonia">
+ </path>
+ <path d="M642.4 512.9l0.4 1.2 2.6 1.7 1.9 2 3 1.6 2.1 0.5 5.3 2.9 0.1 1-1.6 0.4-0.2 0.7-2 0.4 0.9 1.5-0.2 1.3-3.4 1.2-0.8-2.1-1.1-0.3-3.2 5.3-0.8 0.3-2.5-0.2 1.6 1.9 1.7 0.8 0.3 0.6 0 3.1-2.1-1.2-0.9-1.8-3.1-2.9-3.5-2 0.1-1-1.6 0.1-1.2-1.9 1.1-1 0.1-0.8-1.1-1.6-0.6-3 0.5-0.7 1.7-0.2-0.1-1.5 0.5-1.7 2-1.7 2.3-0.2-1.4-2.2 3.2-0.5z" id="ME" name="Montenegro">
+ </path>
+ <path d="M458 260.9l0.1 1.7-1-0.1-0.7-1.1-0.2-2 0.7-0.5 1.1 2z m-1.8-11.1l-1.8 0 0.3-1.3 0.9-0.3 0.6 1.6z m32.5-31.9l-2.3-0.2-1-0.8 2.8-0.8 0.7 0.5-0.2 1.3z m3.6-4.6l-0.3-0.9 2.7-0.6 0.9 1-3.3 0.5z m28-16.6l-4.2 0.3-0.3-1.1 2.1-0.8 1.2 0 1.2 1.6z m6.8-10.5l-2 0.3 0.1-1.1 1.8-0.3 0.1 1.1z m4.1-5.7l-0.1-1.1 1-1.2 1 0.4-0.3 1.5-1.6 0.4z m3.1-24.9l-1.5 0.7 1.1-2.6 1.1-0.7 0.4 1.5-1.1 1.1z m8.5-5.2l2.3 0.2-0.5 0.8-1.4 0.3-1.1 0.8-1.9 0.2-1.9 1-1.6 0.3-0.4-1.2 0.9-1 1.3 0 1-1.2 3.3-0.2z m12.4-9l2.2 2.1-0.3 1.5-1.2 0.7-3.3 0.1-1.6-0.9-2.2 0.6-1.6-1.1 1.6-1.4 2.6 0.4 0.5-1.7 1.7 0.3 0.4-1.5 1.2 0.9z m6.3 5l1.3-1.1 1.5-0.4 0.6-2.2 1.8-0.5 1.6 1 0.9 1.2-0.2 1.1-3.1 1.2-2.5 2-1.6-0.2-0.7 0.7-2.4 0.6-1.7-0.9-0.9 0.9-1.4 0.4-1.2-0.4-2.9 1.5-2.8 0.3-1-1.1 3.1-1.9 5.1-0.6 2.9-2.3 0.4-2.5 0.6-0.9-1.3-0.6 0.2-1.7 2.4-1.7 1.3-1.4 1.5-0.3 0.9 1.1-1.1 1.4-1.6 1.2 1.1 1.5 0.6 2.4-1.4 2.2z m15.5-13.7l1.4 0.8 1.5-0.3 2.3 0.7 1 1.5-1.2 0.9 0.4 1.7-3.8 0.5-0.9-0.5-1.5 0.9-1.4 1.4-2.2-0.6 0.2-1.6-0.3-2.3 0.7-0.5 2.9 0.3-0.4-2 1.3-0.9z m124-2.6l-1.8 0.4 0.2-1.8 1.6 1.4z m-92.4-3.8l-1.3 0.4-1.8-0.3-0.7-1 2.2-1 1.7 0.3-0.1 1.6z m-15.1 0.3l1 0.7 1.5-0.5 1.1 1-1.4 0.8-0.8 1.2-2 0.1-2.9 2.3-0.1 0.8-5 0.5-1.5-0.3 1.7-2.7 1.7 0 1.7-0.8-0.3-0.8 2.5-2 0.6-1.7 1.4-1 0.8 2.4z m4.8-2l1.4 0.2 1.3 1.6-2.3 0-2-1.8 1.6 0z m37.3-4.3l0.5 1.1-3.3 2.1-1.6 0.1-2.1-1.2 0.1-0.8 1.9-0.9 0.9 0.1 2.7-1.4 0.9 0.9z m3.9-0.3l-1.8 0.5-1.7-0.9-0.2-1.6 0.8-0.3 3.2 1.2-0.3 1.1z m-6.4-3.2l-0.4 0.8-2.7 2.1-2.2 0.7-1.8-0.3-0.8 0.6-2 0-2-0.6-2-1.2 3.5-0.1 0.6-0.5 1.5 0 2.8-0.4 1.1 0.3 2.1-1.4 2.3 0z m60.6 23.5l-1.7-1.3 0-0.7 3.2-2.9 0.7-1-2.6-2.7-3.6-0.8-4.2-1.1-4.2-2-1.8-1.2-2.9 0.3-3.5 1.6-0.9 0.2-3.8-0.4-2.1 0.2-1.7 1.8-2.6 1.7-0.7 3.8-0.6 1.7 0.7 3.2-1.5 1.4-2.1 0.3-1.6 1.3-0.5 1.7-1.3 0.6-2.6-0.8-3.9-0.8-3.6-1.1-1.5-0.1-1.2 1.2-3.7 0.9-1.8 0.1-0.8-0.5-6.9-0.6-1.4-1.8-7.9-5.5-3.6 0-1.9 1.1 1 1.4-0.5 0.6-1.9-0.4-2.1 0-0.5 0.4-5.1 0.2 2.6 1.6 0.1 2-1.4 1.9-1.6 0.9 2.9 0.9-2.5 1.6-1-0.1-8.6-1.7-2.9-0.1-4.1-0.9-2.1 0.5 0 0.8 0.8 3.6-2.1 3.1-6.3-1.8-1.5 0.9-3.7 1.9-1.5 3.5-1.1 1.1-2.7 0.6-0.5 1.1 2.7 2.3 1 1.3-0.2 1.4-1.5 1-3.3 2.9-3 2.9-1.3 0.9 1 2.5-3.3 1.5-2.4 0.5-3.8 0.4 1.4 3.9-0.6 2.7-0.1 4.7-3.3 5-4.4 5 4.7 1.6 1.1 2.9 0.1 1.2-1.7 2.2-7.1-0.9-3.3 0.4-3.3 1.5-3.5 3.8-1.2 1 0.5 1.5-2 2.8 2.7 4.1-1.1 1.1 0.6 2.8-0.1 1.8 2.5 4.4 0 1.6-0.9 6.4 3.8 2.1 1.2 0.4 3.4 2.7-0.4 1.9-1.3 2.5-2.4 0-1.8 0.6 0.3 1.6 3.1 4.9 0.5 1.4-0.6 2.1-0.1 2.8-1.9 2-1.3 0.8-2.6 0.7-0.9 2.4-1.5 1.5 1.6 4.4-0.6 3.9-0.7 1.4-1.9 0.2-1-1.8-0.4-1-6-1.2-2.3-2.9-0.4-3.1-2.5 1.2 0.6 1.1 0 2.3-2.5 3.9-1.1-0.2-1.3 0.8-1.3 0.2-0.6-1-1.1 0.2-0.8 1-3.4 1.3 1 0.7-1.7 1-0.6 0.9-2.7 1.5-4.3 3.9-2.3 1.1-1.6 1.2-1.4 0-1.8 0.9-4.6 0.9-3.1-0.4-2.1 0.4-1.1-0.7 0-1.1-1.2-0.1-0.8 1.2-1.6-0.4 0.7-2.4-3.1-0.1-3.8-1.6-0.9-0.8-3.1-1.3-1.4-1.4-0.8-1.6 0.3-3.6 0.6-0.5 2.7 0.8 2.8 1.3-0.1-1.2-2.4-1.6 0.8-1.8-0.2-1.6 2.6-2.1-0.4-0.7-3.4 2-3.1 0.9-1.1 1.2-1.1 0.6-2.1 0-0.5-0.9 0.5-3.3 1.2-2.7 1.8-1 3.4 0.7 1-1 1.3-0.2 2.4-1.2-4.1 0.5-1.2-1 2.8-2.4 1.2-1.4 0.3-1.5 2.2-1.7 1.8-0.8 1.6 0.6 1.5-1.9-5 1.1-2 1.1-2.7 2.8-0.2 1.1-2 0.9-1.5 1.5-0.6 1.2-2.8 1.9-1.4 0.3 0-2.4 1.1-2-0.3-1.6 3.2 0.2 1.8-1.2-2.7 0-1.4-0.7-1.2-1.5-0.6-1.9 1.1-1.8-2.2-2-0.5-2.2-0.1-2.5 0.9-0.5 2.1 0.4 2.4-0.2 5.2-0.9 3.4 0.6 1.4-0.1 2-0.7 1.9-0.1 2.2 1.2 0.7-0.5 5.4-1.2-3-1.5 0.1 1.4-3.6 0.3-3.2-0.6-1.3-0.6-0.5 1.3-1.1 0.3-3.4-0.5-4.7 0.3-2.1 0.7-1.4-0.1-2.5-1.2-0.9-0.9-0.3-2.6 2.8-0.3-1.9-2.3-1.9-1.3-0.2-1.4 0.7-1.3 1.5 0.2 3.8-0.1 6 1.5 4.9-0.3-0.8-0.6-2.9 0-7.2-1.3-2.2 0.1-1.2-0.3-0.7-1 0.4-1.9 1.1-0.4 1.2 0.6 1.9-2.3 1.9-1 2-0.5 2 1 1.3-0.1 4-0.8-1.3-0.5-3.5 0.5-0.2-0.5 2.4-2.3 4.2-0.4 5.9 0.5 2.3 0.8 0.4-1.8 5.3-1.4-6.8 0.8-1.8-0.5-4.9 0.7-0.1-1.3 2.3-2.3 4.1-0.9 1.9-1.1 3.1-0.2 2.6 0.3 1.2 1.3 4.4 1.7-5.1-4 1.1-1.7 3.3-0.4 0-1.6-2.2-0.3 0-1.2 1.9-0.9 2.8-0.7 3.2 0.8-0.6 1.3 0.9 0.5 1.7-1.5 3.9-0.8 2.8 2.1 0.5 1.1 1.1-0.5 2.7-0.5 2.7 0.3 1.8-0.2-1-1.3 0.4-1 2.4-1 1.7-0.3 2.6-1.2-0.8-1-1.4-0.3 2.9-1.5-1.7-0.6-2.4 0.9-1.6 0.9 1.5 1-1.1 1.1-6.1 2.8-3 0.8-1.4-0.1-1.9-2.5-2.1-0.1 1.3-2.2 1.6-0.8 1.4-2.3 2.3-1.3 3.2-3.3 2.8-1.1 0.9-1.1 3-1.5 3-0.9 0.3-1-2.7 0.9 0.4-2.1 1.4-1 6.8-2.8 1.6 1.3 2.1-0.2 2.3-1.6-0.3-0.7-2.1 1-1.5 0-0.4-0.6-2.1-0.5-0.3-1.2 1.3-2.8 3.4-3.3 0.5-1.3 1.3-0.7 1.7 0.2-0.2-1.1-2.1-1.1 6.2-1.1 3 0 2.4-0.9 0.5-1-6.4 1.1-2.4 0.1-0.8-2.7 0.2-1.5 1.9-2.2 1.4-0.2 1.7-1.1 0.1-1.5 2.3-0.8 2.1-2.1 2.3-0.5 1.4 0.2 3-0.7 6.6-0.1 0.1-0.6-6.3-0.3-3.5 0.2-0.4-0.6 2.8-2.7 2-1 1.7 0.2 1.8 1 0.6-0.8-1.6-1.5 0.7-1.5-2.6 1.1-1.8 0.3-0.9-2 2.3-2 2.3 0 0.3-1.5 3.3-1.3 1.9-0.2 1.5-0.6 0.6 0.4 0.9 2.3 1.5 0.3 1-0.8-1.3-1.1-1.1-1.8 2-1.5 2.3-0.2 2.6 0.7 2.3-0.2 0.9-1.2-6.3-0.1-0.8-0.9 1.2-1.2 2.2-0.8 2.5-0.1 2.4-1.4 0.9-1.1 0.3-1.6 1.4-1.3 3.9-0.8-0.6-2.2 0.8-1.4 1-0.6 2.1 1.5 1.8 0.5-0.5-1.4 0.3-1.2 2.1 0 1-0.5 0.3-1.3 1.4-1.2 4.7-0.7 0.5 2.5 0.7 1.4 0.8-2.8 1.6-2.1 2.4-0.9 0.9 1.1-0.4 4.3-1.9 2.4 1.5-0.2 2.5-2.3 0.6-1.2-0.7-2.8 0.6-0.8 3.5-0.1 1.9 0.4 0.7-1.5 1.7-0.1 1.8 0.9 4.1 1.4-1.3-2.2-1-0.8-2.1-0.5-2.2-1 1.2-1 2.4 0.3 2-0.8 2.2-0.2 1.1 0.6 0.8-1 2.5-0.5 2.8 0.9 1.6 2.7 2.4 1.4-0.1-1.4 0.6-1.9 2.3-2 2.1-1 1.4-0.1 2.9-3.4-1.6-1 3.3-2.3 1.1-0.1 5.4 2.1 1.5-0.9 3.4 0.8-0.8 1-3.1 2.9-0.5 0.8-0.1 2.2-1.2 1.4 0.8 1.4 1.6-0.4 1.8-1.3 0.1-1.3 4.3-3.7 1.9-2.1 2.3-1.7 1.5-0.3 0.9 1.1-0.2 1.5 0.2 4.3 3.7-1.4 1.1-3 1.1-0.7-0.8-1.4 0.4-1.1 2.3-1.3 2.2 0.4 3.3 0.3 2.7 0.8 0.2 1.4-0.8 0.9-2.9 1.1 0.7 0.7 2-0.6 0.9 5.5 0.9-2.1 1-0.7 0.1-1.5 0.8-1.9 1.8-1.3 2.7 0 3.3 1.7 2.5 0.3 1.8 0.8 2.4-0.7 2 1 0.1 1 3.8 0.3 3.8 1.6 0.6 1.6-4.4 1-1.8 1-3.3 0.4-11.5-0.7 0.4 0.7 8.3 1.5 0.6 0.5 0.4 2.1 1.8 0.7 3.5-0.2 0-1.3 3.2 0.6 3.8 0.2 1.1 1.7-0.3 1.5-2.4 0.1-4.2-1.4-0.4 2.3-1.1 0.9-5.8 1.3-1.1 2.6-2.2 1z m-40.5-27.7l3.7 0.5 2.2 1.4-3.6 0.5-1.7-0.1-2-1.8 1.4-0.5z m-339.6 3.9l-0.1-1 4.5-1.5 1.9-1.4 3.4-0.5-0.2 1.8-3 0.8-3.3 0.5-3.2 1.3z m269.2-45l-1 0.5-1.9-0.8-0.8-1.2 3-0.1 0.7 1.6z m9.6-50.1l3.9 0.2 2 1.9 1.4 2 1.3 0.2 4.7-0.4 3.4 0.7-1.4 1.1 0 1.2 5.5 1.3 1.8 0.1 3-0.4 6.5 1.7-6.6 1.1-2 1.9-3.7 1.3-2.6 0-2.3 1.3-2.2 0.1-1.5-1.9 2.2-1.3-3.1-0.4-1.2 0.5-10.5 1-1.1-0.2-0.9-1.2 2.8-0.6 0.2-1.1 2.5-2.4-5.5-1.6-2-1.2-0.8-1-2.5-0.9 0-1-1.7 0.1-0.4-1.2 10.8-0.9z m46.2-0.6l-1.3 0-2.6-0.8 0.7-1 3.2 1.8z m-137.6 0.4l3.5 1.5 1.9 0.5 2.3 1.5-0.7 0.9-2-1.2-3.6-1.3-2.3-0.2-3.3-2.5-1.5-0.8-0.8-1.7 3.6 0.7 1.6 1-0.3 0.8 1.6 0.8z m155.6-3.4l2.7 0.1-0.1 0.6-7.3-0.4-3.8 0.7 0.4-0.9 2.4-0.6 3.7-0.1 2 0.6z m-109.9-10.8l1.4-0.6 5.4 0.8 2.5 0.9 1.3 1-1.9 1.9 1.7 1 3.2-1.7 2.7 0.3 1.7 0.9 1 1.1-0.2 1.4 3.1 1.1 3.4-0.2 2.4 0.3 1.5 1 1.9-0.2 0.2-0.8 2.6 0.2 3 0.8-2.1 0.9 2.1 0.8 3.4 0.6 2.1 0.6-1.5 1.4-3.2 0-2.9 0.3-5.4 0.3-3 1.6-2.5 1.8-0.4 1.6 0.6 1.1-1.5 0.5-3.3 0.2 0.2 3.9-0.8 1.9-3.3 0.3-1.8 1.1-1.2 2.1-2.1 2 1 1-2.1 1.9 1.2 1.8-1 0.6-2.1 0.3-2.2-0.3-2.3-1.1-6.7-2.2-4.3-2.4-6-1.3-3.3-1.6-1.5-1.3 0.3-1.4 2.8-0.2 2.9 0.7 1.7-1.9 11.3-1.1 7.3-0.2-1.9-1.3-6.9 0.7-4.3-0.2-2.1 0.1-2.1 0.6-4.3 0.5-4.6-0.1-2.9-1-1.3-2 1.2-0.6 3.8 0.1 6.4-0.9 3-0.8 3.1-0.1-0.5-0.8 1.8-0.4 2.4-0.2 5.6 0.1 0.2-0.6-2.6-0.6-0.9-0.6 2.6-1.8-2.2 0.1-3 1.3-1.8 0.5-4.6 0.3-1.7-1.6 0.9-1.2-0.8-0.7-1.3 1.3-2.1 0.3-2-0.9-1.9 0.5 0.7 1-0.6 1 2 0.9-2.3 0.6-2.1 1.1-3.9 0.2-4.5 0.1-4.6-1.6-2.2-1.2-1.8-1.2-2.7-0.6-1.7-0.8-0.4-1.1-1.4-0.7-0.7-1.2 4.4 0-1.7-1.8 0.5-1.6-3.4 0.1 0.4 0.9-2.2 1-1.2-0.2-2.3-1.9-2.4-2.4 0.4-1.3-1.2-1 1.5-0.7 2.5 0.9 0.8-0.7 3.8-0.4 4.6 1.1 0.4-1.1 4.2 0.5 3-0.6 5-0.3 2 0.4-1 1.1-6.3 0.3-4 1.3 5.7-0.2 1 0.1 0.6 1.1 3 0.5 2.3 1 0.8-0.5-0.6-2.2 4.4-2.3 2.1 0.4 2.1 0.9 4 3 2.3 1.9 6.1 2.8-0.7-1.5-4.2-4.5-0.9-1.7 0.9-1.7 1.1-0.5-0.4-1.3 1.3-0.5 2.4 0.3 2.6 1.3z m134.7-2.3l-8 0.4-0.9-0.3 15.7-1.4 1.7 0.5-8.5 0.8z m-118.9-1.9l-1.8 0.6-3.2-0.5 0.9-0.7 4.1 0.6z m18.6 0.5l5.6 0.1 1.5 0.9 5.5 1.1 0.8-1.5-0.6-2.2 1.9-0.1 1.7-0.6 3.1 0.3 0.2 1.3-0.5 1.4 2.1 0.1 2.8-0.3 1.9-1.1 2.4 0.1 1.3-0.6 1.4 0.6 8.2 0.7 3.3 0.6 5.2 0 3.7 0.2 2.8 1 1.1 1.7-0.9 0.4-6.7 2-1.6 0.7-2.4 2.3-4.1 0.7-3.5-0.3-3 0.7-1.9 1-1.5 0.2-9.2-0.4-2.2-1.1 1.2-0.9-8.2 0.3-9.2-0.1-1-0.5-5.6-0.5-4.2-1.1 1.1-0.5 5.8 0-0.7-1.5-2.9-0.1-1.8 0.4-4.3 0.2-4-0.1-1.9-0.3-3.8-1-0.7-0.8 2.8-0.4 2.1-0.7-4.5-0.3-1.9-0.3-0.6-0.9 5.9-0.2 5 0.8-0.7-2.2 3.9 1.1 0.2-1.1-2-1.4 2-0.1 4.5 0.7 5.1 1.6z" id="NO" name="Norway">
+ </path>
+ <path d="M666.8 348l0.6-0.6 2.3 0.7 4.5 2.2 1.1 0.9 0.8 3 2.1 5.1 2.9 4.9 1.7 3.6 0.9 3.9-0.6 1.6-4 1.7-0.8 0.5-2 2.7 0 1.2 3.3 1.3 1.8 1 0.8 1-0.2 2.4 0.4 1.1-0.8 1.5 0.1 1.3 1 1.6 1.2 1.8 0 1.3 2.7 2.8 1.9 2.8 1.4 1-1.2 1.3 1.8 2.6 0.1 1.3-1.2 1.8-3 0.5-4.8 4.6-2.4 2.7-3.4 4.4-0.6 1 1.5 3.8-0.1 1.8 1.9 1.4-0.4 0.9-3.3-0.7-0.9-0.2-5.7-1.9-0.8-1.4-1-0.7-3.1-1-3.6-0.3-3.2 0.2-1.4 1.5-1.8-0.1-2.4-1-3 0.1-2.3 1-1.1 2.1-1.7-0.6-1.4 0.4-0.6-2.7-1.4-0.4-3-3-2.2 1.3-1 1.7-2.2 0-0.5-1.5-1.3-0.2-0.5-1.6-2.8-2.2-0.5-1.8-2.7-0.8-0.5 0.2-3.5-1.8-1.8 1-1-0.6-2.7-2.3 1.4-0.5 0-1.6-3.6 0.7-3.3-1.9-2.2-0.6-1.3 0 1.7 2.4-3.5 2.5-1-0.4-1.5-1.9-2-1.8-1.6-0.9 1.6-1.2 0.7-1.1-1.8-1.2-3.2 0.7-0.8-0.9-2.7-1.1-4.6-1.1-1-1.1-0.3-1.1-3.3-0.8 0.1 1.9-2.1 0.4 1.6-3.6 0.4-2.3-1.6-3.2-2.2-0.9 0-1.6-1.9-3.1 0.8-1.1 0.7-2.6-0.8-1.9-2-2.3 0.6-2.6-1.4-1.7-3.3-2.1-1.6-1.4 0.7-1.6 1.9-1.8 0.3-2.7-1.8-4.1-0.7-2.6 2.8 0.9 0.7-0.5-0.1-1.8-4.1-0.7-0.1-1.2 2 0.4 3.8-1.4 6.5-1.8 6.9-1.7 3.3-0.5 2-2.2 1.9-1.7 3.8-0.7 1.3-0.8 2.8-1.2 6.6-1.2 5.5-0.4 5.4 2.3-0.9 0.3-3-1.2 2.2 3.5 1.1 1.2 2 0.9 1.7 0.3 4.9-0.5 2.2-1.1 0.5 0.1 6.6 0.4 22.9 0.9 7 0.1z" id="PL" name="Poland">
+ </path>
+ <path d="M306 611.9l-1.2 0.2-4.5 2.5-1.3 0-2.5-1.1-4.5-0.4-1.5-0.3-1.8 0.7-1.5 0-1.1 1-0.8-0.3 1-2.1 1.6-4.1 0-2.6 0.4-2.2-0.3-2.1-0.7-1.4 1.1-3.5 0-1.8-0.9-2.3 2.8 0.3-1.7-1.4-1.5 0-2.3 0.9-1.5 0.1 0.1-1.4-0.5-1.8 2-0.6 1.6-1.7-0.3-1.6-1.2 1.1-0.6 1.4-2.8 0.7-1.5-0.5 0-1.9 0.6-1.7 0.4-2.3 0.8-2.2-0.2-1.4 1.6-1.3 1.4-1.9 4.3-8.9-0.6-1 1.7-6.6 1.2-2.3 0.6-4.3-0.2-2-0.7-2-0.7-4.3 0-1.4-0.9-1.8 0.1-1 1.4-1.7 1.2-1.1 1.9-0.9 4.1-1 1 1.8-1.3 1.9 0.9 1.3 3-1.1 2.9-0.1 2.2 0.8 1.4 0 2.5-0.9 0.8-1.4 1.5 0.5 5.2 0.1 0.7 1.1 0.1 3.1 1.9 0.2 1.9 0.9 0.3 1.1-2.5 2.5-2.1 1.1-1.6 1.4-1.1 1.6-2 1.6 0.8 2 0.4 3.5-0.4 3.8 0.4 1.1-2.7 2.1-0.2 1 1.4 1.3 0 1.9-1.7 3.5-1 0.5-4.3 0-1.1 0.3 1.1 1.9 1.4 1.2 0.3 1.9 1.6 3.2 1.7 0.4 0.5 0.8-0.6 2.4-3.2 3-0.9 4 3 4.3 1.7-0.2-0.7 2.4-2.1 0.6-3.5 4.3-0.8 2.2 1.1 6.4z" id="PT" name="Portugal">
+ </path>
+ <path d="M751.4 483.2l1.5 1.6 1.8 0.9 4 0.9 0.6-1.2 0.9 0.3 1.6-0.5 2.2-1.3 2.2-0.2 2.2 0.7 1.9 1.8-0.2 4.3-0.7 2.1-6.2 1.3 0.4-0.6-0.7-2-1-1-0.9 1.1 0.6 1.7-0.7 1.4-0.2 2.4 0.6 0.9-1.6 2-0.5 1.3 0.8 4.8-0.4 3.7-2 0-2.6-0.5-2.2-0.7-2.5-2.6-1.7 0.5-0.9-0.6-3.2-0.4-4.5-2.3-2.9 0.4-4.4 0.9-3.2 1.2-3.3 2.1-1.2 1.6-1.6 0.9-2.3 0.6-4.2-0.2-9.4-1.7-2.5 0.5-3.5-0.4-5.3-1-3.9-0.3-3.7 0.6-0.9-1.8 1.8-2-4.3-2.5-0.8-1.2-1.6-0.9-0.5-1.7 2.5-1.8-3-1.6-1.7 0.5-1.7 1.8-1.3 0.2-1-1.2-1.5-0.7-3.5-0.7-1.5-1.2-2.1-0.6 0.2-0.6 1.8-0.8-2.3-1.1 1.5-2-0.9-1.1-2.6-0.8-3.8-1.9-2.2-1.8-0.4-4.1-0.8 0.2-1.8-2-2.9-1.7-1.7-2 3.2-0.9 1.4 0.5 2.5-2 2.6 0.3 1.3-0.9 1.5-4.7 2.1-1.5-0.2-1.3 1.6-2.7 0-1.2 1.4-1.5 0.7-2.5 1.4-1.4-0.1-1.7 1.2-1 1.9-2.4 4.6-1.1 2.2-2.3 2.1-0.9 0.9-1.2 0.7 0 2.7 1.5 2.7-0.1 6.9 1.4 3.6-0.7 1.2 0.3 4.3 3.3 2.1-0.5 1-1.2 3.4-1.3 8.4-1.2 1.1-1.9 0.2-1.4 3.7-0.8 2.1 0 2.5 1.6 2.5 3 3 4.9 1.5 1.3 2.5 3.2 2.1 1.8 1.3 1.7 3 2.1 1.4 2.9 1.4 2.3 0.5 2.9-0.9 4.8 0.1 2.6 1.4 5-0.9 0.7 2 2.3z" id="RO" name="Romania">
+ </path>
+ <path d="M651.6 473.1l1.7 2 2.9 1.7 1.8 2 0.8-0.2 0.4 4.1 2.2 1.8 3.8 1.9 2.6 0.8 0.9 1.1-1.5 2 2.3 1.1-1.8 0.8-0.2 0.6 2.1 0.6 1.5 1.2 3.5 0.7 1.5 0.7 1 1.2 1.3-0.2 1.7-1.8 1.7-0.5 3 1.6-2.5 1.8 0.5 1.7 1.6 0.9 0.8 1.2-0.9 0.7-0.2 1.9-2.1 1-0.4 2.3 0.6 2.4 2.4 3.9 2.9 1.5 1.3 1.6 1.6 1-0.3 1.4-1.6 1.7-1.1 1.6-1.8 0.1-1.1 0.6 0 3.3 1.4 2.9-1.1 1.7-1 0.3-1.4-0.7-2.3 0.8-1.9-0.3-2 0.9-2.2 0.3-0.6-1.3 1-0.9 1.2-3.2 0.2-1.2-4.7-1.2 0-1.3-2.2-1.2-0.2-0.7-2.3-2.1-2.8-1.3-1.1-1.3-1.7 0.9 0.6 1.6-0.4 1-1.7 1.3 0 1.4-1.5 0.5-0.1-1-5.3-2.9-2.1-0.5-3-1.6-1.9-2-2.6-1.7-0.4-1.2 0.7-0.8 2.5 0.3 0.2-2.2-3.2-3.7 0.5-0.8 3.1 0.1 0.3-0.8-3.3-2.9-2.4-1.2-0.5-0.8 0.1-2.6 1.6-2.7 0.5-2.5-1.5-0.8-2.8 0.7 1-1.6-0.7-2.6 1.7-0.4 2.3-0.1-0.9-1.5-3-1-1.2-1 0.4-2-1.3-0.4-0.2-1.6-1.6-2.7 0.7-1.5 2.1-1.3 1.6 0.5 2.2-1 1.5-1.6 1-0.3 2.9 0.4 1.1-0.2 2.8 0.3 1 0.5z" id="RS" name="Serbia">
+ </path>
+ <path d="M674.8 427.7l-1.5 3-0.8 2.9-1.6 1.7 0.1 2.5-4.3 1.1-0.6-0.2-2.2-2.2-1.4-0.9-4.6 0.7-2.5-0.6-2.7-0.1-1.8 0.4-1.6 3.5-5 2.5-3.5-1.4-0.7 0.2-1 1.5-2.4 0.6-4.3 0.4-1.4 0.7-0.4 1 0.5 1.3-0.6 1-7 0.4-4.7-0.1-1.6-0.7-4.2-2.7-2.1-0.3-2.3-2.9-1.6-2.9-0.1-0.8 0.9-2.4 1.1-2.8 1.4-1.2 3.6 0.5 1.7-0.2 1.5-0.7 2.1-1.9 1.6-0.8 0.7-3 2.3-1.2 0.6-0.8 2-1.5 2.8-0.3 1.3 0.2 0.5 1.5 2.2 0 1-1.7 2.2-1.3 3 3 1.4 0.4 0.6 2.7 1.4-0.4 1.7 0.6 1.1-2.1 2.3-1 3-0.1 2.4 1 1.8 0.1 1.4-1.5 3.2-0.2 3.6 0.3 3.1 1 1 0.7 0.8 1.4 5.7 1.9 0.9 0.2z" id="SK" name="Slovakia">
+ </path>
+ <path d="M605.2 467.1l-2.5-0.6-0.9 0.8 0 1.7-2 0-0.7 1-4.4 1.7-0.4 1.4 0.9 0.9 0.2 2.2-0.4 1.1-2.1 0.6-2.1 1 1 1.1-0.7 0.7 0.8 2.3-1.2 0.4-1.6-0.2-2-0.7-1.3 0.5-1.5-0.7-2.6-2.1-1.2 2.2-0.6 0.3-3.6 0.1-1.1-0.5-1.4 1.3-3.3-0.8-0.5-0.6 1.7-1.1 1.5-0.1-0.2-1.3-1.5-1.3-1.9-1.1 0.4-2-1.3-0.2-0.3-1 1.6-2.1-2.3-0.7-0.7-1.4 3.3-2.3 0.2-0.9 5 0.9 5 0.7 3-1.2 1-1.3 1.9-0.7 2.6-0.2 2.8 0.2 2.3-1.1 1.6-0.2 2.4 0.5 0.1-1.9 1.3-0.9 2.4 0.1 1.4 3.3 1.9 2.2z" id="SI" name="Slovenia">
+ </path>
+ <path d="M591.1 319.4l-1.5-0.3-0.3-3.8 2-4.6 1-0.3 2.7-6.5 0.5 2-1.5 3.2-0.3 2.2-0.6 0.5-2 7.6z m26.2-22.7l-1.3 1.4-1.4 0.5 0.1 3.3 1.5 1.2-1.3 0.5-0.7 1.8-1.8 0.6-1.5 1.6-0.3 1.6-2.1 0.9 1.2-2.4-0.9-0.7-1.4-2.1 0.4-0.9-0.6-3.2 2.7-2.9 1.3-1.1 3.3-1 1.3 0 1.5 0.9z m36.8-113l-2.7 0.3-2.2-0.6-1 0.3-3.8 0.3-1.1 0.7-2.1-0.7-2-1.2-2 1.1-1.6-1-1 1.9 0.1 1.8-1.8-0.2 0.3 1.1-2 1.5-3.2 0.2 0.7 1.5-0.9 0.7 1 1.7-1.3 1.5-2.1 1.9-0.5 1 1.7 1.1 1.6 2.5 1.6 1.1-0.4 1.2-2.1 1.1-2.2 1.7-2 4.3-3.1 1.3-2.4 1.6-3 0.7-2.4 2.2-1.8-0.8-1.5 0.5-1 1.8-1.9 1.5-2.4-0.2 0.2 0.8-2.3 0.3-1 4-2.2 0.6-0.7 0.8-0.9-0.6-2.1 0.1 1.6 2.8-1.7 1.8-1.2 0-1.5 0.7-1.9-0.8-0.2 1.2 0.8 1.3 1.3 1-0.1 1.3-0.9 4.3 0.7 1.8-2.1 1.2-0.8 1.1 0.6 1.7-0.1 1.1 0.7 1.9 0.8 4.2 1.1 2-0.1 1.6 1.3 0.9 2.1-0.1 1.4 1.6 3.1-0.8 0.8 1.1 2.9 2.2 1.7 0.3 1.9 1.2 0 1.5 2.9 1 1.9 2 0.8 1.6-0.1 1-2.6 1.5-1.3 1.3-3.8 2.1-0.6-0.1-2.1 1 2 0.6 1.4-0.7 2.6-0.6 1.4 1.2-2.2 0.5-0.3 1.6-0.8 1-2 0.7-2.8 1.5-4 1.4-1.1 1.2-2.6 1-1.3 0.8-3.8 0-3.7-0.1 1 0.9 0.9-0.2 3.6 0.4 1.7 1.3-3 0.9 1.7 3.2-0.7 0.8 0.4 3.5-1.1 0.1-0.3 1.4 0.6 2.5 1 2.1-0.1 1-1.5 2.4 0.9 2.9-1.5 5.3-1.9 3.1-1.3 4.1-1.8 1.4-2.4-0.9-3.4 0.5-3.2-0.3-3 0.2-0.8 0.4 0.7 1.4-2.3-0.2-1.7 1.1-2 2.1 0 1.5 1.9 3-1.7 2-1.1 0-3.2-0.5-5.5 1.2-5.1-1 0.5-1 0.2-3.1-0.6-1.7-1.3-1.1-3.1-3.8-1.2-2.3 2.4 0.9 1-0.5-1.8-2.6 2.2-0.1 0.7-1-0.6-1.5-1.9-0.6-1.9-2.4-1.8-1.2-3.5-4.7-1.3-3.2-1.1 0.3-1.2-3.7-1.7-0.6-0.6-3.7-1.8-0.4-1.3-1.7-0.4-3.2-1.2-0.6-0.8-1.4-0.8-3-0.3-2.7-0.9-1.8 0.5-1.2 1.1-0.2 1.1 0.8 1 1.8 1.9-0.2 0.7-1.4 0.6-3.9-1.6-4.4 1.5-1.5 0.9-2.4 2.6-0.7 1.3-0.8 1.9-2 0.1-2.8 0.6-2.1-0.5-1.4-3.1-4.9-0.3-1.6 1.8-0.6 2.4 0 1.3-2.5 0.4-1.9-3.4-2.7-1.2-0.4-3.8-2.1 0.9-6.4 0-1.6-2.5-4.4 0.1-1.8-0.6-2.8 1.1-1.1-2.7-4.1 2-2.8-0.5-1.5 1.2-1 3.5-3.8 3.3-1.5 3.3-0.4 7.1 0.9 1.7-2.2-0.1-1.2-1.1-2.9-4.7-1.6 4.4-5 3.3-5 0.1-4.7 0.6-2.7-1.4-3.9 3.8-0.4 2.4-0.5 3.3-1.5-1-2.5 1.3-0.9 3-2.9 3.3-2.9 1.5-1 0.2-1.4-1-1.3-2.7-2.3 0.5-1.1 2.7-0.6 1.1-1.1 1.5-3.5 3.7-1.9 1.5-0.9 6.3 1.8 2.1-3.1-0.8-3.6 0-0.8 2.1-0.5 4.1 0.9 2.9 0.1 8.6 1.7 1 0.1 2.5-1.6-2.9-0.9 1.6-0.9 1.4-1.9-0.1-2-2.6-1.6 5.1-0.2 2.9 0.8 0.4 0.9 2.9 1.1 4.8 2.3 4.2 1.8 8.3 1.7 3.5 1.8 1.2 1.6 1.4 0.1 1.9 1.5 1.8 0.9-1.1 1 0.4 2.4 0.7 1.4-0.3 1.9 2.8 0.4 0.6 1.3-1 0.8-0.1 1.1 0.8 1.6 3.3 2.6 0.6 0.9-0.7 1.4 0.1 1.8-1.5 1.3 0 1.3 1.3 2.6 1.8 0.6 1.9 2.2 1.6 2.5z" id="SE" name="Sweden">
+ </path>
+ <path d="M733.4 565.7l-2.9 0.5-0.1-1.5 2.2-0.6 0.8 1.6z m194.5-21.5l4.3 1.3 1.1-1 3.6 0.1 3.4 0.8 0.9-1.9 1.4-0.4 1.4 0.3 0.6 1.1 1.2 0.4 3.5 2.5 1.1 1.7 1.9 0.2 1.3 1.2 1.3 1.6 1.7 1.2 1.7 3.3-0.2 2.3-1 1.4 0.8 1.9 1.9 3-0.5 0.6 1.8 0.9 2.9 0.9 3.5-0.4 1.6 0.7 2.3 1.7 3.2 2.8 0.8 0.9-3.3-1.9-1.4 1.6-0.1 3.8-0.6 0.4-2.8-0.1-1.2 0.4 1.2 2.5 1.4 1.2 0 2.3 2.1 2.5 0.2 2.1 0.9 2.2 0.3 2.2 0.5 0.7 1.4 0.3-0.6 3.8-0.6 1.2-0.4 2 1.7 0.6 3.2 2 0.1 1.3 0.6 1.5 0.3 2 3.2 2.3 0 2.3-2.1-0.5-3.7 3.1-1.2-1.2-0.3-2.4-1.5-1.5-1.3-0.2-2.1 1.4-4.2-0.3-2.9-1.1-2.9-0.8-1.9 0.6-2.2-0.7-1.5 1.9-2 1.9-1.2 0.3-1.6-2.6-1.3-0.2-1.2 1.3-2.2 0.8-4.6 1-3.2 0.3-4.1-0.6-3.2 0.2-3.1 1.4-5.2 2.8-4.1 1.4-4.2 0.9-7.6-0.2-1.1-0.3-3.5-2.3-3.4-0.6-3.4 1.6-2.3 0.8-3.5 1.6-4.8-0.1-1.9-1.7-3.7-0.7-0.6 1.6-0.3 3.8 1.8 3.1-3.3 1.4 0 2.6-1.8 1.1-0.8 1.6-2.2-1.2-1-0.1 0.7-1.3-2.5-4.9 0.7-1.5 3.5-3.9-0.4-2.4-2-1.6-2.9 2.1-1.7 0.8-0.3 1.2-1.1 0.8-1.8 0.4-2.9-1-3.2-1.4-1.9-1.1-1.4-0.3-1.3 0.5-3.5 2.8-3.1 4.1-0.8 0.8-3.2 1.7-2.2 0.6-1-0.1-4.4 0.8-2.2 0.1-1.6 0.9-3.5-1-2.2-1.3-1.4-1.3-2.3-2.9-1.6-1.3-3.3-1.2-5.8-3-5.3-0.7-4-0.3-0.7 1.1 0.1 4.2-0.5 1.2-0.1 2.2-1.1 1.1-2.1-1-1.9 0.9-3.7 1.3-1.2 0.1-4.6-1.6-2.9-2.1-0.6-2-1.3-2.7-1.8 0.3-2.3-0.4-3.2-1.6-2.4-0.1-1.2 1.9-1 0.7-1.3-0.4 0.8-1.3-3.7 0.2-1.8 1-1.5-0.1-1-1 2-0.6 3.9-0.4 0.9-0.4 0.9-1.3 1.7-1.2-1.2-0.5-6 0.3-4.2-0.2-1 0.7-0.4-1.6 3.6-1.4-0.3-1.3-4.2-2.2-0.3-1.6-2-3.1 1.9-0.5 0.1-2.5-0.4-1.5-3.9-1.3-0.8 0.1-1.1-1.3-1.7-0.9-1.2 0.7-3.3-1.4-0.6-0.6 0.5-1.4 1-1.1-0.9-1.9-0.1-1 1.8-0.1 1 1.1 0.3 2.2 3.6 0.7 2.9-0.6-2.5-1.1-1.1-1.2-1.2-2.3 1.8-1.1 1.2-1.7-2.7-1.2 0.2-2.4-2.5-2.7 0.3-0.8 2.3-2.8-1.2-0.7-4.3 0.7-1.6 0.6-3.1 0.2-0.3-1.6 0.6-1.3-0.5-3.4 0.2-1.8 1.7-0.6 1.7-2.7 3-3.1 3.5 0 1.3-0.9 2.1 0 0.8 1.2 1.9 0.9 3.2-0.1 1.4-0.9-1.6-1.5 1.7-0.5 1.5 0.4-0.1 1.8 4.1-0.5 4.4 0.4 1.4-0.2 3.4 0 0.5-0.5-3.6-1.7 2-1.5 6.8-1.2 3.7-0.8-5.7-0.8-1.4-0.6-2-1.4-1-1.1 0.3-2.6 0.6-0.7 2.2-0.1 7.7 1.2 5.3-0.8 6.1 1.8 5.6-0.4 1.1-0.7 1.1-2.6 7.4-4.2 2.4-2.1 2.8-1.2 5-1.4 4-1.7 1.2-0.2 10.4 0.8 7 0.1 3-1.6 2 0.5-0.1 2.1 2.6 2.6 3.5 1.4 4.4-1.2 1.8 0.5 2.2 4 1.5 1.4 1.8 0.9 1.3 0.2 1.5-1.4 1.7-0.1 2.9 1.3 1.2 1.4 4.8 1.1 4.3 0.6 2 1.2 6.2 1.2 2.2-0.2 3.6-1.3 7-1.3 5.2 1.9 2.5 0.1 1.7 0.5 1.7-0.3 5-2.3 1.4-1.2 1.7-0.4 5.2-3.3 0.9-1.4z m-171.9-7.1l-0.1 1.8 1 2 2.3 2.7 2 1.4 8.1 3.3 1.4 0.3-0.9 3.5-2.1 0.5-6.4-1.5-1.6-0.1-2.9 1.4-2.3-0.4-3.1 0.6-0.6 2.1-2 2.4-3.3 1.9-2.5 1-3.5 3.7-1.5 2.2-1.5 0.7 0.5-2-0.3-1.7 2.3-2 3.3-1.6 0.7-1.3-5.4 0.3-3.3 0-1-1.8 0.8-0.4 2.5-3.2-0.5-4.4 3.4-2.5-0.9-3.1-2.3-1.5-1.2-0.3 0.3-1.4 1.9-0.3 1-2.2 3.4-0.4 1.5-1.1 3.5-0.3 3.4 2.5 1.5-0.6 1.8 0 0.9-0.4 1.7 0.2z" id="TR" name="Turkey">
+ </path>
+ <path d="M796.7 471.6l0 0.6-3.9-0.8-0.9-0.9 4.8 1.1z m-26.4 14.6l-1.9-1.8-2.2-0.7-2.2 0.2-2.2 1.3-1.6 0.5-0.9-0.3-0.6 1.2-4-0.9-1.8-0.9-1.5-1.6 1.1-0.7 2-0.2 0.4-1-0.5-1.4 2.5-2.9 0-1.3 2.3-1.7 0.4-2-1-1.7-0.5-2.1 2.5-1.6 2.1 1 1.9 0.2 2.1 0.8 1.6-0.6 1.2 1.3 2.9-0.4 0.6-0.7-2.9-1.7-0.2-2.9-1-1.6-2.1-0.8-2-1.3-0.9-1.9 0-2.4-2.9-2-2.3-1.2-0.6-1.2 0.6-3.1-0.6-2.3-1.4-1.4-1.4 0.7-1.4-1-1.4-1.9-5.6-0.6-0.6-1.2-2.5-0.3-3.6-2.4-3.5-1-1.6 1-0.8-0.3-1.2 1-4-0.1-0.7-0.2-2.3 1.4-0.2 0.6-3.7 0.8-0.2 1.4-1.1 1.9-8.4 1.2-3.4 1.3-1 1.2-2.1 0.5-4.3-3.3-1.2-0.3-3.6 0.7-6.9-1.4-2.7 0.1-2.7-1.5-0.7 0-0.9 1.2-2.1 0.9-0.7-1.7-0.9-0.7-2.3-0.4-0.9-1.1-2.2-0.8-1.4-2.3-1.5 0-0.1-2.5 1.6-1.7 0.8-2.9 1.5-3 3.3 0.7 0.4-0.9-1.9-1.4 0.1-1.8-1.5-3.8 0.6-1 3.4-4.4 2.4-2.7 4.8-4.6 3-0.5 1.2-1.8-0.1-1.3-1.8-2.6 1.2-1.3-1.4-1-1.9-2.8-2.7-2.8 0-1.3-1.2-1.8-0.1-1.4 1.1-0.5 1.9 0.3 1.1 0.5 1.9-1.2 1.6-1.6 0.8-1.4 5.9-0.5 2.3-0.5 2.4-0.1 7.8 0.4 6.5 1.5 6.1 0.9 2.3 0 1.8 2.1 1 0.3 3-0.1 1.1 0.4 0.8 1.4 1.2-1.7 1.9 0.5 1.9-0.7 5.1 1 0.8 1.3 1 0.3 0.6-1.1 3.8-1.6 2.5 3 0.6 0.5 2.3-0.8 7.1-0.6 2 1.1 0.5 1.2 2.7 0.9 0.8-1.4-1.8-3.6 1-3.3 0.8-1.2 2.2-2.3 1.1-0.5 1.7 0.4 1.4-0.8 5 0.1 2.6 0.8 1.7-0.1 1.8-0.9 0.5-2.4 1.6-0.6 3.7 0.9 1-0.1 2.7-1.2 1.6-0.2 2 0.3 3.4-0.2 2.5 1.4 1.4 1.4 1.7 2.7 4 3-0.1 1-2.9 0.5 1.3 1.9 0.5 2 1.2 1.7-0.4 1 3.1 0.1 2.9 1 4.1-0.5 1.5 2.2 1.9 0.2 0.2 0.9 1.4 2.8 0.9 1.1-0.2 1.8 0.5 1 1.9 1.6 0.7 1 1.1 0.4 2.3-1.4 2.8 0.4 2.7 2 2.3 0 1.7 1.1 1.4-1.3 4.3-0.9 2.3-1 1 0.1 2.3 1.8 0.5 1.2 1.5 1.6 4.7 2.9 1.3-0.6 0.9-1.5 2.6 1.4 2.4 0.2 3.6 1.9 1.4 0.1 1.6-0.6 2 1.8 1.9 0.2 4.4 2.3 2.9-0.3 1 0.8-0.1 1.7 1 0.9-0.1 2.6-1.7 2.1-2.3 0.8 1.1 1.5 3.1 0.9-0.9 0.9-1.4-0.2-0.8 1-0.3 2.3 2.5 0.7 1.2 2.8 0 1.1 1.2 0.3-1.3 4.7-0.1 1.8-4.2 0.2-6-0.3-0.9 0.2-0.9 1.9-2.3 1.4-1.7 0.2-0.8 0.8 0 2.3-0.4 1.3 1.1 0.7-0.7 1.6 0.5 1.3-0.5 0.1-4.3-0.2-3.4 0.3-2.1 2.4-1.5 0-3.2 1.5-1.4 1.7-1.4-0.8-3.1 0.5-1.7 1.1-3.1-0.1-2.3 0.6-4.6 3.8-1.3 0.1-1-1-1.6 2.6-2.4 1.2 0.6 3.1 2.8 4.5 3.6 3.9 1.7 1.4 2.4 0.7 3.1-1.4 2.4 0.4 1.7-1.2 1.5-0.1 3.7 1-1.1 2.5-0.3 2.6-1.9 0.6-2.2-0.1-2.2 0.4-2.7-1.5-2.5 0-1.1 1.9-2.3 1.3-0.6 1.4-2.6-0.3-2.1 0.2-2.8 1.4-1.9 2.8-2.3 1.8-1.9 0.5-2-0.1-1.3-0.6-2.9-1.8 0.7-2 0.5-3.5-1.2-2.9-2.3-1.4-1.6 0.2-0.9-0.3-3.7-2.4-1.9-0.2-1.9 0.5-1.5-1.2 3.5-2.9 3.5-2.4 1.7-0.2 2.1-1.2 2.2-1.6-1.3-2.3-1.9 0.6-2.2-1.1-0.9-0.8-3.1 0.8-1.8-0.1-3.8 0.8-1.9-0.8-4-2-2.6-0.3 0-1 1.8-0.3 0.1-1-3.8-0.6-0.1-1.3 2 0.5 3.2 0.2 2.9 0.5 2.1-1.8-2.4 0.5-2.9-0.5-2.1-1.8-2.2 1.2-3.2-0.5-2.4 0.8-2.3-0.2-4.1 1.1-0.4 2.9-2 4-3.1 3.7-4.6 2.1-1.7-0.4-0.9 1.1 0.2 1.3 1 0.9 1.1 3.1-0.1 1.3z" id="UA" name="Ukraine">
+ </path>
+ <path d="M674 532.8l-2.1 0.4-1.5 1.9-1.6-1.2-1 0.1-3.4 1.5-0.2 2.6-0.5 0.8-1.7-0.3-0.1-2.2-1.4-3.2-1.9-1.3-1.4-0.5-2-2.9-0.5-0.4 0.2-1.3-0.9-1.5 2-0.4 0.2-0.7 1.6-0.4 1.5-0.5 0-1.4 1.7-1.3 0.4-1-0.6-1.6 1.7-0.9 1.1 1.3 2.8 1.3 2.3 2.1 0.2 0.7 2.2 1.2 0 1.3 4.7 1.2-0.2 1.2-1.2 3.2-1 0.9 0.6 1.3z" id="XK" name="Kosovo">
+ </path>
+ <path d="M452.2 392.5l-0.6 1.2-3.2 1.5-3.9-1.1-1.2 0.6-1.2-0.7-0.3-1.3 2.8-0.4 3.5 0.7 1.5-0.6 1.2 0.5 1.4-0.4z m-3.4-5.3l1.5 1.4-1.5 0.3-1.6-1 1.6-0.7z m18.1-8.5l-3-0.4-0.9-0.7 2.4-1.7 3.2-1.5 1.7 0.4 0.5 0.9-1.1 1.1-2.8 1.9z m-7.6-11.5l-1.1 1.1-0.6-1.4 1.7-1.4 0 1.7z m-7.1 25.3l-2.6-0.8-2.2 0.5-2.8-0.7-1.7-1.3 1.2-0.7 2.3-0.1 4 0.7 1.2-0.9-0.6-1-2.3-2.1 1.6-2.7 1.4-1 3.2-3.8 0.9-2 1.2-5.5 1-2 1.4 0.5 2-0.8 3.4-2 1-1.7 1-0.9 4-1.6 2.1-0.4 8.9-0.5 1.8 1.7 2.7 0.6 0.1 4.3-0.7 1.7-1.1 3.8-3.1-0.1-0.6 1.6 0.7 1 2.6 0.3 0.8 1-0.6 2.6-2.6 1.6-0.3 0.9 1 0.9-0.7 1-4.5 1.3-2.3-0.8-1.8 0.7-0.7 1.1 3.1 4.1 0 1.2-1.3 2.8 0.7 1.2-2.2 1.6-0.5 0.8 1.9 1.2-0.6 2.4-1.2-0.1-2.4-0.3-0.7-1.1 1.1-1.3 1-2.9-2.6-1.1-1.7-1.3-1.9 0.4-2.6-1.4-0.5-1.6-2.5 0.8-1.1-1.3-1.5 1-1.5-0.8-1.4 0.7 0.2 0.9-2.1-0.3z m18.1-15.6l0.9-0.9-0.5-1.9-2.1-0.3-0.5-0.8 0.4-2.5-2.8-0.4-0.4-2.5-1.5 0.3-2.3 1.5 0.6 1.3 1.6 1.6 0 0.9-2.1 0.7 0.1 2.6-0.2 1.6 5.4 1.4 3.4-2.6z" id="NL" name="Netherlands">
+ </path>
+ <path d="M420.4 584.7l-0.4 1-2-0.4 0-1.5 1.2-1.6 2.7-0.7 0.8 1.3-2.3 1.9z m21.7-13.6l1.2 0.5 1.3-0.5 1.4 0.4 0.2 1-2.2 3.5-0.6 1.4-2.1 1.3-4-1.7-0.3-1.6-1.4-0.7-1.7 1.3-1.4-1-0.3-1.2 5.3-3.7 1.5-0.9 3.2-0.9 0.5 1.2-0.6 1.6z m14.7-0.8l-0.3 0.2-3.9-1.9-1.6-0.4 0.1-1.4 2.6-0.2 2.1 0.7 1.2 1.8-0.2 1.2z m-77.4-55.5l0.5 1.3 4.3 1.3-0.3 3.2 1.8-0.4 4.4 1.7 2.2 0.2 2.2 2.1 3.6-0.4 3.2 2.1 3.1-0.4 0.7 0.4 4.7 0 0.8-2.4 4 1.1 2.5 1 1.7 0.3 1.1 1.5 0 2.1 0.7 0.4 2.8-1.1 2.8 1.2 1.3 1.2 2.1-1.1 4.7 1.2 1.2-0.8 3.8-1.1 3.1 0.6 1.2 2.2-1.8 0.5-0.2 1.4 1.2 1.3 0.1 2.1-3 2.8-8.7 4.7-2.9 2.7-6.6 1.5-4.5 1.5-2.2 0.5-4.1 3.8 1.1 0.3 1.2 1.2-0.4 0.6-2.5 1.1-0.9 0-2.9 4.6-2.6 3.3-1.5 1.5-1.5 2.1-3.2 5.6-0.1 1.6 1.6 5.5 2.2 2.7 2.4 1.1 0.6 1-0.8 1-2.4 1.7-4.3 2.3-1.8 1.9-0.3 1.8-1.3 0.8-0.5 2.5-1.8 4.4 1.3 1.2-1.3 0.8-6.5 0.3-4.1 2.8-2 2.4-1.9 4.5-2.2 2.6-1 0.5-1.5-1.2-1.9-0.1-1.9 0.3-1 1-1.5 0.5-1.5-0.5-4.6-0.2-2.3 0.8-1.9-0.5-3.2-0.3-7 0.6-4 3.4-3.4 0-3.1 1.2-2.1 3-0.5 1.6-1-0.3-0.3 1.2-2.1 0.8-2.4-1-2-1.5-1-0.1-1.6-2.2-1.2-3.1 0-1.1-1.5-0.6-0.3-1.4 0.2-1.6-1.2-2-5-3.7-3.7-0.3-3 0.5-1.1-6.4 0.8-2.2 3.5-4.3 2.1-0.6 0.7-2.4-1.7 0.2-3-4.3 0.9-4 3.2-3 0.6-2.4-0.5-0.8-1.7-0.4-1.6-3.2-0.3-1.9-1.4-1.2-1.1-1.9 1.1-0.3 4.3 0 1-0.5 1.7-3.5 0-1.9-1.4-1.3 0.2-1 2.7-2.1-0.4-1.1 0.4-3.8-0.4-3.5-0.8-2 2-1.6 1.1-1.6 1.6-1.4 2.1-1.1 2.5-2.5-0.3-1.1-1.9-0.9-1.9-0.2-0.1-3.1-0.7-1.1-5.2-0.1-1.5-0.5-0.8 1.4-2.5 0.9-1.4 0-2.2-0.8-2.9 0.1-3 1.1-0.9-1.3 1.3-1.9-1-1.8-4.1 1-1.9 0.9-1.2 1.1-1.3-0.1 0-2.5 2.6-2.6-1.6-0.2 1.2-1.9-1-1 0.1-2.6-2.3 0.9-0.5-1.2 1.4-2.2-1.4-0.2-2.3-2.5 0.8-3.1 2-1 1.9-1.5 2.6 0.3 1.7-0.3 3.6-1.6-0.4-1.5 0.4-0.7 3.2-1.7 2-0.2 1.9-0.9 1.3 0.5 1.1-0.1 1.3 0.6 1.7 1.6 2.5 0.6 2-0.5 3.6-0.1 1.7 0.2 3.2-0.3 1.8 0.1 2.9-0.8 2.3 1 4.4 0.4 2.6 0.8 7.2 1.4 2.7 0 3.7-0.8 1.6-0.5 1.5 0.3 2.1-0.6 2.3 1 4.7 1.3 2.1-1.3 3.4 0.6 3.3 1.3 1.8 0.1 2.6-0.3 2.5-1z" id="ES" name="Spain">
+ </path>
+ <path d="M521.2 524.1l-0.3 2.3 1 1.7 0.6 6.5-1.8 3.2 0.1 3-1.6 4.3-0.8 1.1-3.8-2-1.2-1.1 1-1.8-2.2-0.9 0.4-1.7-0.2-0.9-1.6-0.5 1-1.3 0-0.8-1.5-1-0.3-0.9 1.3-1.1-0.6-0.9 0.1-1.3 0.9-1.9 1.2-0.9 2.8-0.8 1.2-1.1 1.9 0.6 0.6-1.2-0.2-2.7 0.3-1.1 1.3 0.5 0.4 2.7z m-133.9-47.9l-0.4 1.4-1.9-2.4 1-0.5 1.3 1.5z m84.4-55.6l2.1 1.2 1.4 0 2-0.6 1.3 0.7 1.4 0.1 3.5 4.3 1.8-0.7 1.4 0.4 0.3 0.9 2.1 0.1 3-0.6 2 1.4 4.8 0.8 1.6 0.6 0.1 1.3-3.5 3.8-1.4 5.5-1 1.8-0.3 1.5 0.2 2.4-0.6 2 0 1.5 1.1 1.3-1.5 0.7-0.8 1.4-2.7 0.3-0.8-0.8-1.1 0-1.8 1.4 1.3 1.1-0.6 0.9-3.8 4-2.1 0.9-0.5 2.9-3 2.2-1.1 2.9 0.8 0.7-0.3 1.5-1.5 1 0 1 1.4 0.1 2.3-1.6-0.5-1.3 2.3-1.5 1.9-0.1 2.2 0.3 0.8 2.2-0.5 1.7 2.3 2.3 0.9 1.4-2.6 1.7 0.1 1.6 0.9 0.6 1.7 2.6 1.8 1.6-0.8 2.5-1.2 0.3-1.7 1.3-1.9-0.2-0.8 0.4 1.5 3.1 3.2 1.4 0.5 1.7-0.8 0.7-1.4 2.5 0.7 1.3 0.1 1.4 0.9 0.9 5.1 2.4 3.3-0.6 0.3 2-2.1 2.6 0.2 1.5-0.6 0.3-0.8 0.3-2.4 1.1-3.9 3.4-1.8 1-0.7 1.8-2 1.4-2.4 0.5-2.3 1-1.1-0.4-2.8 0-1.7-1.2-3.4-0.8-1.1-1.8-2.5-0.1-0.8-1.5-1.9 0.3-1.5 0.7-2-0.1-5.9-1.8-1.4-1.4-1.7 0.5-1.6 1.6-6.5 4.1-2.6 4.3-0.1 1.2 0.7 3.9 1.6 2.5-3.1-0.6-3.8 1.1-1.2 0.8-4.7-1.2-2.1 1.1-1.3-1.2-2.8-1.2 0-1.5-2.6-0.6-0.9 0.7-1.1-1.5-1.7-0.3-2.5-1-4-1.1-0.8 2.4-4.7 0-0.7-0.4-3.1 0.4-3.2-2.1-3.6 0.4-2.2-2.1-2.2-0.2-4.4-1.7-1.8 0.4 0.3-3.2-4.3-1.3-0.5-1.3 2-0.5 1.9-1.9 1.7-7.1 1.3-8.3 1-1.6 1.2-0.4-1-1.2-1.1 1.5 0.7-7.6 0.5-2.8 0.9-3 3.1 2.4 0.8 1 0.9 3.4 0.6 0.1-1.1-4.6-1.8-2.3-3.6-2.3-0.5-1.3 1.8-0.6-0.5-1.8-0.5-5.9-3-0.6-4.8-2.6-1.7-2.6-1.6-1.9-0.4-1.7 0.9-1.8-0.8-1.1-1.4-0.8 1.1-1.6-3-0.2-1.8-0.5-0.3-1.1 1.3-1.4-1.6-0.8-2.6 0.2-0.2-1.7-2.2 0.3-1.2-0.3-1.1-1.1-1.3 0.2-2.2-0.4-0.8-0.7-4.8-1.3-2-0.1-1.9 0.6-1.1-0.3-1.3-2.2-3.1-1.1 0.6-0.7 3.1-0.6 0.6-0.7-2.2-0.9-0.2-1.2 1.6 0.3 0.1-1.2-4 0.1-0.4-1.3 0.5-1.4 2.3-1.2 5.8-1.4 2.5 0.2 1.7-0.2 3-1.6 2.9-0.4 2.7 0.8 2.5 2.8 1.2 1 3.1-1.7 4.4 0.1 0.9 0.9 1.2-1.7 1 1 4.7-0.2-1.5-2.5-0.2-6-1.3-1.7-2.1-4.3 0.2-1.4 3.2 0.3 2.7-0.6 1.3 0.4 0.3 2.8 1.1 1.6 2.2 0 2.3 0.5 3 0.1 4.3 0.8 1.8-0.5 3.5-2-1.8-0.7-0.2-0.7 0.9-2.2 5.2-2.5 3.7-0.7 3.8-1.3 2-1.4 1.2-1.8 0.5-1.3 0.3-6.8 1-2.2 2.9-1.6 6.4-1.1 0.9-0.5 0.9 2.2 0 1.2 2.9 2.4 3.2-1 1.6 1.8 0.5 2 4.2 1.1 0.6 2 0.9-0.3 3.6 0.4 1.6 1.1-0.4 1.6 0.7 0.7-0.7 1.4 0.5 0.6 2.3 0.3 2.2-0.3 1.3-0.6 0.5-1.4 1.9-0.6-0.8 2.7 0.6 0.6 0.4 2 1.7 0.1 3.3 1.5 2.8 2.6 3.4-0.4z" id="FR" name="France">
+ </path>
+ <path d="M306 611.9l-1.2 0.2-4.5 2.5-1.3 0-2.5-1.1-4.5-0.4-1.5-0.3-1.8 0.7-1.5 0-1.1 1-0.8-0.3 1-2.1 1.6-4.1 0-2.6 0.4-2.2-0.3-2.1-0.7-1.4 1.1-3.5 0-1.8-0.9-2.3 2.8 0.3-1.7-1.4-1.5 0-2.3 0.9-1.5 0.1 0.1-1.4-0.5-1.8 2-0.6 1.6-1.7-0.3-1.6-1.2 1.1-0.6 1.4-2.8 0.7-1.5-0.5 0-1.9 0.6-1.7 0.4-2.3 0.8-2.2-0.2-1.4 1.6-1.3 1.4-1.9 4.3-8.9-0.6-1 1.7-6.6 1.2-2.3 0.6-4.3-0.2-2-0.7-2-0.7-4.3 0-1.4-0.9-1.8 0.1-1 1.4-1.7 1.2-1.1 1.9-0.9 4.1-1 1 1.8-1.3 1.9 0.9 1.3 3-1.1 2.9-0.1 2.2 0.8 1.4 0 2.5-0.9 0.8-1.4 1.5 0.5 5.2 0.1 0.7 1.1 0.1 3.1 1.9 0.2 1.9 0.9 0.3 1.1-2.5 2.5-2.1 1.1-1.6 1.4-1.1 1.6-2 1.6 0.8 2 0.4 3.5-0.4 3.8 0.4 1.1-2.7 2.1-0.2 1 1.4 1.3 0 1.9-1.7 3.5-1 0.5-4.3 0-1.1 0.3 1.1 1.9 1.4 1.2 0.3 1.9 1.6 3.2 1.7 0.4 0.5 0.8-0.6 2.4-3.2 3-0.9 4 3 4.3 1.7-0.2-0.7 2.4-2.1 0.6-3.5 4.3-0.8 2.2 1.1 6.4z" id="PT" name="Portugal">
+ </path>
+ <path d="M843.2 646.3l-0.1 0-0.1 0 0.1-0.1 0.1 0.1z m0 0l0.1 0 0.1 0 0.1 0.1-0.1 0-0.1 0-0.1 0 0-0.1z m-0.4-0.3l-0.1 0 0-0.1 0.1 0 0-0.1 0.1 0.1 0 0.1-0.1 0z m3.5-0.8l0.2 0.1 0.3 0.3 0.2 0.4 0.1 0.3 0.2 0.2 0.2 0.1-0.2 0-0.3 0-0.3-0.1-0.2-0.2-0.2 0-0.7 0.1-0.6 0.1-0.1 0.1-0.1 0.1-0.3 0-0.3 0-0.1-0.1 0.2-0.1 0.1 0-0.1-0.3-0.2 0-0.2-0.1 0-0.4-0.1-0.1-0.3-0.1 0-0.2 0.1-0.1 0.2-0.1 0.1 0.1 0.1 0.1 0.2-0.1 0.1-0.1 0.1-0.1 0.1-0.1 0.2 0.2 0.2 0.1 0.1 0 0.2 0.1 0.1 0 0.3-0.1 0.2 0 0.1 0.1 0.2 0 0.1 0 0.1 0 0-0.1z m-4 1.1l0 0.2-0.3 0.1-0.3 0.3 0 0.2-0.1 0.3 0 0.3 0 0.3 0 0.3 0 0.1-0.1 0-0.1 0.1 0 0.3-0.1 0.1-0.2 0-0.4 0-0.2 0.1-0.1 0.1-0.1 0.2-0.1 0.1-0.2 0.1-0.4 0.1-0.4 0.2-0.3 0.1-0.2-0.3 0.1 0.5-0.4 0.2-0.9 0.2-0.2 0.1-0.1 0.1-0.2 0.1-0.2 0-0.9-0.1-1 0.1-0.1 0.1-0.2 0.1-0.6 0.5-0.1 0.3-0.3 0-0.3 0.1 0 0.1-0.1-0.1-0.1-0.2 0.1-0.2 0.1 0.1 0.3 0-0.1-0.4-0.4-0.1-0.2 0.2-0.1 0.1-0.2-0.1 0 0.1-0.4-0.1-0.3-0.2-0.1-0.1 0-0.2-0.1 0-0.1 0-0.1 0-0.1 0-0.1 0.1 0 0.1-0.2 0-0.1 0.2-0.2 0-0.2 0-0.1 0.1 0.1 0.2-0.2 0.1-0.5 0-0.6-0.1-0.5-0.2-0.7-0.4-0.3-0.1-0.3-0.1-0.5 0-0.3-0.1-0.2-0.2-0.6-0.4-0.1-0.1-0.1-0.4 0-0.1-0.1-0.1-0.4-0.9-0.1-0.1-0.3-0.2-0.2-0.1-0.1-0.1-0.1-0.2 0-0.2 0.1-0.2-0.3-0.4-0.1-0.2 0-0.4-0.1-0.2-0.3-0.5-0.2-0.3-0.1-0.4 0.1-0.3 0.1 0 0.3 0.1 0.4 0.5 0.3 0.1 0.2 0.1 0.6 0 0.4-0.2 0.3-0.4 0.3-0.4 0.1-0.5 0.1-0.3 0.2-0.1 0.1-0.1 0-0.1 0.1 0 0.1 0.1 0.1 0 0.2 0 0.1 0.1 0.2 0.2 0.2 0 0.1 0 0.2-0.2 0.1-0.2 0-0.2 0.4 0.1 0.2 0.4 0.1 0.2 0.1 0.2 0.2 0.1 0.4 0.1 0.3 0.1 0.2 0.2 0.2 0.1 0.1 0.2 0 0.2 0.1 0.1 0.1 0.1 0.1 0 0.4-0.1 0.1-0.2 0.1-0.2 0.1-0.1 0.1 0.1 0.1 0.1 0.2 0.1 0.2 0 0.2-0.1 0.2-0.2 0.2-0.2 0.2-0.1 0.3-0.2 0.1-0.2 0.2 0 0.3 0.1 0.3 0 0.4 0 0.1-0.1 0.1 0 0.1-0.2 0.3-0.2 0.2 0 0.2 0.1 0.1 0.1 0.2 0 0.1 0 0.2 0.2 0.2 0.2 0.2 0.1 0.3 0.1 0.1 0 0.1-0.1 0-0.1 0.1-0.2 0.3-0.3 0.1 0 0.2 0 0.3 0 0.2 0 0.1 0 0 0.2 0.1 0.2 0.1 0.1 0.2 0.2 0.2 0.2 0 0.1 0.1 0.3 0 0.2 0 0.3 0 0.4-0.1 0.3 0.1 0.2 0.1 0.1 0.2 0 0.2 0 0-0.3 0-0.4 0.1-0.1 0.1-0.1 0.1-0.1 0.1 0.1 0.1 0.4 0.1 0.2 0.1 0.1 0.3-0.1 0-0.2 0.1-0.1 0.2 0 0.1 0.1 0.2 0 0.1-0.1 0.1 0.1 0.1 0 0.3 0.2 0.2 0 0.1 0 0.3 0.2z" id="CY" name="Cyprus">
+ </path>
+ <circle cx="399.9" cy="390.8" id="0">
+ </circle>
+ <circle cx="575.4" cy="412" id="1">
+ </circle>
+ <circle cx="521" cy="266.6" id="2">
+ </circle>
+</svg></div>
+  <div class="chwrap" id="chartWrap" style="display:none"></div>
   <div class="gw">
     <h3>Select a Destination</h3>
-    <button class="hat-btn" onclick="openHat()">🎰 Hat Trick &mdash; Shuffle Random</button>
+    <button class="hat-btn" onclick="openHat()">🎰 Hat Trick</button>
     <div class="grid" id="grid"></div>
   </div>
   <div id="detail"></div>
 </div>
-
-<!-- HAT TRICK OVERLAY -->
-<div id="hatOverlay">
-  <button class="hat-close" onclick="closeHat()">✕</button>
-  <div class="hat-flag" id="hatFlag">🇪🇸</div>
-  <div class="hat-city" id="hatCity">Barcelona</div>
-  <div class="hat-vibe" id="hatVibe"></div>
-  <div class="hat-price" id="hatPrice"></div>
-  <div class="hat-actions">
-    <button class="hat-shuffle" onclick="shuffleHat()">🎰 Shuffle</button>
-    <button class="hat-lock" onclick="lockHat()">Lock This In →</button>
-  </div>
-</div>
-
+<div id="hatO"><button class="hcl" onclick="closeHat()">✕</button><div class="hfl" id="hatFlag">🇪🇸</div><div class="hci" id="hatCity">Barcelona</div><div class="hvb" id="hatVibe"></div><div class="hpr" id="hatPrice"></div><div class="hac"><button class="hsh" onclick="shuffleHat()">🎰 Shuffle</button><button class="hlk" onclick="lockHat()">Lock This In →</button></div></div>
+<div id="compO"><button class="comp-cl" onclick="closeCompare()">← Back</button><div class="comp-h" id="compTitle">Select 2 cities to compare</div><div class="comp-g" id="compGrid"></div></div>
+<div id="aiO"><button class="ai-cl" onclick="closeAI()">← Back</button><div class="ai-c"><h3>✦ AI Recommendation</h3><div class="ai-r" id="aiResult">Analyzing your selections...</div></div></div>
 <script>
 
-const C=[
-{id:"lisbon",city:"Lisbon",co:"Portugal",fl:"🇵🇹",x:30.5,y:84.8,clr:"#C75D3A",
-vibe:"Cheapest major city in Western Europe. Incredible food, hills with soul, Bairro Alto nightlife.",
-sc:{nightlife:8,food:9,sightseeing:8,budget:10,beach:7},
-f:{SFO:["$650-900","~11-14h","TAP direct seasonal, BA, Lufthansa"],ATL:["$600-850","~9h","TAP direct seasonal, Delta via CDG"],CHS:["$700-950","~13h, 2 stops","AA via CLT, Delta via ATL"]},
-h:{r:"$100-170/nt",t:"$200-340",p:["Hotel Lisboa Plaza (4★ 8.5) ~$130/nt","1908 Lisboa Hotel (4★ 8.8) ~$150/nt","Destination Hostel (9.0) ~$40/nt"]},
-tv:{fly:{p:"$50-120",t:"3h",d:"TAP/Ryanair LIS to VCE."},train:{p:"N/A",t:"24h+",d:"Not practical. Fly."}},
-dt:{n:"Sintra (40min train, $5)",d:"Fairytale palaces in misty hills. Pena Palace, Moorish Castle."},
-todo:["Bairro Alto bar crawl - dozens of tiny bars spilling into streets","Time Out Market - massive food hall","Tram 28 - iconic yellow tram through old neighborhoods","Pasteis de Belem - legendary custard tarts","LX Factory - warehouse bars + street art","NIGHTLIFE: Lux Fragil (best club), Pensao Amor, Music Box"]},
 
-{id:"madrid",city:"Madrid",co:"Spain",fl:"🇪🇸",x:39.8,y:83,clr:"#D4A03C",
-vibe:"Late-night capital. Clubs close at 6am. Tapas, rooftops, raw energy.",
+const C=[
+{id:"lisbon",city:"Lisbon",co:"Portugal",fl:"🇵🇹",clr:"#C75D3A",cid:"PT",cx:.3,cy:.85,acts:14,
+vibe:"Cheapest major Western European city. Incredible food, rooftop bars, Bairro Alto nightlife.",
+sc:{nightlife:8,food:9,sightseeing:8,budget:10,beach:7},
+f:{SFO:["$650-900","~11-14h","TAP direct seasonal, BA, Lufthansa"],ATL:["$600-850","~9h","TAP direct, Delta via CDG"],CHS:["$700-950","~13h","AA via CLT, Delta via ATL"]},
+h:{r:"$100-170/nt",t:"$200-340",p:["Lisboa Plaza (4★ 8.5) ~$130","1908 Hotel (4★ 8.8) ~$150","Destination Hostel (9.0) ~$40"]},
+tv:{fly:{p:"$50-120",t:"3h",d:"TAP/Ryanair LIS-VCE"},train:{p:"N/A",t:"24h+",d:"Not practical. Fly."}},
+dt:{n:"Sintra (40min train $5)",d:"Fairytale palaces. Pena Palace, Moorish Castle."},
+todo:["Bairro Alto bar crawl","Time Out Market food hall","Tram 28","Pasteis de Belem","LX Factory","NIGHTLIFE: Lux Fragil, Pensao Amor, Music Box"],
+rest:["Cervejaria Ramiro - best seafood in Lisbon, get the prawns","Time Out Market - 30+ top chef stalls under one roof","A Cevicheria - Peruvian-Portuguese fusion, incredible cocktails"],
+prac:{w:"28°C/82°F, sunny, barely rains",cur:"EUR (€)",beer:"$2-3",ckl:"$7-10",tip:"Not expected. Round up or leave 5-10%",dress:"Very casual. Shorts + sneakers fine everywhere.",apt:"Metro to center 20min $2. Or Aerobus $5",phone:"T-Mobile: free 2G, $5/day high-speed. Verizon: $10/day TravelPass. Both work.",lang:"Olá / Obrigado / Saúde / Uma cerveja por favor"}},
+
+{id:"porto",city:"Porto",co:"Portugal",fl:"🇵🇹",clr:"#D4A03C",cid:"PT",cx:.25,cy:.3,acts:11,
+vibe:"Port wine, tiled buildings, river views. Cheaper and grittier than Lisbon.",
+sc:{nightlife:7,food:9,sightseeing:8,budget:10,beach:6},
+f:{SFO:["$650-900","~12h","TAP via LIS, BA"],ATL:["$600-850","~10h","TAP via LIS, Delta via CDG"],CHS:["$700-950","~14h","AA via CLT, Delta via ATL"]},
+h:{r:"$80-150/nt",t:"$160-300",p:["Pestana Vintage (4★ 8.7) ~$140","Zero Hotel (4★ 8.9) ~$130","Gallery Hostel (9.1) ~$35"]},
+tv:{fly:{p:"$50-110",t:"2.5h",d:"Ryanair OPO-VCE/Treviso"},train:{p:"N/A",t:"20h+",d:"Not practical. Fly."}},
+dt:{n:"Douro Valley (cruise ~$60)",d:"Port wine country. River cruises, vineyard tastings."},
+todo:["Ribeira waterfront (UNESCO)","Port wine tasting in Gaia","Dom Luis I Bridge upper deck","Livraria Lello bookstore","Francesinha sandwich","NIGHTLIFE: Galerias de Paris crawl, Plano B, Maus Habitos"],
+rest:["Cafe Santiago - the definitive Francesinha sandwich","O Paparico - upscale Portuguese, tasting menu worth it","Gazela - tiny spot, best hot dogs you'll ever have (seriously)"],
+prac:{w:"26°C/79°F, warm, occasional breeze",cur:"EUR (€)",beer:"$1.50-3",ckl:"$6-9",tip:"Not expected. Round up.",dress:"Very casual.",apt:"Metro to center 30min $2.50",phone:"Same as Lisbon. T-Mobile/Verizon work fine in Portugal.",lang:"Olá / Obrigado / Saúde / Mais uma"}},
+
+{id:"madrid",city:"Madrid",co:"Spain",fl:"🇪🇸",clr:"#D4A03C",cid:"ES",cx:.45,cy:.5,acts:15,
+vibe:"Late-night capital. Clubs at 6am. Tapas, rooftops, raw energy.",
 sc:{nightlife:10,food:10,sightseeing:9,budget:8,beach:2},
 f:{SFO:["$700-950","~11-14h","Iberia sometimes direct, BA, TAP"],ATL:["$650-850","~10-13h","Delta via CDG, Iberia"],CHS:["$750-1000","~14h","AA via CLT, Delta via ATL"]},
-h:{r:"$120-180/nt",t:"$240-360",p:["Room Mate Oscar (4★ 8.5) rooftop ~$160/nt","Hotel Preciados (4★ 8.2) ~$130/nt","Only YOU Atocha (4★ 8.8) ~$180/nt"]},
-tv:{fly:{p:"$40-100",t:"2.5h",d:"Ryanair/Vueling MAD to VCE."},train:{p:"$30-80",t:"~9h via BCN",d:"AVE to BCN (2.5h $20) + fly. No direct."}},
-dt:{n:"Toledo (30min train, $12)",d:"Medieval fortress city. Movie-set vibes."},
-todo:["Mercado de San Miguel - tapas + wine off Plaza Mayor","La Latina tapas crawl - Cava Baja, Sunday afternoon","Retiro Park - rowboats, beers on grass","Rooftop: Circulo de Bellas Artes ($5, best view)","Prado Museum - free last 2 hours","NIGHTLIFE: Kapital (7 floors), Mondo Disko, Teatro Barcelo. Peak 2-4am."]},
+h:{r:"$120-180/nt",t:"$240-360",p:["Room Mate Oscar (4★ 8.5) ~$160","Preciados (4★ 8.2) ~$130","Only YOU Atocha (4★ 8.8) ~$180"]},
+tv:{fly:{p:"$40-100",t:"2.5h",d:"Ryanair/Vueling MAD-VCE"},train:{p:"$30-80",t:"~9h via BCN",d:"AVE to BCN (2.5h $20) + fly. No direct."}},
+dt:{n:"Toledo (30min train $12)",d:"Medieval fortress city on a hill."},
+todo:["Mercado de San Miguel","La Latina tapas crawl - Cava Baja","Retiro Park rowboats","Circulo de Bellas Artes rooftop ($5)","Prado Museum (free last 2hrs)","NIGHTLIFE: Kapital (7 floors), Mondo Disko, Teatro Barcelo"],
+rest:["Bar Cañete - sit at the counter, order everything","Lateral - upscale tapas, beautiful terrace","La Barraca - best paella in Madrid, been open since 1935"],
+prac:{w:"33°C/91°F, HOT and dry, no rain",cur:"EUR (€)",beer:"$3-4",ckl:"$8-12",tip:"Not expected. Round up or 5%.",dress:"Smart casual for nice clubs. Most places relaxed.",apt:"Metro to center 15min $6. Direct line.",phone:"T-Mobile/Verizon both work in Spain. T-Mobile free 2G, $5/day fast.",lang:"Hola / Gracias / Salud / Una caña por favor"}},
 
-{id:"barcelona",city:"Barcelona",co:"Spain",fl:"🇪🇸",x:46.8,y:78.9,clr:"#C75D3A",
+{id:"barcelona",city:"Barcelona",co:"Spain",fl:"🇪🇸",clr:"#C75D3A",cid:"ES",cx:.88,cy:.22,acts:16,
 vibe:"Beach + nightlife + culture. The all-rounder.",
 sc:{nightlife:10,beach:9,food:9,sightseeing:8,budget:7},
 f:{SFO:["$750-950","~12h","Level direct seasonal, BA, TAP"],ATL:["$700-900","~10h","Delta via CDG, Iberia"],CHS:["$800-1050","~13h","AA via CLT, Delta via ATL"]},
-h:{r:"$140-220/nt",t:"$280-440",p:["Hotel Jazz (4★ 8.3) rooftop pool ~$155/nt","Hotel 1898 (4★ 8.5) La Rambla ~$190/nt","Generator BCN (8.0) group rooftop ~$80/nt"]},
-tv:{fly:{p:"$40-80",t:"2h",d:"Vueling/Ryanair BCN to VCE. Multiple daily."},train:{p:"$50-90",t:"~11h",d:"Via Milan. Long. Fly."}},
-dt:{n:"Sitges (30min train, $5)",d:"Beach town, great bars. Back for BCN nightlife."},
-todo:["Barceloneta Beach - drinks, volleyball","La Boqueria Market - best in Europe","Gothic Quarter - medieval alleys, hidden plazas","Sagrada Familia - book ahead","Park Guell - Gaudi's trippy mosaic park","NIGHTLIFE: Razzmatazz (5 rooms), Pacha, Opium beach, Sala Apolo"]},
+h:{r:"$140-220/nt",t:"$280-440",p:["Hotel Jazz (4★ 8.3) ~$155","Hotel 1898 (4★ 8.5) ~$190","Generator BCN (8.0) ~$80"]},
+tv:{fly:{p:"$40-80",t:"2h",d:"Vueling/Ryanair BCN-VCE"},train:{p:"$50-90",t:"~11h",d:"Via Milan. Long. Fly."}},
+dt:{n:"Sitges (30min train $5)",d:"Beach town, great bars."},
+todo:["Barceloneta Beach","La Boqueria Market","Gothic Quarter","Sagrada Familia","Park Guell","NIGHTLIFE: Razzmatazz, Pacha, Opium beach, Sala Apolo"],
+rest:["Can Paixano (La Xampanyeria) - cava + sandwiches, absurdly cheap","Cerveceria Catalana - best tapas in Eixample, always a line","El Xampanyet - tiny cava bar in El Born, old-school perfection"],
+prac:{w:"30°C/86°F, hot, humid, sunny",cur:"EUR (€)",beer:"$3-5",ckl:"$10-14",tip:"Not expected. Round up.",dress:"Beach to club. Smart casual for upscale spots.",apt:"Aerobus to center 35min $8. Or metro $6.",phone:"Same as Madrid. T-Mobile/Verizon work.",lang:"Hola / Gracias / Salud / Una cerveza"}},
 
-{id:"ibiza",city:"Ibiza",co:"Spain",fl:"🇪🇸",x:44,y:86.3,clr:"#D4A03C",
-vibe:"THE electronic music island. Superclubs, beach clubs, Cafe del Mar.",
-sc:{nightlife:10,beach:9,food:7,sightseeing:4,budget:3},
-f:{SFO:["$800-1100","~14h","Via BCN/MAD"],ATL:["$750-1050","~12h","Iberia via MAD"],CHS:["$850-1200","~15h","Via CLT/MAD"]},
-h:{r:"$150-300/nt",t:"$300-600",p:["Hotel Argos (3★ 8.3) ~$150/nt","Sir Joan (4★ 8.8) rooftop ~$280/nt","Hostal Parque (7.8) budget ~$80/nt"]},
-tv:{fly:{p:"$50-110",t:"2h via BCN",d:"Vueling IBZ to BCN to VCE."},train:{p:"N/A",t:"N/A",d:"Island. Fly."}},
-dt:{n:"Formentera (30min ferry, $25)",d:"Caribbean-like water. Ses Illetes. Rent a scooter."},
-todo:["Cafe del Mar - THE sunset, arrive 7pm","Dalt Vila - walled old town, UNESCO","Cala Conta - turquoise water, beach bars","Playa d'en Bossa - Bora Bora, daytime party","NIGHTLIFE: Ushuaia, Amnesia, Pacha, DC-10, Hi. $50-80 entry."]},
-
-{id:"nice",city:"Nice / Monaco",co:"Riviera",fl:"🇫🇷",x:53,y:74.3,clr:"#7B6BA5",
+{id:"nice",city:"Nice / Monaco",co:"Riviera",fl:"🇫🇷",clr:"#7B6BA5",cid:"FR",cx:.95,cy:.78,acts:13,
 vibe:"Yacht life, casino, beach clubs. Stay Nice, day trip Monaco.",
 sc:{nightlife:7,beach:9,food:9,sightseeing:7,budget:5},
 f:{SFO:["$750-1000","~12-15h","Air France via CDG"],ATL:["$700-950","~11h","Delta via CDG"],CHS:["$800-1100","~14h","Delta via ATL"]},
-h:{r:"$130-200/nt",t:"$260-400",p:["Aston La Scala (4★ 8.3) rooftop ~$170/nt","Villa Rivoli (3★ 8.8) boutique ~$130/nt","Boscolo Nice (5★ 8.6) ~$220/nt"]},
-tv:{fly:{p:"$40-90",t:"1.5h",d:"EasyJet NCE to VCE."},train:{p:"$50-80",t:"~6h",d:"Nice to Milan (4.5h) + Venice. Scenic Riviera ride."}},
-dt:{n:"Monaco (20min train, $5)",d:"Casino Monte-Carlo, F1 hairpin, mega yachts. Half day."},
-todo:["Promenade des Anglais - seafront, rent bikes","Vieux Nice - alleys, flower market, socca","Beach clubs - Castel Plage, Ruhl Plage","Casino Monte-Carlo - free entry slots","Eze Village - medieval hilltop, incredible views","NIGHTLIFE: High Club Nice. Monaco: Jimmy'z ($$$), Twiga"]},
+h:{r:"$130-200/nt",t:"$260-400",p:["Aston La Scala (4★ 8.3) ~$170","Villa Rivoli (3★ 8.8) ~$130","Boscolo Nice (5★ 8.6) ~$220"]},
+tv:{fly:{p:"$40-90",t:"1.5h",d:"EasyJet NCE-VCE"},train:{p:"$50-80",t:"~6h",d:"Nice-Milan-Venice. Scenic Riviera."}},
+dt:{n:"Monaco (20min train $5)",d:"Casino Monte-Carlo, F1 hairpin, yachts."},
+todo:["Promenade des Anglais","Vieux Nice Old Town","Beach clubs - Castel/Ruhl Plage","Casino Monte-Carlo","Eze Village","NIGHTLIFE: High Club, Jimmy'z Monaco ($$$)"],
+rest:["Chez Pipo - best socca (chickpea crepe) in Nice since 1923","Le Plongeoir - restaurant on a diving platform over the sea","La Petite Maison - Niçoise cuisine, celebrity spot"],
+prac:{w:"29°C/84°F, sunny, Mediterranean breeze",cur:"EUR (€). Monaco also EUR.",beer:"$5-7",ckl:"$12-18 (Monaco: $18-25)",tip:"Service included in France. Round up for good service.",dress:"Nice: casual. Monaco clubs/casino: smart dress required.",apt:"Tram to center 30min $2. Bus $8.",phone:"T-Mobile/Verizon work in France. Same EU roaming.",lang:"Bonjour / Merci / Santé / Une bière s'il vous plaît"}},
 
-{id:"rome",city:"Rome",co:"Italy",fl:"🇮🇹",x:57.5,y:81.1,clr:"#C75D3A",
-vibe:"Eternal City. History, incredible food, Trastevere, dolce vita.",
+{id:"rome",city:"Rome",co:"Italy",fl:"🇮🇹",clr:"#C75D3A",cid:"IT",cx:.5,cy:.6,acts:18,
+vibe:"Eternal City. History, food, Trastevere, dolce vita.",
 sc:{nightlife:7,food:10,sightseeing:10,budget:6,beach:3},
-f:{SFO:["$650-900","~12h","United, Lufthansa, BA"],ATL:["$600-850","~10h","Delta DIRECT ATL-FCO"],CHS:["$700-950","~13h","Delta via ATL"]},
-h:{r:"$130-220/nt",t:"$260-440",p:["Martis Palace (4★ 8.7) Pantheon ~$170/nt","Santa Maria (3★ 9.0) Trastevere ~$140/nt","The Yellow (8.3) party hostel ~$40/nt"]},
-tv:{fly:{p:"$30-70",t:"1h",d:"Ryanair/ITA FCO to VCE. Super cheap."},train:{p:"$25-50",t:"3.5h",d:"Trenitalia high-speed. Excellent option."}},
-dt:{n:"Ostia Antica (30min train, $3)",d:"Ancient Roman port. Like Pompeii without crowds."},
-todo:["Colosseum + Forum - skip-the-line, go early","Trastevere - THE dinner + nightlife hood","Pantheon - free, 2000yr dome","Vatican/Sistine Chapel - staggering","Piazza Navona + Campo de' Fiori","NIGHTLIFE: Trastevere crawl, Testaccio (Goa Club), Salotto 42"]},
+f:{SFO:["$650-900","~12h","United, Lufthansa"],ATL:["$600-850","~10h","Delta DIRECT ATL-FCO"],CHS:["$700-950","~13h","Delta via ATL"]},
+h:{r:"$130-220/nt",t:"$260-440",p:["Martis Palace (4★ 8.7) ~$170","Santa Maria (3★ 9.0) ~$140","The Yellow (8.3) ~$40"]},
+tv:{fly:{p:"$30-70",t:"1h",d:"Ryanair/ITA FCO-VCE. Super cheap."},train:{p:"$25-50",t:"3.5h",d:"Trenitalia high-speed. Excellent."}},
+dt:{n:"Ostia Antica (30min $3)",d:"Ancient Roman port, uncrowded Pompeii."},
+todo:["Colosseum + Forum","Trastevere dinner + nightlife","Pantheon (free)","Vatican/Sistine Chapel","Piazza Navona","NIGHTLIFE: Trastevere crawl, Testaccio clubs, Salotto 42"],
+rest:["Da Enzo al 29 - Trastevere, best cacio e pepe in Rome, expect a line","Roscioli - deli/restaurant, incredible pasta and wine list","Supplizio - gourmet supplì (fried rice balls), perfect street food"],
+prac:{w:"31°C/88°F, hot, sunny, dry",cur:"EUR (€)",beer:"$4-6",ckl:"$10-14",tip:"Not expected. Coperto (cover charge) already added. Round up.",dress:"Smart casual. Vatican requires covered shoulders/knees.",apt:"Leonardo Express train to center 30min $16. Or bus $7.",phone:"T-Mobile/Verizon work in Italy.",lang:"Ciao / Grazie / Salute / Una birra per favore"}},
 
-{id:"amsterdam",city:"Amsterdam",co:"Netherlands",fl:"🇳🇱",x:46,y:55.6,clr:"#5A8F6A",
-vibe:"Canals, coffee shops, museums, legendary nightlife. Group-friendly.",
+{id:"amsterdam",city:"Amsterdam",co:"Netherlands",fl:"🇳🇱",clr:"#5A8F6A",cid:"NL",cx:.45,cy:.4,acts:14,
+vibe:"Canals, coffee shops, museums, legendary nightlife.",
 sc:{nightlife:9,food:8,sightseeing:8,budget:6,beach:3},
-f:{SFO:["$700-950","~11h","KLM, United, BA"],ATL:["$680-900","~9h","Delta DIRECT ATL-AMS"],CHS:["$780-1050","~12h","Delta via ATL"]},
-h:{r:"$150-250/nt",t:"$300-500",p:["Hotel V Nesplein (4★ 8.6) ~$180/nt","Mr. Jordaan (4★ 8.9) ~$220/nt","Generator AMS (8.2) ~$70/nt"]},
-tv:{fly:{p:"$50-100",t:"1.5h",d:"EasyJet/Transavia AMS to VCE."},train:{p:"$80-140",t:"~12h",d:"Via Paris + Milan. Long. Fly."}},
-dt:{n:"Rotterdam (40min train, $15)",d:"Modern architecture, Markthal food hall, cube houses."},
-todo:["Canal boat tour - private BYOB options","Vondelpark - beers, people watching","Rijksmuseum / Van Gogh Museum","Jordaan neighborhood - best bars","Red Light District - experience it once","NIGHTLIFE: De School, Shelter, Paradiso. World-class."]},
+f:{SFO:["$700-950","~11h","KLM, United"],ATL:["$680-900","~9h","Delta DIRECT ATL-AMS"],CHS:["$780-1050","~12h","Delta via ATL"]},
+h:{r:"$150-250/nt",t:"$300-500",p:["Hotel V Nesplein (4★ 8.6) ~$180","Mr. Jordaan (4★ 8.9) ~$220","Generator AMS (8.2) ~$70"]},
+tv:{fly:{p:"$50-100",t:"1.5h",d:"EasyJet/Transavia AMS-VCE"},train:{p:"$80-140",t:"~12h",d:"Via Paris+Milan. Long. Fly."}},
+dt:{n:"Rotterdam (40min train $15)",d:"Modern architecture, Markthal, cube houses."},
+todo:["Canal boat (BYOB options)","Vondelpark","Rijksmuseum / Van Gogh","Jordaan neighborhood","Red Light District","NIGHTLIFE: De School, Shelter, Paradiso"],
+rest:["The Seafood Bar - fresh oysters and lobster, no reservations","Foodhallen - indoor food market, 20+ stalls, great for groups","Bar Centraal - craft cocktails in a tiny spot on a canal"],
+prac:{w:"22°C/72°F, mild, can rain. Bring a light jacket.",cur:"EUR (€)",beer:"$5-6",ckl:"$12-16",tip:"Not expected. Round up or 5-10%.",dress:"Very casual city. Clubs: depends (Berghain-style door at De School).",apt:"Train to center 15min $6. Fast and easy.",phone:"T-Mobile/Verizon work. Netherlands is EU.",lang:"Hoi / Dank je / Proost / Een biertje alsjeblieft"}},
 
-{id:"berlin",city:"Berlin",co:"Germany",fl:"🇩🇪",x:59,y:52.9,clr:"#555",
-vibe:"Best club scene in the world. Raw, creative, cheap, 72-hour parties.",
+{id:"berlin",city:"Berlin",co:"Germany",fl:"🇩🇪",clr:"#555",cid:"DE",cx:.78,cy:.28,acts:14,
+vibe:"Best club scene in the world. Raw, creative, cheap.",
 sc:{nightlife:10,food:7,sightseeing:7,budget:9,beach:1},
-f:{SFO:["$700-950","~12h","Lufthansa, United"],ATL:["$650-900","~10h","Delta via AMS, Lufthansa"],CHS:["$750-1000","~13h","Delta via ATL"]},
-h:{r:"$100-170/nt",t:"$200-340",p:["Oderberger (4★ 8.8) bathhouse ~$160/nt","Michelberger (3★ 8.4) creative ~$120/nt","Generator Mitte (8.1) ~$45/nt"]},
-tv:{fly:{p:"$40-80",t:"1.5h",d:"EasyJet/Ryanair BER to VCE."},train:{p:"$50-90",t:"~10h",d:"DB to Munich + Venice. Long. Fly."}},
-dt:{n:"Potsdam (30min S-Bahn, $4)",d:"Sanssouci Palace. Prussian Versailles."},
-todo:["Brandenburg Gate + Reichstag dome (free)","East Side Gallery - Berlin Wall street art","Museum Island - 5 world-class museums","Kreuzberg - best food, bars, culture","Tempelhof - sunset drinks on the runway","NIGHTLIFE: Berghain (legendary), Tresor, Sisyphos, Watergate, KitKat"]},
+f:{SFO:["$700-950","~12h","Lufthansa, United"],ATL:["$650-900","~10h","Delta via AMS"],CHS:["$750-1000","~13h","Delta via ATL"]},
+h:{r:"$100-170/nt",t:"$200-340",p:["Oderberger (4★ 8.8) ~$160","Michelberger (3★ 8.4) ~$120","Generator Mitte (8.1) ~$45"]},
+tv:{fly:{p:"$40-80",t:"1.5h",d:"EasyJet/Ryanair BER-VCE"},train:{p:"$50-90",t:"~10h",d:"Via Munich. Long. Fly."}},
+dt:{n:"Potsdam (30min S-Bahn $4)",d:"Sanssouci Palace. Prussian Versailles."},
+todo:["Brandenburg Gate + Reichstag","East Side Gallery","Museum Island","Kreuzberg food/bars","Tempelhof runway","NIGHTLIFE: Berghain, Tresor, Sisyphos, Watergate, KitKat"],
+rest:["Mustafa's Gemüse Kebap - legendary döner, the line is worth it","Burgermeister - burgers under a train bridge, iconic","Nobelhart & Schmutzig - Michelin star, prix fixe, if you want to splurge"],
+prac:{w:"25°C/77°F, warm, occasional rain",cur:"EUR (€)",beer:"$3-4",ckl:"$8-12",tip:"Round up. 5-10% for sit-down.",dress:"Berghain: all black, no flashy. Most clubs: wear whatever. No photos.",apt:"Express train 30min $4.50. Cheap and fast.",phone:"T-Mobile/Verizon work in Germany.",lang:"Hallo / Danke / Prost / Ein Bier bitte"}},
 
-{id:"prague",city:"Prague",co:"Czechia",fl:"🇨🇿",x:59,y:59.6,clr:"#D4A03C",
+{id:"copenhagen",city:"Copenhagen",co:"Denmark",fl:"🇩🇰",clr:"#4A7FAF",cid:"DK",cx:.45,cy:.65,acts:12,
+vibe:"Design capital. Nyhavn, Tivoli, bikes, world-class food.",
+sc:{nightlife:7,food:9,sightseeing:8,budget:4,beach:4},
+f:{SFO:["$700-1000","~12h","SAS, Lufthansa"],ATL:["$680-950","~10h","Delta via AMS, SAS"],CHS:["$780-1050","~13h","Delta via ATL"]},
+h:{r:"$150-250/nt",t:"$300-500",p:["Hotel Sanders (5★ 9.3) ~$280","Ibsens Hotel (3★ 8.4) ~$160","Generator CPH (8.0) ~$55"]},
+tv:{fly:{p:"$50-100",t:"2h",d:"Norwegian/EasyJet CPH-VCE"},train:{p:"$80-150",t:"~16h",d:"Via Hamburg+Munich. Very long. Fly."}},
+dt:{n:"Malmö Sweden (35min train $12)",d:"Cross the bridge to Sweden. Different country for lunch."},
+todo:["Nyhavn colorful harbor","Tivoli Gardens","Christiania freetown","Rent bikes everywhere","Reffen street food","NIGHTLIFE: Meatpacking District, Rust, Culture Box"],
+rest:["Reffen - shipping container street food market on the harbor","Gasoline Grill - best burger in Copenhagen, tiny and cheap","Paté Paté - wine bar in Meatpacking, great for pre-game"],
+prac:{w:"22°C/72°F, pleasant, can rain",cur:"DKK (Danish Krone). ~$1 = 7 DKK. Cards accepted EVERYWHERE.",beer:"$6-8",ckl:"$14-18",tip:"Not expected at all. Service included.",dress:"Stylish casual. Danes dress well.",apt:"Metro to center 15min $5.",phone:"T-Mobile/Verizon work. Denmark is EU.",lang:"Hej / Tak / Skål / En øl tak"}},
+
+{id:"edinburgh",city:"Edinburgh",co:"Scotland",fl:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",clr:"#555",cid:"GB",cx:.35,cy:.18,acts:13,
+vibe:"Castles, whisky, Arthur's Seat. FRINGE FESTIVAL IN AUGUST!",
+sc:{nightlife:7,food:7,sightseeing:9,budget:6,beach:2},
+f:{SFO:["$700-1000","~12h","BA via LHR, United"],ATL:["$650-950","~10h","Delta via AMS/LHR"],CHS:["$750-1050","~13h","AA via CLT"]},
+h:{r:"$130-220/nt",t:"$260-440",p:["The Balmoral (5★ 9.2) ~$300","Motel One Royal (3★ 8.5) ~$140","Castle Rock Hostel (8.7) ~$40"]},
+tv:{fly:{p:"$50-100",t:"2.5h",d:"EasyJet/Ryanair EDI-VCE"},train:{p:"$100-200",t:"~18h",d:"Via London+Paris. 2 days. Fly."}},
+dt:{n:"Highlands day tour (~$60)",d:"Glencoe, Loch Ness, dramatic landscapes."},
+todo:["Edinburgh Castle","Arthur's Seat hike","Royal Mile pubs","FRINGE FESTIVAL (Aug 7-31!)","Whisky tasting","NIGHTLIFE: Grassmarket, Cowgate, Hive, Liquid Rooms"],
+rest:["The Witchery - dramatic Gothic dining by the castle","Dishoom - Indian brunch institution, get the bacon naan","Bow Bar - best whisky selection in the city, cozy as hell"],
+prac:{w:"19°C/66°F, cool! Bring layers. Rain likely.",cur:"GBP (£). ~$1 = £0.80. Cards everywhere.",beer:"$5-6",ckl:"$10-14",tip:"10% at restaurants. Not at bars.",dress:"Casual. Layers for weather. No dress code anywhere really.",apt:"Tram to center 30min $8. Or bus $5.",phone:"T-Mobile: works but UK is NOT EU. Check your plan. Verizon TravelPass $10/day.",lang:"English! Scottish accent can be thick after a few whiskeys."}},
+
+{id:"munich",city:"Munich",co:"Germany",fl:"🇩🇪",clr:"#D4A03C",cid:"DE",cx:.58,cy:.88,acts:12,
+vibe:"Beer gardens, BMW, Alps gateway. Closest major city to Dolomites.",
+sc:{nightlife:7,food:8,sightseeing:7,budget:6,beach:2},
+f:{SFO:["$700-950","~12h","Lufthansa direct some days"],ATL:["$650-900","~10h","Delta via AMS, Lufthansa"],CHS:["$750-1000","~13h","Delta via ATL"]},
+h:{r:"$120-200/nt",t:"$240-400",p:["Torbräu (4★ 8.6) ~$170","Motel One Sendlinger (3★ 8.4) ~$130","Wombats (8.3) ~$40"]},
+tv:{fly:{p:"$40-80",t:"1h",d:"Lufthansa/EasyJet MUC-VCE"},train:{p:"$30-50",t:"~6h",d:"Through Brenner Pass Alps. Stunning ride."}},
+dt:{n:"Neuschwanstein Castle (2h train $30)",d:"THE fairytale castle. Disney copied this."},
+todo:["Marienplatz Glockenspiel","English Garden beer garden + river surfers","Hofbrauhaus beer hall","BMW Welt/Museum","Viktualienmarkt","NIGHTLIFE: P1 (upscale), Harry Klein (techno), Pacha Munich"],
+rest:["Augustiner Keller - the locals' beer garden, massive, under chestnut trees","Schneider Bräuhaus - weisswurst + weissbier for breakfast (Bavarian tradition)","Wirtshaus in der Au - best Knödel (dumplings) in Munich"],
+prac:{w:"24°C/75°F, warm, afternoon thunderstorms possible",cur:"EUR (€)",beer:"$4-5 (beer garden: $8 for a Mass/liter)",ckl:"$10-14",tip:"Round up. 5-10% for meals.",dress:"Casual. Beer halls = come as you are.",apt:"S-Bahn to center 40min $13.",phone:"T-Mobile/Verizon work in Germany.",lang:"Hallo / Danke / Prost / Ein Mass bitte (for a liter of beer)"}},
+
+{id:"vienna",city:"Vienna",co:"Austria",fl:"🇦🇹",clr:"#7B6BA5",cid:"AT",cx:.88,cy:.35,acts:13,
+vibe:"Imperial elegance, coffee houses, wine bars. Surprisingly good nightlife.",
+sc:{nightlife:7,food:9,sightseeing:9,budget:6,beach:2},
+f:{SFO:["$700-1000","~12h","Austrian, Lufthansa"],ATL:["$680-950","~11h","Delta via AMS, Austrian"],CHS:["$780-1050","~14h","Delta via ATL"]},
+h:{r:"$120-200/nt",t:"$240-400",p:["Hotel Topazz (4★ 9.0) ~$180","Ruby Marie (4★ 8.5) ~$140","Wombats Naschmarkt (8.5) ~$35"]},
+tv:{fly:{p:"$40-80",t:"1h",d:"Austrian/Ryanair VIE-VCE"},train:{p:"$30-55",t:"~7.5h",d:"OBB through Alps. Beautiful. Night train option too."}},
+dt:{n:"Bratislava Slovakia (1h train $15)",d:"Different country in an hour. Old Town, UFO bar, cheap drinks."},
+todo:["Schönbrunn Palace","Naschmarkt food market","Coffee houses (Cafe Central, Sperl)","Prater Ferris Wheel sunset","Belvedere (Klimt's The Kiss)","NIGHTLIFE: Donaukanal riverside bars, Flex, Grelle Forelle, Pratersauna"],
+rest:["Naschmarkt - walk the whole market, eat at every stall","Figlmüller - the famous schnitzel bigger than the plate","Kleinod - hidden cocktail bar in a tiny alley, reservation needed"],
+prac:{w:"26°C/79°F, warm, pleasant evenings",cur:"EUR (€)",beer:"$4-5",ckl:"$10-14",tip:"Round up or 5-10%.",dress:"Vienna is a bit dressier than Berlin. Smart casual.",apt:"CAT train 16min $14. Or S-Bahn 25min $5.",phone:"T-Mobile/Verizon work. Austria is EU.",lang:"Hallo / Danke / Prost / Ein Bier bitte"}},
+
+{id:"prague",city:"Prague",co:"Czechia",fl:"🇨🇿",clr:"#D4A03C",cid:"CZ",cx:.48,cy:.42,acts:13,
 vibe:"Absurdly cheap. Beautiful. Beer $1.50. Legendary guys trip city.",
 sc:{nightlife:9,food:7,sightseeing:9,budget:10,beach:1},
-f:{SFO:["$700-950","~13h","Lufthansa, BA, Turkish"],ATL:["$630-900","~11h","Delta via AMS, Lufthansa"],CHS:["$730-1000","~14h","Delta via ATL"]},
-h:{r:"$80-150/nt",t:"$160-300",p:["Maximilian (4★ 8.7) Old Town ~$120/nt","Mosaic House (4★ 8.5) ~$90/nt","Czech Inn (8.3) ~$35/nt"]},
-tv:{fly:{p:"$40-90",t:"1.5h",d:"Ryanair/Wizz PRG to Venice Treviso."},train:{p:"$40-70",t:"~7h",d:"RegioJet to Vienna + train to Venice. Scenic Alps."}},
-dt:{n:"Kutna Hora (1h train, $8)",d:"Bone Church - 40,000 human skeletons. Wild."},
-todo:["Charles Bridge at sunrise","Czech beer - best in the world, $1.50 a pint","Old Town Square - astronomical clock","Petrin Hill - funicular, panoramic views","Organized pub crawl - THE pub crawl city","NIGHTLIFE: Karlovy Lazne (5-floor bathhouse), Cross Club (insane), Roxy"]},
+f:{SFO:["$700-950","~13h","Lufthansa, BA"],ATL:["$630-900","~11h","Delta via AMS"],CHS:["$730-1000","~14h","Delta via ATL"]},
+h:{r:"$80-150/nt",t:"$160-300",p:["Maximilian (4★ 8.7) ~$120","Mosaic House (4★ 8.5) ~$90","Czech Inn (8.3) ~$35"]},
+tv:{fly:{p:"$40-90",t:"1.5h",d:"Ryanair/Wizz PRG-VCE Treviso"},train:{p:"$40-70",t:"~7h",d:"Via Vienna. Scenic Alps section."}},
+dt:{n:"Kutná Hora (1h train $8)",d:"Bone Church. 40,000 human skeletons. Wild."},
+todo:["Charles Bridge sunrise","Czech beer ($1.50/pint)","Old Town Square","Petřín Hill funicular","Organized pub crawl","NIGHTLIFE: Karlovy Lazne (5-floor bathhouse), Cross Club, Roxy"],
+rest:["Lokál Dlouhááá - best traditional Czech food, tank beer on tap","Vinohradský Pivovar - craft brewery + great food in cool neighborhood","Café Louvre - Einstein used to eat here, classic Czech cafe"],
+prac:{w:"25°C/77°F, warm, occasional rain",cur:"CZK (Czech Koruna). ~$1 = 23 CZK. Cards mostly accepted, some cash-only bars.",beer:"$1.50-2.50 (!)",ckl:"$5-8",tip:"Round up. 10% for sit-down.",dress:"Very casual everywhere.",apt:"Bus to center 30min $2. Cheap.",phone:"T-Mobile/Verizon work. Czechia is EU.",lang:"Ahoj / Děkuji / Na zdraví / Jedno pivo prosím"}},
 
-{id:"budapest",city:"Budapest",co:"Hungary",fl:"🇭🇺",x:67.2,y:65.5,clr:"#5A8F6A",
+{id:"budapest",city:"Budapest",co:"Hungary",fl:"🇭🇺",clr:"#5A8F6A",cid:"HU",cx:.32,cy:.42,acts:15,
 vibe:"Thermal baths, ruin bars, Danube views. Cheap, wild, unforgettable.",
 sc:{nightlife:9,food:8,sightseeing:9,budget:10,beach:4},
-f:{SFO:["$650-800","~13h","Lufthansa, SWISS"],ATL:["$600-800","~11h","Delta via AMS, Lufthansa"],CHS:["$700-900","~14h","Delta via ATL"]},
-h:{r:"$80-140/nt",t:"$160-280",p:["Hotel Moments (4★ 8.7) ~$130/nt","Roombach (3★ 8.4) nightlife area ~$90/nt","Maverick Lodge (8.6) ~$30/nt"]},
-tv:{fly:{p:"$40-80",t:"1.5h",d:"Wizz/Ryanair BUD to Venice Treviso."},train:{p:"$35-60",t:"~8h",d:"Vienna (2.5h) + Venice (5.5h). Gorgeous Alps."}},
-dt:{n:"Szentendre (40min, $4)",d:"Artist village on the Danube Bend. Or river cruise."},
-todo:["Szechenyi Thermal Bath - outdoor with beers, MUST","Ruin bars - Szimpla Kert + dozens. Pub crawl them.","Parliament lit up on the Danube at night","Fisherman's Bastion - best panoramic view","Gellert Hill sunset + baths below","NIGHTLIFE: Szimpla Kert, Instant-Fogas, Akvarium. Absurdly cheap."]},
+f:{SFO:["$650-800","~13h","Lufthansa, SWISS"],ATL:["$600-800","~11h","Delta via AMS"],CHS:["$700-900","~14h","Delta via ATL"]},
+h:{r:"$80-140/nt",t:"$160-280",p:["Moments (4★ 8.7) ~$130","Roombach (3★ 8.4) ~$90","Maverick Lodge (8.6) ~$30"]},
+tv:{fly:{p:"$40-80",t:"1.5h",d:"Wizz/Ryanair BUD-VCE Treviso"},train:{p:"$35-60",t:"~8h",d:"Vienna (2.5h)+Venice. Alps are gorgeous."}},
+dt:{n:"Szentendre (40min $4)",d:"Artist village, Danube Bend."},
+todo:["Széchenyi Thermal Bath + beers","Ruin bar pub crawl (Szimpla+)","Parliament at night","Fisherman's Bastion panorama","Gellért Hill sunset","NIGHTLIFE: Szimpla Kert, Instant-Fogas, Akvárium"],
+rest:["Bors GasztroBar - gourmet soup + sandwiches, tiny and cult","Karaván Street Food - outdoor food truck park next to Szimpla","Mazel Tov - Middle Eastern in a beautiful courtyard, great cocktails"],
+prac:{w:"28°C/82°F, hot, sunny",cur:"HUF (Hungarian Forint). ~$1 = 370 HUF. Cards widely accepted.",beer:"$1.50-3",ckl:"$5-8",tip:"10% expected at restaurants.",dress:"Casual. Thermal baths: bring swimsuit or rent.",apt:"Bus 100E to center 30min $4.",phone:"T-Mobile/Verizon work. Hungary is EU.",lang:"Szia / Köszönöm / Egészségedre / Egy sört kérek"}},
 
-{id:"split",city:"Split",co:"Croatia",fl:"🇭🇷",x:62.5,y:77.5,clr:"#5A8F6A",
+{id:"split",city:"Split",co:"Croatia",fl:"🇭🇷",clr:"#5A8F6A",cid:"HR",cx:.42,cy:.65,acts:12,
 vibe:"Roman palace turned party city. Cheaper than Dubrovnik, better nightlife.",
 sc:{nightlife:8,beach:8,sightseeing:7,food:7,budget:8},
-f:{SFO:["$750-1050","~14h","BA, Lufthansa"],ATL:["$700-1000","~12h","Delta via AMS, BA"],CHS:["$800-1100","~15h","Delta via ATL"]},
-h:{r:"$100-180/nt",t:"$200-360",p:["Hotel Luxe (4★ 8.5) waterfront ~$150/nt","Heritage Antique (4★ 9.0) in Palace ~$170/nt","Tchaikovsky (9.1) ~$35/nt"]},
-tv:{fly:{p:"$40-90",t:"1h",d:"Volotea/EasyJet SPU to VCE. Summer seasonal."},train:{p:"N/A",t:"N/A",d:"No practical train. Fly."}},
-dt:{n:"Hvar Island (2h ferry, $25)",d:"THE party island. Beach clubs, yachts, lavender fields."},
-todo:["Diocletian's Palace - 1700yr Roman palace you walk through","Riva waterfront - sunset drinks","Marjan Hill - panoramic views, hidden beaches","Bacvice Beach - picigin, lively","Blue Cave + Hvar boat tour","NIGHTLIFE: Central Club, Inbox, Zenta Beach. Wilder than Dubrovnik."]},
+f:{SFO:["$750-1050","~14h","BA, Lufthansa"],ATL:["$700-1000","~12h","Delta via AMS"],CHS:["$800-1100","~15h","Delta via ATL"]},
+h:{r:"$100-180/nt",t:"$200-360",p:["Hotel Luxe (4★ 8.5) ~$150","Heritage Antique (4★ 9.0) ~$170","Tchaikovsky (9.1) ~$35"]},
+tv:{fly:{p:"$40-90",t:"1h",d:"Volotea/EasyJet SPU-VCE"},train:{p:"N/A",t:"N/A",d:"No train. Fly."}},
+dt:{n:"Hvar Island (2h ferry $25)",d:"THE party island. Beach clubs, yachts."},
+todo:["Diocletian's Palace","Riva waterfront sunset","Marjan Hill hike","Bacvice Beach","Blue Cave + Hvar boat tour","NIGHTLIFE: Central Club, Inbox, Zenta Beach"],
+rest:["Villa Spiza - tiny, no menu, chef tells you what's fresh today","Bokeria Kitchen & Wine - modern Mediterranean, great wine list","Uje Oil Bar - olive oil tasting + Dalmatian small plates"],
+prac:{w:"30°C/86°F, hot, sunny, sea breeze",cur:"EUR (€) - Croatia switched to Euro in 2023!",beer:"$3-4",ckl:"$7-10",tip:"Round up. 10% for good service.",dress:"Beach casual. Flip flops fine.",apt:"Bus to center 30min $5.",phone:"T-Mobile/Verizon work. Croatia is EU.",lang:"Bok / Hvala / Živjeli / Jedno pivo molim"}},
 
-{id:"dubrovnik",city:"Dubrovnik",co:"Croatia",fl:"🇭🇷",x:64.2,y:80.7,clr:"#4A7FAF",
-vibe:"Walled city on the Adriatic. Cliff bars, crystal water, GoT vibes.",
+{id:"dubrovnik",city:"Dubrovnik",co:"Croatia",fl:"🇭🇷",clr:"#4A7FAF",cid:"HR",cx:.78,cy:.95,acts:11,
+vibe:"Walled city, Adriatic, cliff bars, GoT vibes.",
 sc:{nightlife:6,beach:9,sightseeing:8,food:7,budget:7},
-f:{SFO:["$800-1100","~15h","BA, Lufthansa, Turkish"],ATL:["$750-1050","~13h","Delta via AMS, BA"],CHS:["$850-1200","~16h","Delta via ATL"]},
-h:{r:"$120-200/nt",t:"$240-400",p:["Hotel Lero (4★ 8.3) pool ~$140/nt","Berkeley (4★ 8.7) ~$170/nt","Fresh Sheets (9.2) inside walls ~$160/nt"]},
-tv:{fly:{p:"$50-130",t:"1.5h",d:"Croatia Airlines/Volotea DBV to VCE."},train:{p:"N/A",t:"N/A",d:"No train. Fly."}},
-dt:{n:"Montenegro / Kotor (2h bus, $20)",d:"Medieval walled town in a fjord. Insane scenery."},
-todo:["City Walls - full loop ~$35, mandatory","Buza Bar - cliff bar over the Adriatic","Lokrum Island - 10min ferry, peacocks, GoT throne","Banje Beach - club below Old Town","Cable car Mt. Srd - sunset views","NIGHTLIFE: Revelin (fortress club), Culture Club, Stradun bar hop"]},
+f:{SFO:["$800-1100","~15h","BA, Lufthansa"],ATL:["$750-1050","~13h","Delta via AMS"],CHS:["$850-1200","~16h","Delta via ATL"]},
+h:{r:"$120-200/nt",t:"$240-400",p:["Hotel Lero (4★ 8.3) ~$140","Berkeley (4★ 8.7) ~$170","Fresh Sheets (9.2) ~$160"]},
+tv:{fly:{p:"$50-130",t:"1.5h",d:"Croatia Airlines/Volotea DBV-VCE"},train:{p:"N/A",t:"N/A",d:"No train. Fly."}},
+dt:{n:"Montenegro/Kotor (2h bus $20)",d:"Medieval town in a fjord. Insane scenery."},
+todo:["City Walls loop ($35)","Buza Bar (cliff bar)","Lokrum Island ferry","Banje Beach","Mt. Srd cable car","NIGHTLIFE: Revelin (fortress), Culture Club, Stradun"],
+rest:["Proto - fresh seafood on a rooftop in Old Town","Taj Mahal - Bosnian food, best ćevapi outside Bosnia","D'vino Wine Bar - Croatian wine tasting in a cave-like cellar"],
+prac:{w:"30°C/86°F, hot, sunny",cur:"EUR (€)",beer:"$4-5",ckl:"$8-12",tip:"Round up. Service sometimes included.",dress:"Beach casual. Old Town gets warm, light clothes.",apt:"Bus/shuttle to Old Town 30min $8-10.",phone:"T-Mobile/Verizon work. Croatia is EU.",lang:"Bok / Hvala / Živjeli / Jedno pivo molim"}},
 
-{id:"athens",city:"Athens",co:"Greece",fl:"🇬🇷",x:72.8,y:90.4,clr:"#4A7FAF",
-vibe:"Ancient ruins + raw modern energy. Cheap rooftops with Acropolis views.",
+{id:"athens",city:"Athens",co:"Greece",fl:"🇬🇷",clr:"#4A7FAF",cid:"GR",cx:.58,cy:.68,acts:13,
+vibe:"Ancient ruins + raw energy. Cheap rooftops, Acropolis views.",
 sc:{nightlife:8,food:9,sightseeing:9,budget:9,beach:5},
-f:{SFO:["$750-1000","~14h","Lufthansa, Turkish, BA"],ATL:["$700-950","~11h","Delta DIRECT seasonal"],CHS:["$800-1100","~15h","Delta via ATL"]},
-h:{r:"$90-160/nt",t:"$180-320",p:["Electra Metropolis (5★ 9.0) Acropolis view ~$160/nt","Athens Was (4★ 8.8) ~$140/nt","Bedbox (8.5) ~$30/nt"]},
-tv:{fly:{p:"$60-130",t:"2.5h",d:"Aegean/Volotea ATH to VCE."},train:{p:"N/A",t:"N/A",d:"No practical train. Fly."}},
-dt:{n:"Cape Sounion (1.5h bus, $15)",d:"Temple of Poseidon on a cliff. Sunset is legendary."},
-todo:["Acropolis + Parthenon - 8am opening","Plaka - tavernas under the Acropolis","Monastiraki Flea Market","Rooftop at A for Athens - Acropolis lit up","Athens Riviera - tram to beach clubs","NIGHTLIFE: Psyrri crawl, Gazi clubs, six d.o.g.s. Cheap warm nights."]},
+f:{SFO:["$750-1000","~14h","Lufthansa, Turkish"],ATL:["$700-950","~11h","Delta DIRECT seasonal"],CHS:["$800-1100","~15h","Delta via ATL"]},
+h:{r:"$90-160/nt",t:"$180-320",p:["Electra Metropolis (5★ 9.0) ~$160","Athens Was (4★ 8.8) ~$140","Bedbox (8.5) ~$30"]},
+tv:{fly:{p:"$60-130",t:"2.5h",d:"Aegean/Volotea ATH-VCE"},train:{p:"N/A",t:"N/A",d:"No train. Fly."}},
+dt:{n:"Cape Sounion (1.5h bus $15)",d:"Temple of Poseidon, cliff sunset."},
+todo:["Acropolis + Parthenon (8am)","Plaka tavernas","Monastiraki Flea Market","A for Athens rooftop","Athens Riviera beach clubs","NIGHTLIFE: Psyrri crawl, Gazi, six d.o.g.s"],
+rest:["Kostas - tiny souvlaki stand in Syntagma, always a line, $3 wraps","Karamanlidika - Greek deli/restaurant, charcuterie boards","360 Cocktail Bar - rooftop, Acropolis view, incredible cocktails"],
+prac:{w:"33°C/91°F, HOT. Hydrate. Morning sightseeing, afternoon shade.",cur:"EUR (€)",beer:"$3-4",ckl:"$7-10",tip:"Round up. 5-10% at restaurants.",dress:"Very casual. Comfortable shoes for ruins.",apt:"Metro to center 40min $10. Or bus $6.",phone:"T-Mobile/Verizon work. Greece is EU.",lang:"Yia sas / Efcharistó / Yamas / Mia bíra parakaló"}},
 
-{id:"mykonos",city:"Mykonos",co:"Greece",fl:"🇬🇷",x:74.8,y:93.6,clr:"#4A7FAF",
-vibe:"Greek island party mecca. Beach clubs, white alleys, DJs, sunsets.",
+{id:"mykonos",city:"Mykonos",co:"Greece",fl:"🇬🇷",clr:"#4A7FAF",cid:"GR",cx:.78,cy:.82,acts:9,
+vibe:"Island party mecca. Beach clubs, white alleys, DJs.",
 sc:{nightlife:9,beach:10,food:8,sightseeing:5,budget:3},
-f:{SFO:["$900-1300","~16h","Via Athens + Aegean"],ATL:["$850-1200","~14h","Delta to ATH + Aegean"],CHS:["$950-1350","~17h","Delta via ATL/ATH"]},
-h:{r:"$180-350/nt",t:"$360-700",p:["Semeli (4★ 8.9) town center ~$250/nt","Ilio Maris (4★ 8.6) ~$200/nt","MyCocoon (8.0) budget ~$60/nt"]},
-tv:{fly:{p:"$80-160",t:"3h via ATH",d:"Aegean JMK to ATH to VCE. Or Volotea direct ~$100."},train:{p:"N/A",t:"N/A",d:"Island. Fly."}},
-dt:{n:"Delos (30min boat, $25)",d:"UNESCO. Birthplace of Apollo. Ancient ruins."},
-todo:["Paradise Beach - THE party beach, DJs from 4pm","Super Paradise - upscale party beach","Little Venice - sunset drinks, windmill views","Nammos Beach Club - the splurge","Mykonos Town - white alleys, get lost","NIGHTLIFE: Cavo Paradiso (clifftop superclub), Scandinavian Bar, Void"]},
+f:{SFO:["$900-1300","~16h","Via ATH + Aegean"],ATL:["$850-1200","~14h","Delta to ATH + Aegean"],CHS:["$950-1350","~17h","Delta via ATL/ATH"]},
+h:{r:"$180-350/nt",t:"$360-700",p:["Semeli (4★ 8.9) ~$250","Ilio Maris (4★ 8.6) ~$200","MyCocoon (8.0) ~$60"]},
+tv:{fly:{p:"$80-160",t:"3h via ATH",d:"Aegean JMK-ATH-VCE. Or Volotea direct ~$100"},train:{p:"N/A",t:"N/A",d:"Island. Fly."}},
+dt:{n:"Delos (30min boat $25)",d:"UNESCO. Birthplace of Apollo."},
+todo:["Paradise Beach DJs","Super Paradise Beach","Little Venice sunset","Nammos Beach Club","Mykonos Town alleys","NIGHTLIFE: Cavo Paradiso, Scandinavian Bar, Void"],
+rest:["Niko's Taverna - waterfront in town, classic Greek, fresh fish","Scorpios - beach club restaurant, sunset dinner, world-class DJs after","Kikí's Taverna - no electricity, no phone, just incredible food on Agios Sostis beach"],
+prac:{w:"29°C/84°F, hot, windy (Meltemi winds), sunny",cur:"EUR (€)",beer:"$6-8",ckl:"$15-22 (beach clubs: $20-30)",tip:"Round up. Beach clubs add service.",dress:"Beach chic. Nice restaurants want smart casual at dinner.",apt:"Bus from airport 10min $2. Or taxi $10.",phone:"T-Mobile/Verizon work. Greece is EU.",lang:"Yia sas / Efcharistó / Yamas / Mia bíra"}},
 
-{id:"swiss",city:"Interlaken",co:"Switzerland",fl:"🇨🇭",x:53,y:66.1,clr:"#5A8F6A",
-vibe:"Adrenaline + Alps. Paragliding, canyoning. Less nightlife, all adventure.",
+{id:"swiss",city:"Interlaken",co:"Switzerland",fl:"🇨🇭",clr:"#5A8F6A",cid:"CH",cx:.42,cy:.55,acts:10,
+vibe:"Adrenaline + Alps. Paragliding, canyoning. Less nightlife.",
 sc:{nightlife:4,sightseeing:10,food:7,budget:3,beach:3},
-f:{SFO:["$800-1100","~12h","SWISS direct some days"],ATL:["$750-1050","~12h","Lufthansa, SWISS, Delta"],CHS:["$850-1150","~14h","Delta via ATL"]},
-h:{r:"$140-280/nt",t:"$280-560",p:["Hotel Rossli (3★ 8.0) ~$140/nt","Victoria Jungfrau (5★ 9.2) ~$400/nt","Backpackers Villa (3★ 8.5) ~$90/nt"]},
-tv:{fly:{p:"$50-90",t:"1.5h",d:"EasyJet ZRH to VCE."},train:{p:"$60-100",t:"~6h",d:"Through Gotthard Tunnel to Italy. Beautiful ride."}},
-dt:{n:"Jungfraujoch Top of Europe ($200)",d:"11,332 ft. Snow, ice palace. Bucket list."},
-todo:["Paragliding - tandem ~$180. DO THIS.","Canyoning - rappelling waterfalls ~$120","Lake Brienz - turquoise, rent a boat","Harder Kulm - dual-lake panorama, sunset","Lauterbrunnen - 72 waterfalls in one valley","NIGHTLIFE: Limited. Brasserie 17. This is daytime adventure."]}
+f:{SFO:["$800-1100","~12h","SWISS direct some days"],ATL:["$750-1050","~12h","Lufthansa, SWISS"],CHS:["$850-1150","~14h","Delta via ATL"]},
+h:{r:"$140-280/nt",t:"$280-560",p:["Rossli (3★ 8.0) ~$140","Victoria Jungfrau (5★ 9.2) ~$400","Backpackers Villa (3★ 8.5) ~$90"]},
+tv:{fly:{p:"$50-90",t:"1.5h",d:"EasyJet ZRH-VCE"},train:{p:"$60-100",t:"~6h",d:"Gotthard Tunnel to Italy. Beautiful."}},
+dt:{n:"Jungfraujoch ($200 RT)",d:"11,332 ft. Snow, ice palace. Bucket list."},
+todo:["Paragliding (~$180)","Canyoning (~$120)","Lake Brienz turquoise","Harder Kulm panorama","Lauterbrunnen 72 waterfalls","NIGHTLIFE: Limited. Brasserie 17."],
+rest:["Restaurant Bären - traditional Swiss fondue and raclette","Hüsi Bierhaus - craft beer + burgers, Interlaken's social hub","Goldener Anker - lakeside terrace, good pizza surprisingly"],
+prac:{w:"24°C/75°F, warm days, cool evenings in mountains",cur:"CHF (Swiss Franc). ~$1 = 0.90 CHF. EXPENSIVE. Cards everywhere.",beer:"$7-9",ckl:"$15-20",tip:"Service included. Round up if generous.",dress:"Outdoor/athletic wear. Hiking boots for activities.",apt:"Train from Zurich airport 2h, $60. Or fly to Bern, train 1h.",phone:"T-Mobile: Switzerland NOT in EU. Check plan! Verizon TravelPass $10/day works.",lang:"Grüezi / Danke / Prost / Es Bier bitte"}}
 ];
 
-let cfg={arrive:null,depart:null,arriveLabel:'',departLabel:'',dep:'',ft:'',ven:'',when:''};
-let cur=1;let musicOn=false;let hatTimer=null;let hatIdx=0;
 
-// ─── MUSIC ───
-function startTrip(){
-  const a=document.getElementById('bgMusic');
-  a.volume=0.35;
-  a.play().then(()=>{musicOn=true;document.getElementById('musicBtn').classList.add('visible','playing')}).catch(()=>{document.getElementById('musicBtn').classList.add('visible','paused')});
-  goTo(2);
-}
-function toggleMusic(){
-  const a=document.getElementById('bgMusic'),b=document.getElementById('musicBtn');
-  if(musicOn){a.pause();musicOn=false;b.classList.remove('playing');b.classList.add('paused')}
-  else{a.play();musicOn=true;b.classList.add('playing');b.classList.remove('paused')}
-}
+let cfg={arrive:null,depart:null,arriveLabel:'',departLabel:'',dep:'',ft:'',ven:'',when:''},cur=1,musicOn=false,hatTimer=null,hatIdx=0,compareList=[],compareMode=false;
 
-// ─── SCREEN TRANSITIONS ───
-function goTo(n){
-  const old=document.getElementById('s'+cur);
-  if(old){old.classList.add('exit');setTimeout(()=>old.classList.add('gone'),600)}
-  cur=n;
-  if(n===0){setTimeout(()=>{document.getElementById('main').classList.add('show');renderMain()},300);return}
-  const nw=document.getElementById('s'+n);
-  if(!nw)return;
-  setTimeout(()=>{nw.classList.remove('gone');setTimeout(()=>nw.classList.add('active'),30)},350);
-  if(n===2)setTimeout(buildCal,500);
-}
+function startTrip(){const a=document.getElementById('bgMusic');a.volume=0.35;a.play().then(()=>{musicOn=true;document.getElementById('musicBtn').classList.add('visible','playing')}).catch(()=>{document.getElementById('musicBtn').classList.add('visible','paused')});goTo(2)}
+function toggleMusic(){const a=document.getElementById('bgMusic'),b=document.getElementById('musicBtn');if(musicOn){a.pause();musicOn=false;b.classList.remove('playing');b.classList.add('paused')}else{a.play();musicOn=true;b.classList.add('playing');b.classList.remove('paused')}}
+function goTo(n){const old=document.getElementById('s'+cur);if(old){old.classList.remove('active');old.classList.add('exit');setTimeout(()=>old.classList.add('gone'),600)}cur=n;if(n===0){setTimeout(()=>{document.getElementById('main').classList.add('show');renderMain()},300);return}const nw=document.getElementById('s'+n);if(!nw)return;setTimeout(()=>{nw.classList.remove('gone','exit');setTimeout(()=>nw.classList.add('active'),30)},350);if(n===2)setTimeout(buildCal,500)}
 function pk(key,val){cfg[key]=val;const seq={dep:4,ft:5,ven:0};setTimeout(()=>goTo(seq[key]),200)}
-function restart(){
-  cfg={arrive:null,depart:null,arriveLabel:'',departLabel:'',dep:'',ft:'',ven:'',when:''};
-  document.getElementById('main').classList.remove('show');
-  document.getElementById('detail').className='';document.getElementById('detail').innerHTML='';
-  document.querySelectorAll('.scr').forEach(s=>{s.classList.remove('active','exit');s.classList.add('gone')});
-  const s1=document.getElementById('s1');s1.classList.remove('gone');setTimeout(()=>s1.classList.add('active'),30);cur=1;
-}
+function restart(){cfg={arrive:null,depart:null,arriveLabel:'',departLabel:'',dep:'',ft:'',ven:'',when:''};document.getElementById('main').classList.remove('show');document.getElementById('detail').className='';document.getElementById('detail').innerHTML='';document.querySelectorAll('.scr').forEach(s=>{s.classList.remove('active','exit');s.classList.add('gone')});const s1=document.getElementById('s1');s1.classList.remove('gone','exit');setTimeout(()=>s1.classList.add('active'),30);cur=1}
 
-// ─── CALENDAR ───
-// Aug 21 (Fri) to Sep 6 (Sun) 2026. Wedding lock: Aug 26-30. Venice by Aug 25.
-function buildCal(){
-  const w=document.getElementById('calWrap');if(!w)return;
-  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  let html='<div class="cal-grid">';
-  days.forEach(d=>html+=`<div class="cal-day">${d}</div>`);
-  // Aug 21 2026 = Friday (index 4 in Mon-based week). Need 4 empties.
-  for(let i=0;i<4;i++) html+=`<div class="cal-cell empty"></div>`;
-  const dates=[];
-  for(let d=21;d<=31;d++) dates.push({d,m:8,label:'Aug '+d});
-  for(let d=1;d<=6;d++) dates.push({d,m:9,label:'Sep '+d});
-  dates.forEach(dt=>{
-    const num=dt.m===8?dt.d:dt.d+31;
-    const isWed=dt.m===8&&dt.d>=26&&dt.d<=30;
-    html+=`<div class="cal-cell${isWed?' locked':''}" data-num="${num}" onclick="pickDate(${num},'${dt.label}')">
-      <span>${dt.d}</span>${dt.m===9?'<span class="mo">Sep</span>':''}
-    </div>`;
-  });
-  html+='</div>';w.innerHTML=html;
-}
-function pickDate(num,label){
-  if(num>=26&&num<=30)return;
-  if(!cfg.arrive||cfg.depart){cfg.arrive=num;cfg.arriveLabel=label;cfg.depart=null;cfg.departLabel=''}
-  else if(num>cfg.arrive){cfg.depart=num;cfg.departLabel=label}
-  else{cfg.arrive=num;cfg.arriveLabel=label;cfg.depart=null;cfg.departLabel=''}
-  updateCal();
-}
-function updateCal(){
-  document.querySelectorAll('.cal-cell').forEach(el=>{
-    if(el.classList.contains('empty')||el.classList.contains('locked'))return;
-    el.classList.remove('arrive','depart','range');
-    const n=+el.dataset.num;
-    if(cfg.arrive&&n===cfg.arrive)el.classList.add('arrive');
-    if(cfg.depart&&n===cfg.depart)el.classList.add('depart');
-    if(cfg.arrive&&cfg.depart&&n>cfg.arrive&&n<cfg.depart)el.classList.add('range');
-  });
-  const btn=document.getElementById('calOk');
-  if(cfg.arrive&&cfg.depart){
-    btn.classList.add('ready');
-    cfg.when=cfg.arrive<26?'before':'after';
-    if(cfg.arrive<26&&cfg.depart>30)cfg.when='both';
-  }else btn.classList.remove('ready');
-}
+// Calendar
+function buildCal(){const w=document.getElementById('calWrap');if(!w)return;const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];let h='<div class="cal-grid">';days.forEach(d=>h+=`<div class="cal-day">${d}</div>`);for(let i=0;i<4;i++)h+='<div class="cal-cell empty"></div>';const dates=[];for(let d=21;d<=31;d++)dates.push({d,m:8,label:'Aug '+d});for(let d=1;d<=6;d++)dates.push({d,m:9,label:'Sep '+d});dates.forEach(dt=>{const num=dt.m===8?dt.d:dt.d+31;const isWed=dt.m===8&&dt.d>=26&&dt.d<=30;h+=`<div class="cal-cell${isWed?' locked':''}" data-num="${num}" onclick="pickDate(${num},'${dt.label}')"><span>${dt.d}</span>${dt.m===9?'<span class="mo">Sep</span>':''}</div>`});h+='</div>';w.innerHTML=h}
+function pickDate(num,label){if(num>=26&&num<=30)return;if(!cfg.arrive||cfg.depart){cfg.arrive=num;cfg.arriveLabel=label;cfg.depart=null;cfg.departLabel=''}else if(num>cfg.arrive){cfg.depart=num;cfg.departLabel=label}else{cfg.arrive=num;cfg.arriveLabel=label;cfg.depart=null;cfg.departLabel=''}updateCal()}
+function updateCal(){document.querySelectorAll('.cal-cell').forEach(el=>{if(el.classList.contains('empty')||el.classList.contains('locked'))return;el.classList.remove('arrive','depart','range');const n=+el.dataset.num;if(cfg.arrive&&n===cfg.arrive)el.classList.add('arrive');if(cfg.depart&&n===cfg.depart)el.classList.add('depart');if(cfg.arrive&&cfg.depart&&n>cfg.arrive&&n<cfg.depart)el.classList.add('range')});const btn=document.getElementById('calOk');if(cfg.arrive&&cfg.depart){btn.classList.add('ready');cfg.when=cfg.arrive<26?(cfg.depart>30?'both':'before'):'after'}else btn.classList.remove('ready')}
 function confirmDates(){if(cfg.arrive&&cfg.depart)goTo(3)}
 
-// ─── MAIN ───
+// Rating: how worth it is the city for available days
+function getCityDays(){let before=0,after=0;if(cfg.arrive<26)before=25-cfg.arrive;if(cfg.depart>30)after=cfg.depart-30;return{before,after,total:before+after}}
+function rateCity(c){const d=getCityDays();const avail=cfg.when==='before'?d.before:cfg.when==='after'?d.after:d.total;const actPerDay=c.acts/Math.max(avail-1,1);// -1 for travel day to Venice
+const nightScore=c.sc.nightlife/10;const budgetScore=c.sc.budget/10;const raw=(actPerDay>.8?1:actPerDay)*4+nightScore*3+budgetScore*2+(c.sc.beach/10);return Math.min(10,Math.round(raw*10)/10)}
+function ratingClass(r){return r>=7.5?'high':r>=5.5?'mid':'low'}
+function ratingBg(r){return r>=7.5?'rgba(90,143,106,.1)':r>=5.5?'rgba(184,149,106,.1)':'rgba(199,93,58,.1)'}
+function ratingColor(r){return r>=7.5?'#5A8F6A':r>=5.5?'#B8956A':'#C75D3A'}
+
 function renderMain(){
-  const wl={before:'Before Wedding',after:'After Wedding',both:'Before + After'};
-  const fl={rt:'Round Trip',oj:'Open Jaw',ow:'One-Way'};
-  const vl={before:'Venice First',after:'Venice After',both:'Venice Both'};
-  document.getElementById('tT').textContent=wl[cfg.when]||'Trip';
-  document.getElementById('tM').textContent=cfg.dep+' · '+cfg.arriveLabel+' → '+cfg.departLabel;
+  const wl={before:'Before Wedding',after:'After Wedding',both:'Before + After'},fl={rt:'Round Trip',oj:'Open Jaw',ow:'One-Way'},vl={before:'Venice First',after:'Venice After',both:'Venice Both'};
+  document.getElementById('tT').textContent=wl[cfg.when]||'Trip';document.getElementById('tM').textContent=cfg.dep+' · '+cfg.arriveLabel+' → '+cfg.departLabel;
   document.getElementById('pills').innerHTML=[wl[cfg.when],cfg.dep,fl[cfg.ft],vl[cfg.ven],cfg.arriveLabel+' → '+cfg.departLabel].map(t=>`<span class="pill">${t}</span>`).join('');
-  renderMap();renderGrid();
-}
+  renderMap();renderGrid()}
 
-// ─── MAP ───
-function renderMap(){
-  const m=document.getElementById('mapW');
-  // Keep the img, add dots
-  const existing=m.querySelectorAll('.dot');existing.forEach(d=>d.remove());
-  C.forEach(c=>{
-    const d=document.createElement('div');d.className='dot';
-    d.style.cssText=`left:${c.x}%;top:${c.y}%;background:${c.clr}`;
-    d.innerHTML=`<span class="tp">${c.fl} ${c.city} — ${c.f[cfg.dep][0]}</span>`;
-    d.onclick=()=>showDetail(c.id);
-    m.appendChild(d);
-  });
-  // Add Venice + Dolomites markers
-  const v=document.createElement('div');v.className='dot';
-  v.style.cssText='left:56.5%;top:72%;background:var(--gold);width:8px;height:8px;border-width:1.5px;cursor:default;opacity:.7';
-  v.innerHTML='<span class="tp">🏛️ Venice</span>';m.appendChild(v);
-  const dl=document.createElement('div');dl.className='dot';
-  dl.style.cssText='left:55%;top:68%;background:var(--gold);width:8px;height:8px;border-width:1.5px;cursor:default;opacity:.5;border-style:dashed';
-  dl.innerHTML='<span class="tp">⛰️ Dolomites</span>';m.appendChild(dl);
-}
+// Map
+function renderMap(){const m=document.getElementById('mapW');m.querySelectorAll('.dot').forEach(d=>d.remove());const svg=m.querySelector('svg');if(!svg)return;
+  const pos={};C.forEach(c=>pos[c.id]=[c.cid,c.cx,c.cy]);
+  C.forEach(c=>{const p=pos[c.id];if(!p)return;const el=svg.getElementById(p[0]);if(!el)return;const bb=el.getBBox();const sx=bb.x+bb.width*p[1],sy=bb.y+bb.height*p[2];const xp=sx/1000*100,yp=sy/684*100;
+    const d=document.createElement('div');d.className='dot';d.style.cssText=`left:${xp}%;top:${yp}%;background:${c.clr}`;d.innerHTML=`<span class="tp">${c.fl} ${c.city} — ${c.f[cfg.dep][0]}</span>`;d.onclick=()=>compareMode?toggleCityCompare(c.id):showDetail(c.id);m.appendChild(d)});
+  const it=svg.getElementById('IT');if(it){const ib=it.getBBox();[{l:'Venice',rx:.52,ry:.08,o:.7},{l:'Dolomites',rx:.48,ry:.02,o:.5}].forEach(p=>{const sx=ib.x+ib.width*p.rx,sy=ib.y+ib.height*p.ry;const d=document.createElement('div');d.className='dot';d.style.cssText=`left:${sx/1000*100}%;top:${sy/684*100}%;background:#B8956A;width:8px;height:8px;border-width:1.5px;cursor:default;opacity:${p.o}`;d.innerHTML=`<span class="tp">${p.l}</span>`;m.appendChild(d)})}}
 
-function renderGrid(){
-  document.getElementById('grid').innerHTML=C.map(c=>`<div class="st" onclick="showDetail('${c.id}')">
-    <div class="fl">${c.fl}</div><div class="cn">${c.city}</div><div class="co">${c.co}</div><div class="pr">${c.f[cfg.dep][0]}</div>
-  </div>`).join('');
-}
+// Cost chart
+function toggleChart(){const w=document.getElementById('chartWrap');if(w.style.display==='none'){w.style.display='block';renderChart()}else w.style.display='none'}
+function renderChart(){const w=document.getElementById('chartWrap');const sorted=[...C].sort((a,b)=>parseInt(a.f[cfg.dep][0].replace(/\D/,''))-parseInt(b.f[cfg.dep][0].replace(/\D/,'')));
+  const maxP=parseInt(sorted[sorted.length-1].f[cfg.dep][0].split('-')[1]||'1500');
+  w.innerHTML='<h3 style="font-family:Cormorant Garamond,serif;font-size:20px;font-weight:300;margin:8px 0 12px">Cost Comparison from '+cfg.dep+'</h3>'+sorted.map(c=>{const lo=parseInt(c.f[cfg.dep][0].replace(/\D/,''));const pct=lo/maxP*100;return`<div class="chart-row" onclick="showDetail('${c.id}')"><span class="chart-lbl">${c.fl} ${c.city}</span><div class="chart-bar" style="width:${pct}%;background:${c.clr}"></div><span class="chart-pr">${c.f[cfg.dep][0]}</span></div>`}).join('')}
 
-// ─── DETAIL ───
+// Grid
+function renderGrid(){document.getElementById('grid').innerHTML=C.map(c=>{const r=rateCity(c);const rc=ratingColor(r);return`<div class="st${compareList.includes(c.id)?' cmp':''}" onclick="${compareMode?`toggleCityCompare('${c.id}')`:`showDetail('${c.id}')`}"><div class="rtg" style="background:${ratingBg(r)};color:${rc}">${r}</div><div class="fl">${c.fl}</div><div class="cn">${c.city}</div><div class="co">${c.co}</div><div class="pr">${c.f[cfg.dep][0]}</div></div>`}).join('')}
+
 function pip(v,clr){let h='';for(let i=0;i<10;i++)h+=`<div class="sp" style="background:${i<v?clr:'rgba(0,0,0,.06)'}"></div>`;return h}
 
+// Google Flights link
+function gfLink(from,to){return`https://www.google.com/travel/flights?q=flights+from+${from}+to+${to}+august+2026`}
+
+// Detail
 function showDetail(id){
-  const c=C.find(x=>x.id===id);const fl=c.f[cfg.dep];const d=document.getElementById('detail');
-  const fL=parseInt(fl[0].replace(/\D/,'')),fH=parseInt(fl[0].split('-')[1]||fL);
-  const hL=parseInt(c.h.t.match(/\d+/)[0]),hH=parseInt(c.h.t.match(/-(\d+)/)?.[1]||hL);
-  const tvL=parseInt(c.tv.fly.p.replace(/\D/,'')),tvH=parseInt(c.tv.fly.p.split('-')[1]||tvL);
-  const bus=22,ven=175;
-  const tL=fL+hL+tvL+ven+bus,tH=fH+hH+tvH+250+bus;
-  const tL2=fL+hL+tvL+ven,tH2=fH+hH+tvH+250;
-
-  let vp='';const iB=cfg.when==='before'||cfg.when==='both';
-  if(iB){
-    if(cfg.ven==='before')vp=`Fly ${cfg.dep} → Venice (1-2 nights) → ${c.city} (2-3 days) → Venice → bus to Dolomites Aug 26 AM.`;
-    else if(cfg.ven==='after')vp=`Fly ${cfg.dep} → ${c.city} (2-3 days) → Venice by Aug 25 (1-2 nights) → bus to Dolomites Aug 26.`;
-    else vp=`Fly ${cfg.dep} → Venice (1 night) → ${c.city} (2-3 days) → Venice (1+ nights) → bus Aug 26.`;
-  }else{
-    if(cfg.ven==='before')vp=`Bus back to Venice Aug 30 → Venice (1-2 nights, Film Fest opens Sep 2!) → ${c.city} (2-3 days) → fly home to ${cfg.dep}.`;
-    else if(cfg.ven==='after')vp=`Aug 30 → ${c.city} (2-3 days) → Venice (1-2 nights, Film Fest!) → fly home from VCE.`;
-    else vp=`Venice Aug 30 (1 night) → ${c.city} (2-3 days) → Venice (1 night, Film Fest) → fly home.`;
-  }
-  let ft='';
-  if(cfg.ft==='rt')ft=`Round Trip: ${cfg.dep}↔${c.city}. Need separate Venice positioning legs.`;
-  else if(cfg.ft==='oj')ft=`Open Jaw: ${cfg.dep}→${c.city} + Venice→${cfg.dep}. Google Flights supports this. Often same price.`;
-  else ft=`One-Ways: Book each leg separately. ${cfg.dep}→${c.city} + ${c.city}→Venice + Venice→${cfg.dep}. Max flex.`;
-
+  const c=C.find(x=>x.id===id);if(!c)return;const fl=c.f[cfg.dep];const d=document.getElementById('detail');const r=rateCity(c);const rc=ratingColor(r);
+  const fL=parseInt(fl[0].replace(/\D/,'')),fH=parseInt(fl[0].split('-')[1]||fL);const hL=parseInt(c.h.t.match(/\d+/)[0]),hH=parseInt(c.h.t.match(/-(\d+)/)?.[1]||hL);const tvL=parseInt(c.tv.fly.p.replace(/\D/,'')),tvH=parseInt(c.tv.fly.p.split('-')[1]||tvL);
+  const busRT=44,ven=175,dolH=600;const tL=fL+hL+tvL+ven+busRT+dolH,tH=fH+hH+tvH+250+busRT+800,tL2=fL+hL+tvL+ven,tH2=fH+hH+tvH+250;
+  let vp='';const iB=cfg.when!=='after';
+  if(iB){vp=cfg.ven==='before'?`Fly ${cfg.dep} → Venice (1-2nt) → ${c.city} (2-3d) → Venice → bus Aug 26`:cfg.ven==='after'?`Fly ${cfg.dep} → ${c.city} (2-3d) → Venice by Aug 25 → bus Aug 26`:`Fly ${cfg.dep} → Venice (1nt) → ${c.city} (2-3d) → Venice → bus Aug 26`}
+  else{vp=cfg.ven==='before'?`Bus back Venice Aug 30 → Venice (1-2nt, Film Fest Sep 2!) → ${c.city} (2-3d) → fly home ${cfg.dep}`:cfg.ven==='after'?`Aug 30 → ${c.city} (2-3d) → Venice (Film Fest!) → fly home VCE`:`Venice Aug 30 (1nt) → ${c.city} → Venice → fly home`}
+  const ftN=cfg.ft==='rt'?`Round Trip ${cfg.dep}↔${c.city}. Need separate Venice legs.`:cfg.ft==='oj'?`Open Jaw: ${cfg.dep}→${c.city} + Venice→${cfg.dep}. Google Flights multi-city.`:`One-Ways: ${cfg.dep}→${c.city} + ${c.city}→Venice + Venice→${cfg.dep}. Max flex.`;
+  const p=c.prac;
   d.className='show';
   d.innerHTML=`<button class="bk" onclick="hideDetail()">← All Cities</button>
-<div class="dh"><h2>${c.fl} ${c.city}, ${c.co}</h2><div class="vb">${c.vibe}</div></div>
+<div class="dh"><h2>${c.fl} ${c.city}, ${c.co}</h2><div class="vb">${c.vibe}</div><div class="rt" style="background:${ratingBg(r)};color:${rc}">Trip Rating: ${r}/10</div></div>
 <div class="scs">${Object.entries(c.sc).map(([k,v])=>`<div class="sr"><span class="sl">${k}</span><div class="sb">${pip(v,c.clr)}</div><span class="sv">${v}</span></div>`).join('')}</div>
-<div class="sec"><div class="stg">✈️ Flight from ${cfg.dep}</div><div class="spr">${fl[0]}</div><div class="sme">${fl[1]}</div><div class="sbd">${fl[2]}</div><div class="stp">${ft}</div></div>
-<div class="sec"><div class="stg">🏨 Hotels · 2 Nights</div><div class="spr">${c.h.t}</div><div class="sme">${c.h.r}</div><div style="margin-top:8px">${c.h.p.map(p=>`<div class="hp">${p}</div>`).join('')}</div></div>
-<div class="sec"><div class="stg">🚄 To Venice · Train vs Flight</div><div class="ttog"><button class="sel" onclick="togTV(this,'fly','${id}')">✈️ Fly</button><button onclick="togTV(this,'train','${id}')">🚆 Train</button></div><div id="tvI"><div class="spr">${c.tv.fly.p}</div><div class="sme">${c.tv.fly.t}</div><div class="sbd">${c.tv.fly.d}</div></div></div>
+<div class="sec"><div class="stg">✈️ Flight from ${cfg.dep}</div><div class="spr">${fl[0]}</div><div class="sme">${fl[1]}</div><div class="sbd">${fl[2]}</div><div class="stp">${ftN}</div><a class="bkl" href="${gfLink(cfg.dep,c.city)}" target="_blank">Search on Google Flights →</a></div>
+<div class="sec"><div class="stg">🏨 Hotels · 2 Nights</div><div class="spr">${c.h.t}</div><div class="sme">${c.h.r}</div><div style="margin-top:8px">${c.h.p.map(x=>`<div class="hp">${x}</div>`).join('')}</div></div>
+<div class="sec"><div class="stg">🍽️ Restaurants</div>${c.rest.map(x=>`<div class="di">${x}</div>`).join('')}</div>
+<div class="sec"><div class="stg">🚄 To Venice</div><div class="ttog"><button class="sel" onclick="togTV(this,'fly','${id}')">✈️ Fly</button><button onclick="togTV(this,'train','${id}')">🚆 Train</button></div><div id="tvI"><div class="spr">${c.tv.fly.p}</div><div class="sme">${c.tv.fly.t}</div><div class="sbd">${c.tv.fly.d}</div></div></div>
 <div class="sec da"><div class="stg">📍 Day Trip</div><div class="spr" style="font-size:16px">${c.dt.n}</div><div class="sbd">${c.dt.d}</div></div>
 <div class="sec"><div class="stg">🔥 What To Do</div>${c.todo.map(t=>`<div class="di">${t}</div>`).join('')}</div>
-<div class="vp"><h4>🏛️ Venice + Dolomites Plan</h4><p>${vp}</p><p style="margin-top:6px;font-size:10px;color:var(--grey)">Cortina Express / ATVO: Venice Piazzale Roma → Cortina. 2.5h, $18-25. Book at cortinaexpress.it. Aug sells out.</p></div>
-<div class="tc" id="cc"><div class="tr"><div><div style="font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px">Per Person Estimate</div><div style="font-size:10px;color:var(--grey);margin-top:2px">Flight + 2nt hotel + Venice transport + 1nt Venice + bus</div></div><div class="ta" id="tA">$${tL.toLocaleString()}-${tH.toLocaleString()}</div></div>
-<div class="cost-toggle"><input type="checkbox" id="noDol" onchange="togDol(${tL},${tH},${tL2},${tH2})"><label for="noDol">Remove Dolomites bus cost (already covered)</label></div></div>
+<div class="prac" onclick="this.classList.toggle('open')"><div class="prac-h">📋 Practical Info</div><div class="prac-b"><div class="prac-bi">
+<div class="prac-r"><span class="k">Weather</span><span>${p.w}</span></div>
+<div class="prac-r"><span class="k">Currency</span><span>${p.cur}</span></div>
+<div class="prac-r"><span class="k">Beer</span><span>${p.beer}</span></div>
+<div class="prac-r"><span class="k">Cocktail</span><span>${p.ckl}</span></div>
+<div class="prac-r"><span class="k">Tipping</span><span>${p.tip}</span></div>
+<div class="prac-r"><span class="k">Dress</span><span>${p.dress}</span></div>
+<div class="prac-r"><span class="k">Airport</span><span>${p.apt}</span></div>
+<div class="prac-r"><span class="k">Phone</span><span>${p.phone}</span></div>
+<div class="prac-r"><span class="k">Phrases</span><span>${p.lang}</span></div>
+</div></div></div>
+<div class="vp"><h4>🏛️ Venice + Dolomites Plan</h4><p>${vp}</p><p style="margin-top:6px;font-size:10px;color:var(--grey)">Cortina Express bus: Venice → Cortina. 2.5h, $18-25/way (~$44 RT). cortinaexpress.it</p></div>
+<div class="tc"><div class="tr"><div><div style="font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px">Per Person Total</div><div style="font-size:10px;color:var(--grey);margin-top:2px">Flight + 2nt hotel + Venice transport + 1nt Venice + Dolomites (bus+4nt)</div></div><div class="ta" id="tA">$${tL.toLocaleString()}-${tH.toLocaleString()}</div></div>
+<div class="cost-toggle"><input type="checkbox" id="noDol" onchange="togDol(${tL},${tH},${tL2},${tH2})"><label for="noDol">Remove Dolomites costs (bus + hotel already covered)</label></div></div>
+<button class="shbtn" onclick="shareCity('${id}')">📋 Copy Summary to Clipboard</button>
 <div style="text-align:center;padding:16px 0;font-size:10px;color:var(--grey);letter-spacing:2px;text-transform:uppercase">${cfg.arriveLabel} → ${cfg.departLabel}</div>`;
-  d.scrollIntoView({behavior:'smooth',block:'start'});
-}
+  d.scrollIntoView({behavior:'smooth',block:'start'})}
 
-function togTV(btn,mode,id){
-  const c=C.find(x=>x.id===id);btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');
-  const i=c.tv[mode];document.getElementById('tvI').innerHTML=`<div class="spr">${i.p}</div><div class="sme">${i.t}</div><div class="sbd">${i.d}</div>`;
-}
-function togDol(tL,tH,tL2,tH2){
-  const n=document.getElementById('noDol').checked;
-  document.getElementById('tA').textContent=n?`$${tL2.toLocaleString()}-${tH2.toLocaleString()}`:`$${tL.toLocaleString()}-${tH.toLocaleString()}`;
-}
+function togTV(btn,m,id){const c=C.find(x=>x.id===id);btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');const i=c.tv[m];document.getElementById('tvI').innerHTML=`<div class="spr">${i.p}</div><div class="sme">${i.t}</div><div class="sbd">${i.d}</div>`}
+function togDol(a,b,c,d){const n=document.getElementById('noDol').checked;document.getElementById('tA').textContent=n?`$${c.toLocaleString()}-${d.toLocaleString()}`:`$${a.toLocaleString()}-${b.toLocaleString()}`}
 function hideDetail(){document.getElementById('detail').className='';document.getElementById('detail').innerHTML='';document.querySelector('.gw').scrollIntoView({behavior:'smooth'})}
 
-// ─── HAT TRICK ───
-function openHat(){
-  document.getElementById('hatOverlay').classList.add('show');
-  shuffleHat();
-}
-function closeHat(){
-  clearInterval(hatTimer);document.getElementById('hatOverlay').classList.remove('show');
-}
-function shuffleHat(){
-  let count=0;const total=20;
-  clearInterval(hatTimer);
-  document.getElementById('hatOverlay').classList.add('hat-spinning');
-  hatTimer=setInterval(()=>{
-    hatIdx=(hatIdx+1)%C.length;
-    const c=C[hatIdx];
-    document.getElementById('hatFlag').textContent=c.fl;
-    document.getElementById('hatCity').textContent=c.city;
-    count++;
-    if(count>=total){
-      clearInterval(hatTimer);
-      document.getElementById('hatOverlay').classList.remove('hat-spinning');
-      const c=C[hatIdx];
-      document.getElementById('hatVibe').textContent=c.vibe;
-      document.getElementById('hatPrice').textContent=c.f[cfg.dep][0]+' from '+cfg.dep;
-    }else{
-      document.getElementById('hatVibe').textContent='';
-      document.getElementById('hatPrice').textContent='';
-    }
-  },100);
-}
-function lockHat(){closeHat();showDetail(C[hatIdx].id)}
+// Share
+function shareCity(id){const c=C.find(x=>x.id===id);const fl=c.f[cfg.dep];const r=rateCity(c);
+  const txt=`✦ PASSPORT TO THE DOLOMITES\n\n${c.fl} ${c.city}, ${c.co}\nTrip Rating: ${r}/10\n\nFlight from ${cfg.dep}: ${fl[0]}\nHotel (2nt): ${c.h.t}\nTo Venice: ${c.tv.fly.p} (${c.tv.fly.t})\n\nBeer: ${c.prac.beer} | Cocktail: ${c.prac.ckl}\nWeather: ${c.prac.w}\n\nDates: ${cfg.arriveLabel} → ${cfg.departLabel}\n\n${c.vibe}`;
+  navigator.clipboard.writeText(txt).then(()=>{const btn=document.querySelector('.shbtn');btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='📋 Copy Summary to Clipboard';btn.classList.remove('copied')},2000)})}
+
+// Hat Trick
+function openHat(){const ov=document.getElementById('hatO');ov.style.display='flex';void ov.offsetWidth;ov.classList.add('show');document.getElementById('hatVibe').textContent='';document.getElementById('hatPrice').textContent='';shuffleHat()}
+function closeHat(){if(hatTimer){clearInterval(hatTimer);hatTimer=null}const ov=document.getElementById('hatO');ov.classList.remove('show');setTimeout(()=>{ov.style.display='none'},300)}
+function shuffleHat(){if(hatTimer){clearInterval(hatTimer);hatTimer=null}let count=0;document.getElementById('hatVibe').textContent='';document.getElementById('hatPrice').textContent='';hatTimer=setInterval(()=>{hatIdx=Math.floor(Math.random()*C.length);const c=C[hatIdx];document.getElementById('hatFlag').textContent=c.fl;document.getElementById('hatCity').textContent=c.city;count++;if(count>=25){clearInterval(hatTimer);hatTimer=null;const r=rateCity(c);document.getElementById('hatVibe').textContent=c.vibe;document.getElementById('hatPrice').textContent=c.f[cfg.dep][0]+' from '+cfg.dep+' · Rating: '+r+'/10'}},80)}
+function lockHat(){const id=C[hatIdx].id;closeHat();setTimeout(()=>showDetail(id),350)}
+
+// Compare
+function toggleCompare(){compareMode=!compareMode;compareList=[];document.getElementById('compBtn').textContent=compareMode?'⚖️ Cancel Compare':'⚖️ Compare';renderGrid();if(!compareMode)renderMap()}
+function toggleCityCompare(id){if(compareList.includes(id))compareList=compareList.filter(x=>x!==id);else if(compareList.length<2)compareList.push(id);renderGrid();if(compareList.length===2)showCompare()}
+function showCompare(){compareMode=false;document.getElementById('compBtn').textContent='⚖️ Compare';const[a,b]=[C.find(x=>x.id===compareList[0]),C.find(x=>x.id===compareList[1])];const ra=rateCity(a),rb=rateCity(b);const fla=a.f[cfg.dep],flb=b.f[cfg.dep];
+  const rows=[['Rating',ra+'/10',rb+'/10',ra>rb],['Flight',fla[0],flb[0],parseInt(fla[0].replace(/\D/,''))<parseInt(flb[0].replace(/\D/,''))],['Hotel 2nt',a.h.t,b.h.t,parseInt(a.h.t)<parseInt(b.h.t)],['To Venice',a.tv.fly.p,b.tv.fly.p,parseInt(a.tv.fly.p.replace(/\D/,''))<parseInt(b.tv.fly.p.replace(/\D/,''))],['Beer',a.prac.beer,b.prac.beer],['Cocktail',a.prac.ckl,b.prac.ckl],['Weather',a.prac.w.split(',')[0],b.prac.w.split(',')[0]],['Currency',a.prac.cur,b.prac.cur],['Nightlife',a.sc.nightlife+'/10',b.sc.nightlife+'/10',a.sc.nightlife>b.sc.nightlife],['Beach',a.sc.beach+'/10',b.sc.beach+'/10',a.sc.beach>b.sc.beach],['Food',a.sc.food+'/10',b.sc.food+'/10',a.sc.food>b.sc.food],['Budget',a.sc.budget+'/10',b.sc.budget+'/10',a.sc.budget>b.sc.budget]];
+  document.getElementById('compTitle').textContent=a.city+' vs '+b.city;
+  document.getElementById('compGrid').innerHTML=`<div class="comp-col${ra>=rb?' comp-w':''}"><h4>${a.fl} ${a.city}</h4><div class="comp-s">Trip Rating</div><div class="comp-r"><span>Score</span><span class="v" style="color:${ratingColor(ra)}">${ra}/10</span></div><div class="comp-s">Costs</div>${rows.slice(1,4).map(r=>`<div class="comp-r"><span>${r[0]}</span><span class="v">${r[1]}</span></div>`).join('')}<div class="comp-s">Vibes</div>${rows.slice(4).map(r=>`<div class="comp-r"><span>${r[0]}</span><span class="v">${r[1]}</span></div>`).join('')}<button class="bkl" style="width:100%;text-align:center;margin-top:12px" onclick="closeCompare();showDetail('${a.id}')">View ${a.city} →</button></div>
+  <div class="comp-col${rb>ra?' comp-w':''}"><h4>${b.fl} ${b.city}</h4><div class="comp-s">Trip Rating</div><div class="comp-r"><span>Score</span><span class="v" style="color:${ratingColor(rb)}">${rb}/10</span></div><div class="comp-s">Costs</div>${rows.slice(1,4).map(r=>`<div class="comp-r"><span>${r[0]}</span><span class="v">${r[2]}</span></div>`).join('')}<div class="comp-s">Vibes</div>${rows.slice(4).map(r=>`<div class="comp-r"><span>${r[0]}</span><span class="v">${r[2]}</span></div>`).join('')}<button class="bkl" style="width:100%;text-align:center;margin-top:12px" onclick="closeCompare();showDetail('${b.id}')">View ${b.city} →</button></div>`;
+  document.getElementById('compO').classList.add('show');compareList=[]}
+function closeCompare(){document.getElementById('compO').classList.remove('show');renderGrid()}
+
+// AI Recommendation
+async function openAI(){document.getElementById('aiO').classList.add('show');document.getElementById('aiResult').textContent='Thinking...';
+  const d=getCityDays();const cityList=C.map(c=>c.city+'('+c.f[cfg.dep][0]+', nightlife:'+c.sc.nightlife+', budget:'+c.sc.budget+', beer:'+c.prac.beer+')').join(', ');
+  const prompt=`You're helping a group of single 30-year-old guys pick a European city for 2-3 days before/after a wedding in the Dolomites, Italy. They value nightlife, good food, fun experiences, and bang for buck. Available days: ${d.total} (${d.before} before wedding, ${d.after} after). Flying from ${cfg.dep}. Dates: ${cfg.arriveLabel} to ${cfg.departLabel}. Cities to choose from with flight costs and scores: ${cityList}. Give your TOP 3 picks with a one-line reason each, then your #1 recommendation with a 3-sentence pitch. Be direct, fun, and opinionated. No hedging.`;
+  try{const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})});const data=await res.json();const txt=data.content?.map(i=>i.text||'').join('\n')||'Could not get recommendation. Try again.';document.getElementById('aiResult').textContent=txt}catch(e){document.getElementById('aiResult').textContent='API error. Pick manually using the ratings and compare tool!'}}
+function closeAI(){document.getElementById('aiO').classList.remove('show')}
 </script>
 </body>
 </html>
