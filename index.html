@@ -37,15 +37,18 @@
 .prac{background:var(--card);border:1px solid rgba(0,0,0,.04);border-radius:10px;margin-bottom:8px;box-shadow:var(--sh);overflow:hidden}.prac-h{padding:12px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px}.prac-h::after{content:'▾';transition:transform .2s}.prac.open .prac-h::after{transform:rotate(180deg)}.prac-b{max-height:0;overflow:hidden;transition:max-height .3s ease}.prac.open .prac-b{max-height:800px}.prac-bi{padding:0 14px 14px}.prac-r{display:flex;gap:8px;margin-bottom:5px;font-size:11px;color:#555;line-height:1.5}.prac-r .k{color:var(--grey);min-width:65px;flex-shrink:0;font-weight:600;text-transform:uppercase;font-size:9px;padding-top:2px;letter-spacing:.5px}
 .bkl{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;background:var(--gold);color:#fff;font-size:12px;font-weight:600;letter-spacing:1px;text-decoration:none;transition:all .2s;margin-top:8px}.bkl:hover{background:var(--ink)}
 .shbtn{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:8px;background:var(--card);border:1px solid rgba(0,0,0,.06);font-size:11px;font-weight:600;color:var(--ink);margin-top:12px;transition:all .2s;box-shadow:var(--sh)}.shbtn:hover{border-color:var(--gold)}.shbtn.copied{background:var(--green);color:#fff;border-color:var(--green)}
+.cal-cell.busday{background:rgba(90,143,106,.12);color:var(--green);cursor:pointer;font-size:12px}
+.cal-cell.busday::after{content:'🚌';font-size:7px;margin-top:1px}
+.f1badge{display:inline-block;background:#E10600;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px;margin-left:6px}
 @media(max-width:420px){.grid{grid-template-columns:repeat(2,1fr);gap:6px}.ch{min-width:100px;padding:14px 10px}.comp-g{grid-template-columns:1fr;gap:8px}}
 </style>
 </head>
 <body>
 <audio id="bgMusic" loop preload="auto"><source src="song.mp3" type="audio/mpeg"></audio>
 <button id="musicBtn" class="music-btn" onclick="toggleMusic()"><div class="eq"><span></span><span></span><span></span></div></button>
-<div class="scr active" id="s1"><div class="inner"><div class="passport" onclick="startTrip()"><div class="emb">✦</div><div class="t1">Summer 2026</div><div class="t2">Passport to<br>the Dolomites</div><div class="t3">19 cities &middot; real prices</div><div class="tap">tap to open</div></div></div></div>
-<div class="scr gone" id="s2"><div class="inner"><div class="step">Select Your Dates</div><div class="qtitle">When are you in Europe?</div><div class="qsub">Tap arrival, then departure. Wedding is Aug 26-30. Venice by Aug 25.</div><div class="cal" id="calWrap"></div><div class="cal-legend"><span class="la">Arrive</span><span class="ld">Depart</span><span class="lw">Wedding</span></div><button class="cal-ok" id="calOk" onclick="confirmDates()">Continue</button></div></div>
-<div class="scr gone" id="s3"><div class="inner"><div class="step">Departure City</div><div class="qtitle">Where are you<br>flying from?</div><div class="choices"><button class="ch" onclick="pk('dep','SFO')"><div class="ico">🌉</div><div class="lb">San Francisco</div><div class="ds">SFO</div></button><button class="ch" onclick="pk('dep','ATL')"><div class="ico">🍑</div><div class="lb">Atlanta</div><div class="ds">ATL</div></button><button class="ch" onclick="pk('dep','CHS')"><div class="ico">🌴</div><div class="lb">Charleston</div><div class="ds">CHS</div></button></div></div></div>
+<div class="scr active" id="s1"><div class="inner"><div class="passport" onclick="startTrip()"><div class="emb">✦</div><div class="t1">Summer 2026</div><div class="t2">Passport to<br>the Dolomites</div><div class="t3">21 cities &middot; real prices</div><div class="tap">tap to open</div></div></div></div>
+<div class="scr gone" id="s2"><div class="inner"><div class="step">Select Your Dates</div><div class="qtitle">When are you in Europe?</div><div class="qsub">Tap arrival, then departure. Wedding Aug 26-30. Bus to Dolomites leaves from Venice.</div><div class="cal" id="calWrap"></div><div class="cal-legend"><span class="la">Arrive</span><span class="ld">Depart</span><span class="lw">Wedding</span></div><button class="cal-ok" id="calOk" onclick="confirmDates()">Continue</button></div></div>
+<div class="scr gone" id="s3"><div class="inner"><div class="step">Departure City</div><div class="qtitle">Where are you<br>flying from?</div><div class="choices"><button class="ch" onclick="pk('dep','SFO')"><div class="ico">🌉</div><div class="lb">San Francisco</div><div class="ds">SFO</div></button><button class="ch" onclick="pk('dep','ATL')"><div class="ico">🍑</div><div class="lb">Atlanta</div><div class="ds">ATL</div></button><button class="ch" onclick="pk('dep','CHS')"><div class="ico">🌴</div><div class="lb">Charleston</div><div class="ds">CHS</div></button><button class="ch" onclick="pk('dep','SAV')"><div class="ico">🏖️</div><div class="lb">Savannah</div><div class="ds">SAV</div></button><button class="ch" onclick="pk('dep','DFW')"><div class="ico">⛳</div><div class="lb">Dallas</div><div class="ds">DFW</div></button></div></div></div>
 <div class="scr gone" id="s4"><div class="inner"><div class="step">Flight Strategy</div><div class="qtitle">How are you booking?</div><div class="choices"><button class="ch" onclick="pk('ft','rt')"><div class="ico">🔄</div><div class="lb">Round Trip</div><div class="ds">Same city in &amp; out</div></button><button class="ch" onclick="pk('ft','oj')"><div class="ico">✈️</div><div class="lb">Open Jaw</div><div class="ds">Fly in city, home from Venice</div></button><button class="ch" onclick="pk('ft','ow')"><div class="ico">🎯</div><div class="lb">One-Way Legs</div><div class="ds">Book each leg separate</div></button></div></div></div>
 <div class="scr gone" id="s5"><div class="inner"><div class="step">Venice</div><div class="qtitle">When do you<br>tour Venice?</div><div class="choices"><button class="ch" onclick="pk('ven','before')"><div class="ico">🏛️</div><div class="lb">Venice First</div><div class="ds">Explore, then your city</div></button><button class="ch" onclick="pk('ven','after')"><div class="ico">🎬</div><div class="lb">Venice After</div><div class="ds">City first. Film Fest Sep 2!</div></button><button class="ch" onclick="pk('ven','both')"><div class="ico">💎</div><div class="lb">Both Sides</div><div class="ds">Stop before + after</div></button></div></div></div>
 <div id="main">
@@ -167,216 +170,237 @@
 <div id="aiO"><button class="ai-cl" onclick="closeAI()">← Back</button><div class="ai-c"><h3>✦ AI Recommendation</h3><div class="ai-r" id="aiResult">Analyzing your selections...</div></div></div>
 <script>
 
-
 const C=[
 {id:"lisbon",city:"Lisbon",co:"Portugal",fl:"🇵🇹",clr:"#C75D3A",cid:"PT",cx:.3,cy:.85,acts:14,
 vibe:"Cheapest major Western European city. Incredible food, rooftop bars, Bairro Alto nightlife.",
 sc:{nightlife:8,food:9,sightseeing:8,budget:10,beach:7},
-f:{SFO:["$650-900","~11-14h","TAP direct seasonal, BA, Lufthansa"],ATL:["$600-850","~9h","TAP direct, Delta via CDG"],CHS:["$700-950","~13h","AA via CLT, Delta via ATL"]},
+f:{SFO:["$650-900","~11-14h","TAP direct seasonal, BA"],ATL:["$600-850","~9h","TAP direct, Delta via CDG"],CHS:["$700-950","~13h","AA via CLT, Delta via ATL"],SAV:["$750-1000","~14h","Delta via ATL, AA via CLT"],DFW:["$650-900","~12h","AA via LHR/MAD, TAP via connections"]},
 h:{r:"$100-170/nt",t:"$200-340",p:["Lisboa Plaza (4★ 8.5) ~$130","1908 Hotel (4★ 8.8) ~$150","Destination Hostel (9.0) ~$40"]},
 tv:{fly:{p:"$50-120",t:"3h",d:"TAP/Ryanair LIS-VCE"},train:{p:"N/A",t:"24h+",d:"Not practical. Fly."}},
 dt:{n:"Sintra (40min train $5)",d:"Fairytale palaces. Pena Palace, Moorish Castle."},
 todo:["Bairro Alto bar crawl","Time Out Market food hall","Tram 28","Pasteis de Belem","LX Factory","NIGHTLIFE: Lux Fragil, Pensao Amor, Music Box"],
-rest:["Cervejaria Ramiro - best seafood in Lisbon, get the prawns","Time Out Market - 30+ top chef stalls under one roof","A Cevicheria - Peruvian-Portuguese fusion, incredible cocktails"],
-prac:{w:"28°C/82°F, sunny, barely rains",cur:"EUR (€)",beer:"$2-3",ckl:"$7-10",tip:"Not expected. Round up or leave 5-10%",dress:"Very casual. Shorts + sneakers fine everywhere.",apt:"Metro to center 20min $2. Or Aerobus $5",phone:"T-Mobile: free 2G, $5/day high-speed. Verizon: $10/day TravelPass. Both work.",lang:"Olá / Obrigado / Saúde / Uma cerveja por favor"}},
+rest:["Cervejaria Ramiro - best seafood, get the prawns","Time Out Market - 30+ chef stalls","A Cevicheria - Peruvian-Portuguese fusion"],
+prac:{w:"28°C/82°F, sunny, barely rains",cur:"EUR (€)",beer:"$2-3",ckl:"$7-10",tip:"Not expected. Round up.",dress:"Very casual everywhere.",apt:"Metro 20min $2. Aerobus $5.",phone:"T-Mobile: free 2G, $5/day fast. Verizon: $10/day TravelPass.",lang:"Olá / Obrigado / Saúde / Uma cerveja por favor"}},
 
 {id:"porto",city:"Porto",co:"Portugal",fl:"🇵🇹",clr:"#D4A03C",cid:"PT",cx:.25,cy:.3,acts:11,
 vibe:"Port wine, tiled buildings, river views. Cheaper and grittier than Lisbon.",
 sc:{nightlife:7,food:9,sightseeing:8,budget:10,beach:6},
-f:{SFO:["$650-900","~12h","TAP via LIS, BA"],ATL:["$600-850","~10h","TAP via LIS, Delta via CDG"],CHS:["$700-950","~14h","AA via CLT, Delta via ATL"]},
+f:{SFO:["$650-900","~12h","TAP via LIS, BA"],ATL:["$600-850","~10h","TAP via LIS, Delta"],CHS:["$700-950","~14h","AA via CLT"],SAV:["$750-1000","~15h","Delta via ATL"],DFW:["$650-900","~13h","AA via LHR/MAD"]},
 h:{r:"$80-150/nt",t:"$160-300",p:["Pestana Vintage (4★ 8.7) ~$140","Zero Hotel (4★ 8.9) ~$130","Gallery Hostel (9.1) ~$35"]},
 tv:{fly:{p:"$50-110",t:"2.5h",d:"Ryanair OPO-VCE/Treviso"},train:{p:"N/A",t:"20h+",d:"Not practical. Fly."}},
 dt:{n:"Douro Valley (cruise ~$60)",d:"Port wine country. River cruises, vineyard tastings."},
 todo:["Ribeira waterfront (UNESCO)","Port wine tasting in Gaia","Dom Luis I Bridge upper deck","Livraria Lello bookstore","Francesinha sandwich","NIGHTLIFE: Galerias de Paris crawl, Plano B, Maus Habitos"],
-rest:["Cafe Santiago - the definitive Francesinha sandwich","O Paparico - upscale Portuguese, tasting menu worth it","Gazela - tiny spot, best hot dogs you'll ever have (seriously)"],
-prac:{w:"26°C/79°F, warm, occasional breeze",cur:"EUR (€)",beer:"$1.50-3",ckl:"$6-9",tip:"Not expected. Round up.",dress:"Very casual.",apt:"Metro to center 30min $2.50",phone:"Same as Lisbon. T-Mobile/Verizon work fine in Portugal.",lang:"Olá / Obrigado / Saúde / Mais uma"}},
+rest:["Cafe Santiago - definitive Francesinha","O Paparico - tasting menu worth it","Gazela - best hot dogs you'll ever have"],
+prac:{w:"26°C/79°F, warm, occasional breeze",cur:"EUR (€)",beer:"$1.50-3",ckl:"$6-9",tip:"Not expected.",dress:"Very casual.",apt:"Metro 30min $2.50",phone:"T-Mobile/Verizon work fine.",lang:"Olá / Obrigado / Saúde / Mais uma"}},
 
 {id:"madrid",city:"Madrid",co:"Spain",fl:"🇪🇸",clr:"#D4A03C",cid:"ES",cx:.45,cy:.5,acts:15,
 vibe:"Late-night capital. Clubs at 6am. Tapas, rooftops, raw energy.",
 sc:{nightlife:10,food:10,sightseeing:9,budget:8,beach:2},
-f:{SFO:["$700-950","~11-14h","Iberia sometimes direct, BA, TAP"],ATL:["$650-850","~10-13h","Delta via CDG, Iberia"],CHS:["$750-1000","~14h","AA via CLT, Delta via ATL"]},
+f:{SFO:["$700-950","~11-14h","Iberia sometimes direct, BA, TAP"],ATL:["$650-850","~10-13h","Delta via CDG, Iberia"],CHS:["$750-1000","~14h","AA via CLT"],SAV:["$800-1050","~15h","Delta via ATL"],DFW:["$650-900","~11h","AA DIRECT seasonal, Iberia"]},
 h:{r:"$120-180/nt",t:"$240-360",p:["Room Mate Oscar (4★ 8.5) ~$160","Preciados (4★ 8.2) ~$130","Only YOU Atocha (4★ 8.8) ~$180"]},
-tv:{fly:{p:"$40-100",t:"2.5h",d:"Ryanair/Vueling MAD-VCE"},train:{p:"$30-80",t:"~9h via BCN",d:"AVE to BCN (2.5h $20) + fly. No direct."}},
+tv:{fly:{p:"$40-100",t:"2.5h",d:"Ryanair/Vueling MAD-VCE"},train:{p:"$30-80",t:"~9h via BCN",d:"AVE to BCN (2.5h $20) + fly."}},
 dt:{n:"Toledo (30min train $12)",d:"Medieval fortress city on a hill."},
-todo:["Mercado de San Miguel","La Latina tapas crawl - Cava Baja","Retiro Park rowboats","Circulo de Bellas Artes rooftop ($5)","Prado Museum (free last 2hrs)","NIGHTLIFE: Kapital (7 floors), Mondo Disko, Teatro Barcelo"],
-rest:["Bar Cañete - sit at the counter, order everything","Lateral - upscale tapas, beautiful terrace","La Barraca - best paella in Madrid, been open since 1935"],
-prac:{w:"33°C/91°F, HOT and dry, no rain",cur:"EUR (€)",beer:"$3-4",ckl:"$8-12",tip:"Not expected. Round up or 5%.",dress:"Smart casual for nice clubs. Most places relaxed.",apt:"Metro to center 15min $6. Direct line.",phone:"T-Mobile/Verizon both work in Spain. T-Mobile free 2G, $5/day fast.",lang:"Hola / Gracias / Salud / Una caña por favor"}},
+todo:["Mercado de San Miguel","La Latina tapas - Cava Baja","Retiro Park rowboats","Circulo de Bellas Artes rooftop ($5)","Prado (free last 2hrs)","NIGHTLIFE: Kapital (7 floors), Mondo Disko, Teatro Barcelo"],
+rest:["Bar Cañete - sit at counter, order everything","Lateral - upscale tapas, terrace","La Barraca - best paella, since 1935"],
+prac:{w:"33°C/91°F, HOT and dry",cur:"EUR (€)",beer:"$3-4",ckl:"$8-12",tip:"Not expected. Round up 5%.",dress:"Smart casual for clubs.",apt:"Metro 15min $6.",phone:"T-Mobile/Verizon both work.",lang:"Hola / Gracias / Salud / Una caña por favor"}},
 
 {id:"barcelona",city:"Barcelona",co:"Spain",fl:"🇪🇸",clr:"#C75D3A",cid:"ES",cx:.88,cy:.22,acts:16,
 vibe:"Beach + nightlife + culture. The all-rounder.",
 sc:{nightlife:10,beach:9,food:9,sightseeing:8,budget:7},
-f:{SFO:["$750-950","~12h","Level direct seasonal, BA, TAP"],ATL:["$700-900","~10h","Delta via CDG, Iberia"],CHS:["$800-1050","~13h","AA via CLT, Delta via ATL"]},
+f:{SFO:["$750-950","~12h","Level direct seasonal, BA, TAP"],ATL:["$700-900","~10h","Delta via CDG, Iberia"],CHS:["$800-1050","~13h","AA via CLT"],SAV:["$850-1100","~14h","Delta via ATL"],DFW:["$700-950","~12h","AA via LHR/MAD"]},
 h:{r:"$140-220/nt",t:"$280-440",p:["Hotel Jazz (4★ 8.3) ~$155","Hotel 1898 (4★ 8.5) ~$190","Generator BCN (8.0) ~$80"]},
 tv:{fly:{p:"$40-80",t:"2h",d:"Vueling/Ryanair BCN-VCE"},train:{p:"$50-90",t:"~11h",d:"Via Milan. Long. Fly."}},
 dt:{n:"Sitges (30min train $5)",d:"Beach town, great bars."},
-todo:["Barceloneta Beach","La Boqueria Market","Gothic Quarter","Sagrada Familia","Park Guell","NIGHTLIFE: Razzmatazz, Pacha, Opium beach, Sala Apolo"],
-rest:["Can Paixano (La Xampanyeria) - cava + sandwiches, absurdly cheap","Cerveceria Catalana - best tapas in Eixample, always a line","El Xampanyet - tiny cava bar in El Born, old-school perfection"],
-prac:{w:"30°C/86°F, hot, humid, sunny",cur:"EUR (€)",beer:"$3-5",ckl:"$10-14",tip:"Not expected. Round up.",dress:"Beach to club. Smart casual for upscale spots.",apt:"Aerobus to center 35min $8. Or metro $6.",phone:"Same as Madrid. T-Mobile/Verizon work.",lang:"Hola / Gracias / Salud / Una cerveza"}},
+todo:["Barceloneta Beach","La Boqueria Market","Gothic Quarter","Sagrada Familia","Park Guell","NIGHTLIFE: Razzmatazz, Pacha, Opium, Sala Apolo"],
+rest:["Can Paixano - cava + sandwiches, absurdly cheap","Cerveceria Catalana - best tapas Eixample","El Xampanyet - tiny cava bar El Born"],
+prac:{w:"30°C/86°F, hot, humid",cur:"EUR (€)",beer:"$3-5",ckl:"$10-14",tip:"Not expected.",dress:"Beach to club.",apt:"Aerobus 35min $8.",phone:"T-Mobile/Verizon work.",lang:"Hola / Gracias / Salud / Una cerveza"}},
 
 {id:"nice",city:"Nice / Monaco",co:"Riviera",fl:"🇫🇷",clr:"#7B6BA5",cid:"FR",cx:.95,cy:.78,acts:13,
 vibe:"Yacht life, casino, beach clubs. Stay Nice, day trip Monaco.",
 sc:{nightlife:7,beach:9,food:9,sightseeing:7,budget:5},
-f:{SFO:["$750-1000","~12-15h","Air France via CDG"],ATL:["$700-950","~11h","Delta via CDG"],CHS:["$800-1100","~14h","Delta via ATL"]},
+f:{SFO:["$750-1000","~12-15h","Air France via CDG"],ATL:["$700-950","~11h","Delta via CDG"],CHS:["$800-1100","~14h","Delta via ATL"],SAV:["$850-1150","~15h","Delta via ATL"],DFW:["$750-1000","~13h","AA via LHR, Air France"]},
 h:{r:"$130-200/nt",t:"$260-400",p:["Aston La Scala (4★ 8.3) ~$170","Villa Rivoli (3★ 8.8) ~$130","Boscolo Nice (5★ 8.6) ~$220"]},
-tv:{fly:{p:"$40-90",t:"1.5h",d:"EasyJet NCE-VCE"},train:{p:"$50-80",t:"~6h",d:"Nice-Milan-Venice. Scenic Riviera."}},
+tv:{fly:{p:"$40-90",t:"1.5h",d:"EasyJet NCE-VCE"},train:{p:"$50-80",t:"~6h",d:"Nice-Milan-Venice. Scenic."}},
 dt:{n:"Monaco (20min train $5)",d:"Casino Monte-Carlo, F1 hairpin, yachts."},
-todo:["Promenade des Anglais","Vieux Nice Old Town","Beach clubs - Castel/Ruhl Plage","Casino Monte-Carlo","Eze Village","NIGHTLIFE: High Club, Jimmy'z Monaco ($$$)"],
-rest:["Chez Pipo - best socca (chickpea crepe) in Nice since 1923","Le Plongeoir - restaurant on a diving platform over the sea","La Petite Maison - Niçoise cuisine, celebrity spot"],
-prac:{w:"29°C/84°F, sunny, Mediterranean breeze",cur:"EUR (€). Monaco also EUR.",beer:"$5-7",ckl:"$12-18 (Monaco: $18-25)",tip:"Service included in France. Round up for good service.",dress:"Nice: casual. Monaco clubs/casino: smart dress required.",apt:"Tram to center 30min $2. Bus $8.",phone:"T-Mobile/Verizon work in France. Same EU roaming.",lang:"Bonjour / Merci / Santé / Une bière s'il vous plaît"}},
+todo:["Promenade des Anglais","Vieux Nice Old Town","Beach clubs","Casino Monte-Carlo","Eze Village","NIGHTLIFE: High Club, Jimmy'z Monaco ($$$)"],
+rest:["Chez Pipo - best socca since 1923","Le Plongeoir - restaurant on a diving platform","La Petite Maison - Niçoise cuisine, celeb spot"],
+prac:{w:"29°C/84°F, sunny, Mediterranean breeze",cur:"EUR (€)",beer:"$5-7",ckl:"$12-18",tip:"Service included in France.",dress:"Nice: casual. Monaco clubs: smart required.",apt:"Tram 30min $2.",phone:"T-Mobile/Verizon work.",lang:"Bonjour / Merci / Santé / Une bière s'il vous plaît"}},
+
+{id:"milan",city:"Milan",co:"Italy",fl:"🇮🇹",clr:"#C75D3A",cid:"IT",cx:.35,cy:.12,acts:14,f1:"🏎️ MONZA F1 GP: Sep 4-6!",
+vibe:"Fashion capital, aperitivo culture, Lake Como day trip. AND the Monza F1 Italian GP is Sep 4-6.",
+sc:{nightlife:7,food:9,sightseeing:8,budget:6,beach:2},
+f:{SFO:["$650-900","~12h","United, Lufthansa, SWISS"],ATL:["$600-850","~10h","Delta DIRECT ATL-MXP"],CHS:["$700-950","~13h","Delta via ATL"],SAV:["$750-1000","~14h","Delta via ATL"],DFW:["$650-900","~12h","AA via LHR, Lufthansa"]},
+h:{r:"$120-200/nt",t:"$240-400",p:["Spadari al Duomo (4★ 8.8) ~$180","NYX Milan (4★ 8.3) ~$140","Ostello Bello (9.0) social hostel ~$45"]},
+tv:{fly:{p:"$20-50",t:"45min",d:"ITA/Ryanair MXP-VCE. Cheapest option of any city."},train:{p:"$15-35",t:"2.5h",d:"Trenitalia/Italo high-speed Milano Centrale-Venezia. Fast, cheap, excellent."}},
+dt:{n:"Lake Como (1h train $10) or Monza F1 GP Sep 4-6 ($150+ tickets)",d:"Lake Como: Bellagio, Varenna, George Clooney's lake. Monza GP: 30min train from Milan, bucket-list F1 experience."},
+todo:["Duomo rooftop - walk on top of the cathedral","Navigli canal district - aperitivo at sunset, bar crawl","Galleria Vittorio Emanuele II - fancy arcade","Day trip Lake Como - Bellagio ferry, stunning","Brera district - art galleries, restaurants","NIGHTLIFE: Navigli bar crawl, Plastic (iconic club), Hollywood (celeb scene), Amnesia Milano"],
+rest:["Luini - panzerotti (fried calzones), line around the block, $3","Taglio - incredible pasta, sleek design space","Terrazza Aperol - aperitivo with Duomo views, tourist but worth it"],
+prac:{w:"30°C/86°F, hot, humid, occasional thunderstorms",cur:"EUR (€)",beer:"$4-6",ckl:"$10-14",tip:"Coperto added. Round up.",dress:"Milan is FASHION. Dress better than other Italian cities.",apt:"Malpensa Express train 50min $14.",phone:"T-Mobile/Verizon work.",lang:"Ciao / Grazie / Salute / Una birra per favore"}},
+
+{id:"florence",city:"Florence",co:"Italy",fl:"🇮🇹",clr:"#D4A03C",cid:"IT",cx:.42,cy:.38,acts:15,
+vibe:"Renaissance art, Tuscan food, leather markets, wine. Beautiful and walkable.",
+sc:{nightlife:6,food:10,sightseeing:10,budget:6,beach:2},
+f:{SFO:["$650-900","~12h","United via FRA, Lufthansa"],ATL:["$600-850","~10h","Delta via CDG/AMS"],CHS:["$700-950","~13h","Delta via ATL"],SAV:["$750-1000","~14h","Delta via ATL"],DFW:["$650-900","~12h","AA via LHR"]},
+h:{r:"$120-200/nt",t:"$240-400",p:["Hotel Davanzati (4★ 9.1) near Ponte Vecchio ~$170","Hotel Perseo (3★ 8.5) great value ~$110","Plus Florence (hostel 8.3) rooftop pool ~$40"]},
+tv:{fly:{p:"$30-70",t:"1.5h",d:"Vueling/Ryanair FLR-VCE (limited). Or train is better."},train:{p:"$20-40",t:"2h",d:"Trenitalia/Italo high-speed Firenze SMN-Venezia SL. Fast, cheap, scenic. Best option."}},
+dt:{n:"Tuscan wine country / Chianti (half-day tour ~$60)",d:"Rolling hills, vineyards, medieval villages. Brunello, Chianti Classico tastings. Or San Gimignano medieval towers."},
+todo:["Uffizi Gallery - Botticelli, da Vinci (book ahead)","Ponte Vecchio - iconic bridge with gold shops","Piazzale Michelangelo - sunset panoramic over the whole city","Leather market at San Lorenzo","Duomo climb - 463 steps, incredible dome views","NIGHTLIFE: More chill than Rome/Barcelona. Santo Spirito square bars, Full Up (club), YAB, Space Club. Dinner + wine is the move here."],
+rest:["All'Antico Vinaio - BEST sandwich in Italy, always a massive line, $6","Trattoria Mario - shared tables, no reservations, cash only, incredible Tuscan","Il Latini - huge steaks, family style, flowing wine, the classic experience"],
+prac:{w:"32°C/90°F, hot, dry, sunny",cur:"EUR (€)",beer:"$4-5",ckl:"$9-13",tip:"Coperto added. Not expected beyond.",dress:"Smart casual. Leather sandals are fine.",apt:"Tram from airport 20min $2. Or ATAF bus $7.",phone:"T-Mobile/Verizon work in Italy.",lang:"Ciao / Grazie / Salute / Un bicchiere di vino rosso per favore"}},
 
 {id:"rome",city:"Rome",co:"Italy",fl:"🇮🇹",clr:"#C75D3A",cid:"IT",cx:.5,cy:.6,acts:18,
 vibe:"Eternal City. History, food, Trastevere, dolce vita.",
 sc:{nightlife:7,food:10,sightseeing:10,budget:6,beach:3},
-f:{SFO:["$650-900","~12h","United, Lufthansa"],ATL:["$600-850","~10h","Delta DIRECT ATL-FCO"],CHS:["$700-950","~13h","Delta via ATL"]},
+f:{SFO:["$650-900","~12h","United, Lufthansa"],ATL:["$600-850","~10h","Delta DIRECT ATL-FCO"],CHS:["$700-950","~13h","Delta via ATL"],SAV:["$750-1000","~14h","Delta via ATL"],DFW:["$650-900","~12h","AA DIRECT DFW-FCO seasonal"]},
 h:{r:"$130-220/nt",t:"$260-440",p:["Martis Palace (4★ 8.7) ~$170","Santa Maria (3★ 9.0) ~$140","The Yellow (8.3) ~$40"]},
-tv:{fly:{p:"$30-70",t:"1h",d:"Ryanair/ITA FCO-VCE. Super cheap."},train:{p:"$25-50",t:"3.5h",d:"Trenitalia high-speed. Excellent."}},
-dt:{n:"Ostia Antica (30min $3)",d:"Ancient Roman port, uncrowded Pompeii."},
-todo:["Colosseum + Forum","Trastevere dinner + nightlife","Pantheon (free)","Vatican/Sistine Chapel","Piazza Navona","NIGHTLIFE: Trastevere crawl, Testaccio clubs, Salotto 42"],
-rest:["Da Enzo al 29 - Trastevere, best cacio e pepe in Rome, expect a line","Roscioli - deli/restaurant, incredible pasta and wine list","Supplizio - gourmet supplì (fried rice balls), perfect street food"],
-prac:{w:"31°C/88°F, hot, sunny, dry",cur:"EUR (€)",beer:"$4-6",ckl:"$10-14",tip:"Not expected. Coperto (cover charge) already added. Round up.",dress:"Smart casual. Vatican requires covered shoulders/knees.",apt:"Leonardo Express train to center 30min $16. Or bus $7.",phone:"T-Mobile/Verizon work in Italy.",lang:"Ciao / Grazie / Salute / Una birra per favore"}},
+tv:{fly:{p:"$30-70",t:"1h",d:"Ryanair/ITA FCO-VCE"},train:{p:"$25-50",t:"3.5h",d:"Trenitalia high-speed. Excellent."}},
+dt:{n:"Ostia Antica (30min $3)",d:"Ancient Roman port, uncrowded."},
+todo:["Colosseum + Forum","Trastevere dinner + nightlife","Pantheon (free)","Vatican/Sistine Chapel","Piazza Navona","NIGHTLIFE: Trastevere crawl, Testaccio, Salotto 42"],
+rest:["Da Enzo al 29 - best cacio e pepe, expect line","Roscioli - deli/restaurant, incredible pasta","Supplizio - gourmet supplì street food"],
+prac:{w:"31°C/88°F, hot, sunny",cur:"EUR (€)",beer:"$4-6",ckl:"$10-14",tip:"Coperto added. Round up.",dress:"Smart casual. Vatican: covered shoulders.",apt:"Leonardo Express 30min $16.",phone:"T-Mobile/Verizon work.",lang:"Ciao / Grazie / Salute / Una birra per favore"}},
 
 {id:"amsterdam",city:"Amsterdam",co:"Netherlands",fl:"🇳🇱",clr:"#5A8F6A",cid:"NL",cx:.45,cy:.4,acts:14,
 vibe:"Canals, coffee shops, museums, legendary nightlife.",
 sc:{nightlife:9,food:8,sightseeing:8,budget:6,beach:3},
-f:{SFO:["$700-950","~11h","KLM, United"],ATL:["$680-900","~9h","Delta DIRECT ATL-AMS"],CHS:["$780-1050","~12h","Delta via ATL"]},
+f:{SFO:["$700-950","~11h","KLM, United"],ATL:["$680-900","~9h","Delta DIRECT ATL-AMS"],CHS:["$780-1050","~12h","Delta via ATL"],SAV:["$830-1100","~13h","Delta via ATL"],DFW:["$700-950","~11h","KLM, AA via LHR"]},
 h:{r:"$150-250/nt",t:"$300-500",p:["Hotel V Nesplein (4★ 8.6) ~$180","Mr. Jordaan (4★ 8.9) ~$220","Generator AMS (8.2) ~$70"]},
-tv:{fly:{p:"$50-100",t:"1.5h",d:"EasyJet/Transavia AMS-VCE"},train:{p:"$80-140",t:"~12h",d:"Via Paris+Milan. Long. Fly."}},
-dt:{n:"Rotterdam (40min train $15)",d:"Modern architecture, Markthal, cube houses."},
-todo:["Canal boat (BYOB options)","Vondelpark","Rijksmuseum / Van Gogh","Jordaan neighborhood","Red Light District","NIGHTLIFE: De School, Shelter, Paradiso"],
-rest:["The Seafood Bar - fresh oysters and lobster, no reservations","Foodhallen - indoor food market, 20+ stalls, great for groups","Bar Centraal - craft cocktails in a tiny spot on a canal"],
-prac:{w:"22°C/72°F, mild, can rain. Bring a light jacket.",cur:"EUR (€)",beer:"$5-6",ckl:"$12-16",tip:"Not expected. Round up or 5-10%.",dress:"Very casual city. Clubs: depends (Berghain-style door at De School).",apt:"Train to center 15min $6. Fast and easy.",phone:"T-Mobile/Verizon work. Netherlands is EU.",lang:"Hoi / Dank je / Proost / Een biertje alsjeblieft"}},
+tv:{fly:{p:"$50-100",t:"1.5h",d:"EasyJet/Transavia AMS-VCE"},train:{p:"$80-140",t:"~12h",d:"Via Paris+Milan. Fly."}},
+dt:{n:"Rotterdam (40min train $15)",d:"Modern architecture, Markthal."},
+todo:["Canal boat BYOB","Vondelpark","Rijksmuseum/Van Gogh","Jordaan bars","Red Light District","NIGHTLIFE: De School, Shelter, Paradiso"],
+rest:["The Seafood Bar - oysters, lobster","Foodhallen - 20+ stalls","Bar Centraal - cocktails on canal"],
+prac:{w:"22°C/72°F, mild, can rain",cur:"EUR (€)",beer:"$5-6",ckl:"$12-16",tip:"Not expected. Round up.",dress:"Very casual. Club doors can be strict.",apt:"Train 15min $6.",phone:"T-Mobile/Verizon work.",lang:"Hoi / Dank je / Proost / Een biertje alsjeblieft"}},
 
 {id:"berlin",city:"Berlin",co:"Germany",fl:"🇩🇪",clr:"#555",cid:"DE",cx:.78,cy:.28,acts:14,
 vibe:"Best club scene in the world. Raw, creative, cheap.",
 sc:{nightlife:10,food:7,sightseeing:7,budget:9,beach:1},
-f:{SFO:["$700-950","~12h","Lufthansa, United"],ATL:["$650-900","~10h","Delta via AMS"],CHS:["$750-1000","~13h","Delta via ATL"]},
+f:{SFO:["$700-950","~12h","Lufthansa, United"],ATL:["$650-900","~10h","Delta via AMS"],CHS:["$750-1000","~13h","Delta via ATL"],SAV:["$800-1050","~14h","Delta via ATL"],DFW:["$700-950","~12h","AA via LHR, Lufthansa"]},
 h:{r:"$100-170/nt",t:"$200-340",p:["Oderberger (4★ 8.8) ~$160","Michelberger (3★ 8.4) ~$120","Generator Mitte (8.1) ~$45"]},
 tv:{fly:{p:"$40-80",t:"1.5h",d:"EasyJet/Ryanair BER-VCE"},train:{p:"$50-90",t:"~10h",d:"Via Munich. Long. Fly."}},
-dt:{n:"Potsdam (30min S-Bahn $4)",d:"Sanssouci Palace. Prussian Versailles."},
+dt:{n:"Potsdam (30min $4)",d:"Sanssouci Palace."},
 todo:["Brandenburg Gate + Reichstag","East Side Gallery","Museum Island","Kreuzberg food/bars","Tempelhof runway","NIGHTLIFE: Berghain, Tresor, Sisyphos, Watergate, KitKat"],
-rest:["Mustafa's Gemüse Kebap - legendary döner, the line is worth it","Burgermeister - burgers under a train bridge, iconic","Nobelhart & Schmutzig - Michelin star, prix fixe, if you want to splurge"],
-prac:{w:"25°C/77°F, warm, occasional rain",cur:"EUR (€)",beer:"$3-4",ckl:"$8-12",tip:"Round up. 5-10% for sit-down.",dress:"Berghain: all black, no flashy. Most clubs: wear whatever. No photos.",apt:"Express train 30min $4.50. Cheap and fast.",phone:"T-Mobile/Verizon work in Germany.",lang:"Hallo / Danke / Prost / Ein Bier bitte"}},
+rest:["Mustafa's Gemüse Kebap - legendary döner","Burgermeister - under a train bridge","Nobelhart & Schmutzig - Michelin splurge"],
+prac:{w:"25°C/77°F, warm, occasional rain",cur:"EUR (€)",beer:"$3-4",ckl:"$8-12",tip:"Round up 5-10%.",dress:"Berghain: all black. Most clubs: whatever.",apt:"Express 30min $4.50.",phone:"T-Mobile/Verizon work.",lang:"Hallo / Danke / Prost / Ein Bier bitte"}},
 
 {id:"copenhagen",city:"Copenhagen",co:"Denmark",fl:"🇩🇰",clr:"#4A7FAF",cid:"DK",cx:.45,cy:.65,acts:12,
 vibe:"Design capital. Nyhavn, Tivoli, bikes, world-class food.",
 sc:{nightlife:7,food:9,sightseeing:8,budget:4,beach:4},
-f:{SFO:["$700-1000","~12h","SAS, Lufthansa"],ATL:["$680-950","~10h","Delta via AMS, SAS"],CHS:["$780-1050","~13h","Delta via ATL"]},
+f:{SFO:["$700-1000","~12h","SAS, Lufthansa"],ATL:["$680-950","~10h","Delta via AMS, SAS"],CHS:["$780-1050","~13h","Delta via ATL"],SAV:["$830-1100","~14h","Delta via ATL"],DFW:["$750-1000","~12h","AA via LHR, SAS"]},
 h:{r:"$150-250/nt",t:"$300-500",p:["Hotel Sanders (5★ 9.3) ~$280","Ibsens Hotel (3★ 8.4) ~$160","Generator CPH (8.0) ~$55"]},
-tv:{fly:{p:"$50-100",t:"2h",d:"Norwegian/EasyJet CPH-VCE"},train:{p:"$80-150",t:"~16h",d:"Via Hamburg+Munich. Very long. Fly."}},
-dt:{n:"Malmö Sweden (35min train $12)",d:"Cross the bridge to Sweden. Different country for lunch."},
-todo:["Nyhavn colorful harbor","Tivoli Gardens","Christiania freetown","Rent bikes everywhere","Reffen street food","NIGHTLIFE: Meatpacking District, Rust, Culture Box"],
-rest:["Reffen - shipping container street food market on the harbor","Gasoline Grill - best burger in Copenhagen, tiny and cheap","Paté Paté - wine bar in Meatpacking, great for pre-game"],
-prac:{w:"22°C/72°F, pleasant, can rain",cur:"DKK (Danish Krone). ~$1 = 7 DKK. Cards accepted EVERYWHERE.",beer:"$6-8",ckl:"$14-18",tip:"Not expected at all. Service included.",dress:"Stylish casual. Danes dress well.",apt:"Metro to center 15min $5.",phone:"T-Mobile/Verizon work. Denmark is EU.",lang:"Hej / Tak / Skål / En øl tak"}},
+tv:{fly:{p:"$50-100",t:"2h",d:"Norwegian/EasyJet CPH-VCE"},train:{p:"$80-150",t:"~16h",d:"Very long. Fly."}},
+dt:{n:"Malmö Sweden (35min train $12)",d:"Cross bridge to Sweden for lunch."},
+todo:["Nyhavn harbor","Tivoli Gardens","Christiania","Rent bikes","Reffen street food","NIGHTLIFE: Meatpacking District, Rust, Culture Box"],
+rest:["Reffen - container street food on harbor","Gasoline Grill - best burger in CPH","Paté Paté - wine bar, great pre-game"],
+prac:{w:"22°C/72°F, pleasant, can rain",cur:"DKK (~$1=7 DKK). Cards EVERYWHERE.",beer:"$6-8",ckl:"$14-18",tip:"Not expected.",dress:"Stylish casual. Danes dress well.",apt:"Metro 15min $5.",phone:"T-Mobile/Verizon work. EU.",lang:"Hej / Tak / Skål / En øl tak"}},
 
 {id:"edinburgh",city:"Edinburgh",co:"Scotland",fl:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",clr:"#555",cid:"GB",cx:.35,cy:.18,acts:13,
 vibe:"Castles, whisky, Arthur's Seat. FRINGE FESTIVAL IN AUGUST!",
 sc:{nightlife:7,food:7,sightseeing:9,budget:6,beach:2},
-f:{SFO:["$700-1000","~12h","BA via LHR, United"],ATL:["$650-950","~10h","Delta via AMS/LHR"],CHS:["$750-1050","~13h","AA via CLT"]},
-h:{r:"$130-220/nt",t:"$260-440",p:["The Balmoral (5★ 9.2) ~$300","Motel One Royal (3★ 8.5) ~$140","Castle Rock Hostel (8.7) ~$40"]},
-tv:{fly:{p:"$50-100",t:"2.5h",d:"EasyJet/Ryanair EDI-VCE"},train:{p:"$100-200",t:"~18h",d:"Via London+Paris. 2 days. Fly."}},
-dt:{n:"Highlands day tour (~$60)",d:"Glencoe, Loch Ness, dramatic landscapes."},
-todo:["Edinburgh Castle","Arthur's Seat hike","Royal Mile pubs","FRINGE FESTIVAL (Aug 7-31!)","Whisky tasting","NIGHTLIFE: Grassmarket, Cowgate, Hive, Liquid Rooms"],
-rest:["The Witchery - dramatic Gothic dining by the castle","Dishoom - Indian brunch institution, get the bacon naan","Bow Bar - best whisky selection in the city, cozy as hell"],
-prac:{w:"19°C/66°F, cool! Bring layers. Rain likely.",cur:"GBP (£). ~$1 = £0.80. Cards everywhere.",beer:"$5-6",ckl:"$10-14",tip:"10% at restaurants. Not at bars.",dress:"Casual. Layers for weather. No dress code anywhere really.",apt:"Tram to center 30min $8. Or bus $5.",phone:"T-Mobile: works but UK is NOT EU. Check your plan. Verizon TravelPass $10/day.",lang:"English! Scottish accent can be thick after a few whiskeys."}},
+f:{SFO:["$700-1000","~12h","BA via LHR, United"],ATL:["$650-950","~10h","Delta via AMS/LHR"],CHS:["$750-1050","~13h","AA via CLT"],SAV:["$800-1100","~14h","Delta via ATL"],DFW:["$700-1000","~11h","AA via LHR, BA"]},
+h:{r:"$130-220/nt",t:"$260-440",p:["Balmoral (5★ 9.2) ~$300","Motel One Royal (3★ 8.5) ~$140","Castle Rock Hostel (8.7) ~$40"]},
+tv:{fly:{p:"$50-100",t:"2.5h",d:"EasyJet/Ryanair EDI-VCE"},train:{p:"$100-200",t:"~18h",d:"2 days. Fly."}},
+dt:{n:"Highlands day tour (~$60)",d:"Glencoe, Loch Ness."},
+todo:["Edinburgh Castle","Arthur's Seat hike","Royal Mile pubs","FRINGE FESTIVAL (Aug 7-31!)","Whisky tasting","NIGHTLIFE: Grassmarket, Cowgate, Hive"],
+rest:["The Witchery - Gothic dining by castle","Dishoom - bacon naan brunch","Bow Bar - best whisky selection"],
+prac:{w:"19°C/66°F, COOL! Bring layers. Rain likely.",cur:"GBP (£). NOT EU.",beer:"$5-6",ckl:"$10-14",tip:"10% restaurants.",dress:"Casual. Layers.",apt:"Tram 30min $8.",phone:"UK NOT EU. Check T-Mobile plan! Verizon $10/day.",lang:"English! Thick accent after whisky."}},
 
 {id:"munich",city:"Munich",co:"Germany",fl:"🇩🇪",clr:"#D4A03C",cid:"DE",cx:.58,cy:.88,acts:12,
 vibe:"Beer gardens, BMW, Alps gateway. Closest major city to Dolomites.",
 sc:{nightlife:7,food:8,sightseeing:7,budget:6,beach:2},
-f:{SFO:["$700-950","~12h","Lufthansa direct some days"],ATL:["$650-900","~10h","Delta via AMS, Lufthansa"],CHS:["$750-1000","~13h","Delta via ATL"]},
+f:{SFO:["$700-950","~12h","Lufthansa DIRECT some days"],ATL:["$650-900","~10h","Delta via AMS, Lufthansa"],CHS:["$750-1000","~13h","Delta via ATL"],SAV:["$800-1050","~14h","Delta via ATL"],DFW:["$700-950","~12h","AA via LHR, Lufthansa"]},
 h:{r:"$120-200/nt",t:"$240-400",p:["Torbräu (4★ 8.6) ~$170","Motel One Sendlinger (3★ 8.4) ~$130","Wombats (8.3) ~$40"]},
-tv:{fly:{p:"$40-80",t:"1h",d:"Lufthansa/EasyJet MUC-VCE"},train:{p:"$30-50",t:"~6h",d:"Through Brenner Pass Alps. Stunning ride."}},
+tv:{fly:{p:"$40-80",t:"1h",d:"Lufthansa/EasyJet MUC-VCE"},train:{p:"$30-50",t:"~6h",d:"Brenner Pass Alps. Stunning."}},
 dt:{n:"Neuschwanstein Castle (2h train $30)",d:"THE fairytale castle. Disney copied this."},
-todo:["Marienplatz Glockenspiel","English Garden beer garden + river surfers","Hofbrauhaus beer hall","BMW Welt/Museum","Viktualienmarkt","NIGHTLIFE: P1 (upscale), Harry Klein (techno), Pacha Munich"],
-rest:["Augustiner Keller - the locals' beer garden, massive, under chestnut trees","Schneider Bräuhaus - weisswurst + weissbier for breakfast (Bavarian tradition)","Wirtshaus in der Au - best Knödel (dumplings) in Munich"],
-prac:{w:"24°C/75°F, warm, afternoon thunderstorms possible",cur:"EUR (€)",beer:"$4-5 (beer garden: $8 for a Mass/liter)",ckl:"$10-14",tip:"Round up. 5-10% for meals.",dress:"Casual. Beer halls = come as you are.",apt:"S-Bahn to center 40min $13.",phone:"T-Mobile/Verizon work in Germany.",lang:"Hallo / Danke / Prost / Ein Mass bitte (for a liter of beer)"}},
+todo:["Marienplatz Glockenspiel","English Garden beer garden + river surfers","Hofbrauhaus","BMW Welt","Viktualienmarkt","NIGHTLIFE: P1, Harry Klein, Pacha Munich"],
+rest:["Augustiner Keller - locals' beer garden, massive","Schneider Bräuhaus - weisswurst breakfast","Wirtshaus in der Au - best Knödel"],
+prac:{w:"24°C/75°F, warm, afternoon storms possible",cur:"EUR (€)",beer:"$4-5 (Mass: $8)",ckl:"$10-14",tip:"Round up 5-10%.",dress:"Casual. Beer halls = come as you are.",apt:"S-Bahn 40min $13.",phone:"T-Mobile/Verizon work.",lang:"Hallo / Danke / Prost / Ein Mass bitte"}},
 
 {id:"vienna",city:"Vienna",co:"Austria",fl:"🇦🇹",clr:"#7B6BA5",cid:"AT",cx:.88,cy:.35,acts:13,
 vibe:"Imperial elegance, coffee houses, wine bars. Surprisingly good nightlife.",
 sc:{nightlife:7,food:9,sightseeing:9,budget:6,beach:2},
-f:{SFO:["$700-1000","~12h","Austrian, Lufthansa"],ATL:["$680-950","~11h","Delta via AMS, Austrian"],CHS:["$780-1050","~14h","Delta via ATL"]},
+f:{SFO:["$700-1000","~12h","Austrian, Lufthansa"],ATL:["$680-950","~11h","Delta via AMS"],CHS:["$780-1050","~14h","Delta via ATL"],SAV:["$830-1100","~15h","Delta via ATL"],DFW:["$700-1000","~12h","AA via LHR, Austrian"]},
 h:{r:"$120-200/nt",t:"$240-400",p:["Hotel Topazz (4★ 9.0) ~$180","Ruby Marie (4★ 8.5) ~$140","Wombats Naschmarkt (8.5) ~$35"]},
-tv:{fly:{p:"$40-80",t:"1h",d:"Austrian/Ryanair VIE-VCE"},train:{p:"$30-55",t:"~7.5h",d:"OBB through Alps. Beautiful. Night train option too."}},
-dt:{n:"Bratislava Slovakia (1h train $15)",d:"Different country in an hour. Old Town, UFO bar, cheap drinks."},
-todo:["Schönbrunn Palace","Naschmarkt food market","Coffee houses (Cafe Central, Sperl)","Prater Ferris Wheel sunset","Belvedere (Klimt's The Kiss)","NIGHTLIFE: Donaukanal riverside bars, Flex, Grelle Forelle, Pratersauna"],
-rest:["Naschmarkt - walk the whole market, eat at every stall","Figlmüller - the famous schnitzel bigger than the plate","Kleinod - hidden cocktail bar in a tiny alley, reservation needed"],
-prac:{w:"26°C/79°F, warm, pleasant evenings",cur:"EUR (€)",beer:"$4-5",ckl:"$10-14",tip:"Round up or 5-10%.",dress:"Vienna is a bit dressier than Berlin. Smart casual.",apt:"CAT train 16min $14. Or S-Bahn 25min $5.",phone:"T-Mobile/Verizon work. Austria is EU.",lang:"Hallo / Danke / Prost / Ein Bier bitte"}},
+tv:{fly:{p:"$40-80",t:"1h",d:"Austrian/Ryanair VIE-VCE"},train:{p:"$30-55",t:"~7.5h",d:"OBB through Alps. Night train option."}},
+dt:{n:"Bratislava (1h train $15)",d:"Different country in an hour. Old Town, UFO bar."},
+todo:["Schönbrunn Palace","Naschmarkt","Coffee houses","Prater Ferris Wheel","Belvedere (The Kiss)","NIGHTLIFE: Donaukanal bars, Flex, Grelle Forelle, Pratersauna"],
+rest:["Naschmarkt - walk + eat every stall","Figlmüller - schnitzel bigger than plate","Kleinod - hidden cocktail bar, reservation"],
+prac:{w:"26°C/79°F, warm, pleasant evenings",cur:"EUR (€)",beer:"$4-5",ckl:"$10-14",tip:"Round up 5-10%.",dress:"Dressier than Berlin.",apt:"CAT 16min $14. S-Bahn $5.",phone:"T-Mobile/Verizon work. EU.",lang:"Hallo / Danke / Prost / Ein Bier bitte"}},
 
 {id:"prague",city:"Prague",co:"Czechia",fl:"🇨🇿",clr:"#D4A03C",cid:"CZ",cx:.48,cy:.42,acts:13,
 vibe:"Absurdly cheap. Beautiful. Beer $1.50. Legendary guys trip city.",
 sc:{nightlife:9,food:7,sightseeing:9,budget:10,beach:1},
-f:{SFO:["$700-950","~13h","Lufthansa, BA"],ATL:["$630-900","~11h","Delta via AMS"],CHS:["$730-1000","~14h","Delta via ATL"]},
+f:{SFO:["$700-950","~13h","Lufthansa, BA"],ATL:["$630-900","~11h","Delta via AMS"],CHS:["$730-1000","~14h","Delta via ATL"],SAV:["$780-1050","~15h","Delta via ATL"],DFW:["$700-950","~13h","AA via LHR, Lufthansa"]},
 h:{r:"$80-150/nt",t:"$160-300",p:["Maximilian (4★ 8.7) ~$120","Mosaic House (4★ 8.5) ~$90","Czech Inn (8.3) ~$35"]},
-tv:{fly:{p:"$40-90",t:"1.5h",d:"Ryanair/Wizz PRG-VCE Treviso"},train:{p:"$40-70",t:"~7h",d:"Via Vienna. Scenic Alps section."}},
-dt:{n:"Kutná Hora (1h train $8)",d:"Bone Church. 40,000 human skeletons. Wild."},
-todo:["Charles Bridge sunrise","Czech beer ($1.50/pint)","Old Town Square","Petřín Hill funicular","Organized pub crawl","NIGHTLIFE: Karlovy Lazne (5-floor bathhouse), Cross Club, Roxy"],
-rest:["Lokál Dlouhááá - best traditional Czech food, tank beer on tap","Vinohradský Pivovar - craft brewery + great food in cool neighborhood","Café Louvre - Einstein used to eat here, classic Czech cafe"],
-prac:{w:"25°C/77°F, warm, occasional rain",cur:"CZK (Czech Koruna). ~$1 = 23 CZK. Cards mostly accepted, some cash-only bars.",beer:"$1.50-2.50 (!)",ckl:"$5-8",tip:"Round up. 10% for sit-down.",dress:"Very casual everywhere.",apt:"Bus to center 30min $2. Cheap.",phone:"T-Mobile/Verizon work. Czechia is EU.",lang:"Ahoj / Děkuji / Na zdraví / Jedno pivo prosím"}},
+tv:{fly:{p:"$40-90",t:"1.5h",d:"Ryanair/Wizz PRG-VCE Treviso"},train:{p:"$40-70",t:"~7h",d:"Via Vienna + Alps."}},
+dt:{n:"Kutná Hora (1h train $8)",d:"Bone Church. 40,000 skeletons."},
+todo:["Charles Bridge sunrise","Czech beer ($1.50/pint!)","Old Town Square","Petřín Hill","Pub crawl","NIGHTLIFE: Karlovy Lazne, Cross Club, Roxy"],
+rest:["Lokál Dlouhááá - Czech food + tank beer","Vinohradský Pivovar - craft brewery","Café Louvre - Einstein ate here"],
+prac:{w:"25°C/77°F, warm, occasional rain",cur:"CZK (~$1=23 CZK). Cards mostly work.",beer:"$1.50-2.50 (!)",ckl:"$5-8",tip:"Round up 10%.",dress:"Very casual.",apt:"Bus 30min $2.",phone:"T-Mobile/Verizon work. EU.",lang:"Ahoj / Děkuji / Na zdraví / Jedno pivo prosím"}},
 
 {id:"budapest",city:"Budapest",co:"Hungary",fl:"🇭🇺",clr:"#5A8F6A",cid:"HU",cx:.32,cy:.42,acts:15,
 vibe:"Thermal baths, ruin bars, Danube views. Cheap, wild, unforgettable.",
 sc:{nightlife:9,food:8,sightseeing:9,budget:10,beach:4},
-f:{SFO:["$650-800","~13h","Lufthansa, SWISS"],ATL:["$600-800","~11h","Delta via AMS"],CHS:["$700-900","~14h","Delta via ATL"]},
+f:{SFO:["$650-800","~13h","Lufthansa, SWISS"],ATL:["$600-800","~11h","Delta via AMS"],CHS:["$700-900","~14h","Delta via ATL"],SAV:["$750-950","~15h","Delta via ATL"],DFW:["$650-850","~13h","AA via LHR, Lufthansa"]},
 h:{r:"$80-140/nt",t:"$160-280",p:["Moments (4★ 8.7) ~$130","Roombach (3★ 8.4) ~$90","Maverick Lodge (8.6) ~$30"]},
-tv:{fly:{p:"$40-80",t:"1.5h",d:"Wizz/Ryanair BUD-VCE Treviso"},train:{p:"$35-60",t:"~8h",d:"Vienna (2.5h)+Venice. Alps are gorgeous."}},
+tv:{fly:{p:"$40-80",t:"1.5h",d:"Wizz/Ryanair BUD-VCE Treviso"},train:{p:"$35-60",t:"~8h",d:"Vienna+Venice. Alps gorgeous."}},
 dt:{n:"Szentendre (40min $4)",d:"Artist village, Danube Bend."},
-todo:["Széchenyi Thermal Bath + beers","Ruin bar pub crawl (Szimpla+)","Parliament at night","Fisherman's Bastion panorama","Gellért Hill sunset","NIGHTLIFE: Szimpla Kert, Instant-Fogas, Akvárium"],
-rest:["Bors GasztroBar - gourmet soup + sandwiches, tiny and cult","Karaván Street Food - outdoor food truck park next to Szimpla","Mazel Tov - Middle Eastern in a beautiful courtyard, great cocktails"],
-prac:{w:"28°C/82°F, hot, sunny",cur:"HUF (Hungarian Forint). ~$1 = 370 HUF. Cards widely accepted.",beer:"$1.50-3",ckl:"$5-8",tip:"10% expected at restaurants.",dress:"Casual. Thermal baths: bring swimsuit or rent.",apt:"Bus 100E to center 30min $4.",phone:"T-Mobile/Verizon work. Hungary is EU.",lang:"Szia / Köszönöm / Egészségedre / Egy sört kérek"}},
+todo:["Széchenyi Thermal Bath + beers","Ruin bar crawl (Szimpla+)","Parliament at night","Fisherman's Bastion","Gellért Hill sunset","NIGHTLIFE: Szimpla Kert, Instant-Fogas, Akvárium"],
+rest:["Bors GasztroBar - gourmet soup+sandwiches","Karaván Street Food - truck park by Szimpla","Mazel Tov - Middle Eastern courtyard"],
+prac:{w:"28°C/82°F, hot, sunny",cur:"HUF (~$1=370 HUF). Cards accepted.",beer:"$1.50-3",ckl:"$5-8",tip:"10% at restaurants.",dress:"Casual. Baths: bring swimsuit.",apt:"Bus 100E 30min $4.",phone:"T-Mobile/Verizon work. EU.",lang:"Szia / Köszönöm / Egészségedre / Egy sört kérek"}},
 
 {id:"split",city:"Split",co:"Croatia",fl:"🇭🇷",clr:"#5A8F6A",cid:"HR",cx:.42,cy:.65,acts:12,
-vibe:"Roman palace turned party city. Cheaper than Dubrovnik, better nightlife.",
+vibe:"Roman palace turned party city. Cheaper than Dubrovnik.",
 sc:{nightlife:8,beach:8,sightseeing:7,food:7,budget:8},
-f:{SFO:["$750-1050","~14h","BA, Lufthansa"],ATL:["$700-1000","~12h","Delta via AMS"],CHS:["$800-1100","~15h","Delta via ATL"]},
+f:{SFO:["$750-1050","~14h","BA, Lufthansa"],ATL:["$700-1000","~12h","Delta via AMS"],CHS:["$800-1100","~15h","Delta via ATL"],SAV:["$850-1150","~16h","Delta via ATL"],DFW:["$750-1050","~14h","AA via LHR"]},
 h:{r:"$100-180/nt",t:"$200-360",p:["Hotel Luxe (4★ 8.5) ~$150","Heritage Antique (4★ 9.0) ~$170","Tchaikovsky (9.1) ~$35"]},
 tv:{fly:{p:"$40-90",t:"1h",d:"Volotea/EasyJet SPU-VCE"},train:{p:"N/A",t:"N/A",d:"No train. Fly."}},
-dt:{n:"Hvar Island (2h ferry $25)",d:"THE party island. Beach clubs, yachts."},
-todo:["Diocletian's Palace","Riva waterfront sunset","Marjan Hill hike","Bacvice Beach","Blue Cave + Hvar boat tour","NIGHTLIFE: Central Club, Inbox, Zenta Beach"],
-rest:["Villa Spiza - tiny, no menu, chef tells you what's fresh today","Bokeria Kitchen & Wine - modern Mediterranean, great wine list","Uje Oil Bar - olive oil tasting + Dalmatian small plates"],
-prac:{w:"30°C/86°F, hot, sunny, sea breeze",cur:"EUR (€) - Croatia switched to Euro in 2023!",beer:"$3-4",ckl:"$7-10",tip:"Round up. 10% for good service.",dress:"Beach casual. Flip flops fine.",apt:"Bus to center 30min $5.",phone:"T-Mobile/Verizon work. Croatia is EU.",lang:"Bok / Hvala / Živjeli / Jedno pivo molim"}},
+dt:{n:"Hvar Island (2h ferry $25)",d:"THE party island."},
+todo:["Diocletian's Palace","Riva waterfront sunset","Marjan Hill","Bacvice Beach","Blue Cave+Hvar boat","NIGHTLIFE: Central Club, Inbox, Zenta"],
+rest:["Villa Spiza - no menu, chef tells you what's fresh","Bokeria - modern Med, wine list","Uje Oil Bar - olive oil tasting"],
+prac:{w:"30°C/86°F, hot, sea breeze",cur:"EUR (€) since 2023!",beer:"$3-4",ckl:"$7-10",tip:"Round up 10%.",dress:"Beach casual.",apt:"Bus 30min $5.",phone:"T-Mobile/Verizon work. EU.",lang:"Bok / Hvala / Živjeli / Jedno pivo molim"}},
 
 {id:"dubrovnik",city:"Dubrovnik",co:"Croatia",fl:"🇭🇷",clr:"#4A7FAF",cid:"HR",cx:.78,cy:.95,acts:11,
 vibe:"Walled city, Adriatic, cliff bars, GoT vibes.",
 sc:{nightlife:6,beach:9,sightseeing:8,food:7,budget:7},
-f:{SFO:["$800-1100","~15h","BA, Lufthansa"],ATL:["$750-1050","~13h","Delta via AMS"],CHS:["$850-1200","~16h","Delta via ATL"]},
+f:{SFO:["$800-1100","~15h","BA, Lufthansa"],ATL:["$750-1050","~13h","Delta via AMS"],CHS:["$850-1200","~16h","Delta via ATL"],SAV:["$900-1250","~17h","Delta via ATL"],DFW:["$800-1100","~15h","AA via LHR"]},
 h:{r:"$120-200/nt",t:"$240-400",p:["Hotel Lero (4★ 8.3) ~$140","Berkeley (4★ 8.7) ~$170","Fresh Sheets (9.2) ~$160"]},
 tv:{fly:{p:"$50-130",t:"1.5h",d:"Croatia Airlines/Volotea DBV-VCE"},train:{p:"N/A",t:"N/A",d:"No train. Fly."}},
-dt:{n:"Montenegro/Kotor (2h bus $20)",d:"Medieval town in a fjord. Insane scenery."},
-todo:["City Walls loop ($35)","Buza Bar (cliff bar)","Lokrum Island ferry","Banje Beach","Mt. Srd cable car","NIGHTLIFE: Revelin (fortress), Culture Club, Stradun"],
-rest:["Proto - fresh seafood on a rooftop in Old Town","Taj Mahal - Bosnian food, best ćevapi outside Bosnia","D'vino Wine Bar - Croatian wine tasting in a cave-like cellar"],
-prac:{w:"30°C/86°F, hot, sunny",cur:"EUR (€)",beer:"$4-5",ckl:"$8-12",tip:"Round up. Service sometimes included.",dress:"Beach casual. Old Town gets warm, light clothes.",apt:"Bus/shuttle to Old Town 30min $8-10.",phone:"T-Mobile/Verizon work. Croatia is EU.",lang:"Bok / Hvala / Živjeli / Jedno pivo molim"}},
+dt:{n:"Montenegro/Kotor (2h bus $20)",d:"Medieval town in a fjord."},
+todo:["City Walls ($35)","Buza Bar (cliff)","Lokrum Island","Banje Beach","Mt. Srd cable car","NIGHTLIFE: Revelin, Culture Club, Stradun"],
+rest:["Proto - seafood rooftop","Taj Mahal - Bosnian ćevapi","D'vino - wine cave"],
+prac:{w:"30°C/86°F, hot, sunny",cur:"EUR (€)",beer:"$4-5",ckl:"$8-12",tip:"Round up.",dress:"Beach casual.",apt:"Bus/shuttle 30min $8-10.",phone:"T-Mobile/Verizon work. EU.",lang:"Bok / Hvala / Živjeli / Jedno pivo molim"}},
 
 {id:"athens",city:"Athens",co:"Greece",fl:"🇬🇷",clr:"#4A7FAF",cid:"GR",cx:.58,cy:.68,acts:13,
 vibe:"Ancient ruins + raw energy. Cheap rooftops, Acropolis views.",
 sc:{nightlife:8,food:9,sightseeing:9,budget:9,beach:5},
-f:{SFO:["$750-1000","~14h","Lufthansa, Turkish"],ATL:["$700-950","~11h","Delta DIRECT seasonal"],CHS:["$800-1100","~15h","Delta via ATL"]},
+f:{SFO:["$750-1000","~14h","Lufthansa, Turkish"],ATL:["$700-950","~11h","Delta DIRECT seasonal"],CHS:["$800-1100","~15h","Delta via ATL"],SAV:["$850-1150","~16h","Delta via ATL"],DFW:["$750-1000","~14h","AA via LHR"]},
 h:{r:"$90-160/nt",t:"$180-320",p:["Electra Metropolis (5★ 9.0) ~$160","Athens Was (4★ 8.8) ~$140","Bedbox (8.5) ~$30"]},
 tv:{fly:{p:"$60-130",t:"2.5h",d:"Aegean/Volotea ATH-VCE"},train:{p:"N/A",t:"N/A",d:"No train. Fly."}},
 dt:{n:"Cape Sounion (1.5h bus $15)",d:"Temple of Poseidon, cliff sunset."},
-todo:["Acropolis + Parthenon (8am)","Plaka tavernas","Monastiraki Flea Market","A for Athens rooftop","Athens Riviera beach clubs","NIGHTLIFE: Psyrri crawl, Gazi, six d.o.g.s"],
-rest:["Kostas - tiny souvlaki stand in Syntagma, always a line, $3 wraps","Karamanlidika - Greek deli/restaurant, charcuterie boards","360 Cocktail Bar - rooftop, Acropolis view, incredible cocktails"],
-prac:{w:"33°C/91°F, HOT. Hydrate. Morning sightseeing, afternoon shade.",cur:"EUR (€)",beer:"$3-4",ckl:"$7-10",tip:"Round up. 5-10% at restaurants.",dress:"Very casual. Comfortable shoes for ruins.",apt:"Metro to center 40min $10. Or bus $6.",phone:"T-Mobile/Verizon work. Greece is EU.",lang:"Yia sas / Efcharistó / Yamas / Mia bíra parakaló"}},
+todo:["Acropolis (8am)","Plaka tavernas","Monastiraki market","A for Athens rooftop","Athens Riviera beaches","NIGHTLIFE: Psyrri crawl, Gazi, six d.o.g.s"],
+rest:["Kostas - souvlaki stand, always a line, $3","Karamanlidika - deli charcuterie","360 Bar - Acropolis cocktails"],
+prac:{w:"33°C/91°F, HOT. Morning sightseeing.",cur:"EUR (€)",beer:"$3-4",ckl:"$7-10",tip:"Round up 5-10%.",dress:"Very casual.",apt:"Metro 40min $10.",phone:"T-Mobile/Verizon work. EU.",lang:"Yia sas / Efcharistó / Yamas / Mia bíra"}},
 
 {id:"mykonos",city:"Mykonos",co:"Greece",fl:"🇬🇷",clr:"#4A7FAF",cid:"GR",cx:.78,cy:.82,acts:9,
 vibe:"Island party mecca. Beach clubs, white alleys, DJs.",
 sc:{nightlife:9,beach:10,food:8,sightseeing:5,budget:3},
-f:{SFO:["$900-1300","~16h","Via ATH + Aegean"],ATL:["$850-1200","~14h","Delta to ATH + Aegean"],CHS:["$950-1350","~17h","Delta via ATL/ATH"]},
+f:{SFO:["$900-1300","~16h","Via ATH+Aegean"],ATL:["$850-1200","~14h","Delta to ATH+Aegean"],CHS:["$950-1350","~17h","Delta via ATL"],SAV:["$1000-1400","~18h","Delta via ATL"],DFW:["$900-1300","~16h","AA via LHR/ATH"]},
 h:{r:"$180-350/nt",t:"$360-700",p:["Semeli (4★ 8.9) ~$250","Ilio Maris (4★ 8.6) ~$200","MyCocoon (8.0) ~$60"]},
-tv:{fly:{p:"$80-160",t:"3h via ATH",d:"Aegean JMK-ATH-VCE. Or Volotea direct ~$100"},train:{p:"N/A",t:"N/A",d:"Island. Fly."}},
+tv:{fly:{p:"$80-160",t:"3h via ATH",d:"Aegean JMK-ATH-VCE. Or Volotea ~$100"},train:{p:"N/A",t:"N/A",d:"Island. Fly."}},
 dt:{n:"Delos (30min boat $25)",d:"UNESCO. Birthplace of Apollo."},
-todo:["Paradise Beach DJs","Super Paradise Beach","Little Venice sunset","Nammos Beach Club","Mykonos Town alleys","NIGHTLIFE: Cavo Paradiso, Scandinavian Bar, Void"],
-rest:["Niko's Taverna - waterfront in town, classic Greek, fresh fish","Scorpios - beach club restaurant, sunset dinner, world-class DJs after","Kikí's Taverna - no electricity, no phone, just incredible food on Agios Sostis beach"],
-prac:{w:"29°C/84°F, hot, windy (Meltemi winds), sunny",cur:"EUR (€)",beer:"$6-8",ckl:"$15-22 (beach clubs: $20-30)",tip:"Round up. Beach clubs add service.",dress:"Beach chic. Nice restaurants want smart casual at dinner.",apt:"Bus from airport 10min $2. Or taxi $10.",phone:"T-Mobile/Verizon work. Greece is EU.",lang:"Yia sas / Efcharistó / Yamas / Mia bíra"}},
+todo:["Paradise Beach DJs","Super Paradise","Little Venice sunset","Nammos Beach Club","Mykonos Town alleys","NIGHTLIFE: Cavo Paradiso, Scandinavian Bar, Void"],
+rest:["Niko's Taverna - waterfront fresh fish","Scorpios - sunset dinner + DJs","Kikí's - no electricity, incredible beach food"],
+prac:{w:"29°C/84°F, hot, windy",cur:"EUR (€)",beer:"$6-8",ckl:"$15-22",tip:"Beach clubs add service.",dress:"Beach chic. Smart casual dinner.",apt:"Bus 10min $2.",phone:"T-Mobile/Verizon work. EU.",lang:"Yia sas / Efcharistó / Yamas / Mia bíra"}},
 
 {id:"swiss",city:"Interlaken",co:"Switzerland",fl:"🇨🇭",clr:"#5A8F6A",cid:"CH",cx:.42,cy:.55,acts:10,
 vibe:"Adrenaline + Alps. Paragliding, canyoning. Less nightlife.",
 sc:{nightlife:4,sightseeing:10,food:7,budget:3,beach:3},
-f:{SFO:["$800-1100","~12h","SWISS direct some days"],ATL:["$750-1050","~12h","Lufthansa, SWISS"],CHS:["$850-1150","~14h","Delta via ATL"]},
+f:{SFO:["$800-1100","~12h","SWISS direct some days"],ATL:["$750-1050","~12h","Lufthansa, SWISS"],CHS:["$850-1150","~14h","Delta via ATL"],SAV:["$900-1200","~15h","Delta via ATL"],DFW:["$800-1100","~13h","AA via LHR, SWISS"]},
 h:{r:"$140-280/nt",t:"$280-560",p:["Rossli (3★ 8.0) ~$140","Victoria Jungfrau (5★ 9.2) ~$400","Backpackers Villa (3★ 8.5) ~$90"]},
-tv:{fly:{p:"$50-90",t:"1.5h",d:"EasyJet ZRH-VCE"},train:{p:"$60-100",t:"~6h",d:"Gotthard Tunnel to Italy. Beautiful."}},
-dt:{n:"Jungfraujoch ($200 RT)",d:"11,332 ft. Snow, ice palace. Bucket list."},
-todo:["Paragliding (~$180)","Canyoning (~$120)","Lake Brienz turquoise","Harder Kulm panorama","Lauterbrunnen 72 waterfalls","NIGHTLIFE: Limited. Brasserie 17."],
-rest:["Restaurant Bären - traditional Swiss fondue and raclette","Hüsi Bierhaus - craft beer + burgers, Interlaken's social hub","Goldener Anker - lakeside terrace, good pizza surprisingly"],
-prac:{w:"24°C/75°F, warm days, cool evenings in mountains",cur:"CHF (Swiss Franc). ~$1 = 0.90 CHF. EXPENSIVE. Cards everywhere.",beer:"$7-9",ckl:"$15-20",tip:"Service included. Round up if generous.",dress:"Outdoor/athletic wear. Hiking boots for activities.",apt:"Train from Zurich airport 2h, $60. Or fly to Bern, train 1h.",phone:"T-Mobile: Switzerland NOT in EU. Check plan! Verizon TravelPass $10/day works.",lang:"Grüezi / Danke / Prost / Es Bier bitte"}}
+tv:{fly:{p:"$50-90",t:"1.5h",d:"EasyJet ZRH-VCE"},train:{p:"$60-100",t:"~6h",d:"Gotthard Tunnel. Beautiful."}},
+dt:{n:"Jungfraujoch ($200 RT)",d:"11,332 ft. Bucket list."},
+todo:["Paragliding (~$180)","Canyoning (~$120)","Lake Brienz","Harder Kulm","Lauterbrunnen","NIGHTLIFE: Limited. Brasserie 17."],
+rest:["Restaurant Bären - fondue + raclette","Hüsi Bierhaus - craft beer + burgers","Goldener Anker - lakeside terrace"],
+prac:{w:"24°C/75°F, cool evenings in mountains",cur:"CHF (~$1=0.90 CHF). EXPENSIVE.",beer:"$7-9",ckl:"$15-20",tip:"Service included.",dress:"Outdoor/athletic wear.",apt:"Train from ZRH 2h $60.",phone:"Switzerland NOT EU. Check plan! Verizon $10/day works.",lang:"Grüezi / Danke / Prost / Es Bier bitte"}}
 ];
 
 
@@ -388,17 +412,37 @@ function goTo(n){const old=document.getElementById('s'+cur);if(old){old.classLis
 function pk(key,val){cfg[key]=val;const seq={dep:4,ft:5,ven:0};setTimeout(()=>goTo(seq[key]),200)}
 function restart(){cfg={arrive:null,depart:null,arriveLabel:'',departLabel:'',dep:'',ft:'',ven:'',when:''};document.getElementById('main').classList.remove('show');document.getElementById('detail').className='';document.getElementById('detail').innerHTML='';document.querySelectorAll('.scr').forEach(s=>{s.classList.remove('active','exit');s.classList.add('gone')});const s1=document.getElementById('s1');s1.classList.remove('gone','exit');setTimeout(()=>s1.classList.add('active'),30);cur=1}
 
-// Calendar
-function buildCal(){const w=document.getElementById('calWrap');if(!w)return;const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];let h='<div class="cal-grid">';days.forEach(d=>h+=`<div class="cal-day">${d}</div>`);for(let i=0;i<4;i++)h+='<div class="cal-cell empty"></div>';const dates=[];for(let d=21;d<=31;d++)dates.push({d,m:8,label:'Aug '+d});for(let d=1;d<=6;d++)dates.push({d,m:9,label:'Sep '+d});dates.forEach(dt=>{const num=dt.m===8?dt.d:dt.d+31;const isWed=dt.m===8&&dt.d>=26&&dt.d<=30;h+=`<div class="cal-cell${isWed?' locked':''}" data-num="${num}" onclick="pickDate(${num},'${dt.label}')"><span>${dt.d}</span>${dt.m===9?'<span class="mo">Sep</span>':''}</div>`});h+='</div>';w.innerHTML=h}
-function pickDate(num,label){if(num>=26&&num<=30)return;if(!cfg.arrive||cfg.depart){cfg.arrive=num;cfg.arriveLabel=label;cfg.depart=null;cfg.departLabel=''}else if(num>cfg.arrive){cfg.depart=num;cfg.departLabel=label}else{cfg.arrive=num;cfg.arriveLabel=label;cfg.depart=null;cfg.departLabel=''}updateCal()}
-function updateCal(){document.querySelectorAll('.cal-cell').forEach(el=>{if(el.classList.contains('empty')||el.classList.contains('locked'))return;el.classList.remove('arrive','depart','range');const n=+el.dataset.num;if(cfg.arrive&&n===cfg.arrive)el.classList.add('arrive');if(cfg.depart&&n===cfg.depart)el.classList.add('depart');if(cfg.arrive&&cfg.depart&&n>cfg.arrive&&n<cfg.depart)el.classList.add('range')});const btn=document.getElementById('calOk');if(cfg.arrive&&cfg.depart){btn.classList.add('ready');cfg.when=cfg.arrive<26?(cfg.depart>30?'both':'before'):'after'}else btn.classList.remove('ready')}
+// Calendar: Aug 21 (Fri) to Sep 8 (Tue). Lock Aug 27-30. Aug 26 = bus day (selectable).
+function buildCal(){const w=document.getElementById('calWrap');if(!w)return;
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let h='<div class="cal-grid">';
+  days.forEach(d=>h+=`<div class="cal-day">${d}</div>`);
+  // Aug 21 2026 = Friday. Need 4 empties (Mon-Thu).
+  for(let i=0;i<4;i++)h+='<div class="cal-cell empty"></div>';
+  const dates=[];
+  for(let d=21;d<=31;d++)dates.push({d,m:8,label:'Aug '+d});
+  for(let d=1;d<=8;d++)dates.push({d,m:9,label:'Sep '+d});
+  dates.forEach(dt=>{
+    const num=dt.m===8?dt.d:dt.d+31;
+    const isLocked=dt.m===8&&dt.d>=27&&dt.d<=30;
+    const isBusDay=dt.m===8&&dt.d===26;
+    const cls=isLocked?' locked':isBusDay?' busday':'';
+    h+=`<div class="cal-cell${cls}" data-num="${num}" onclick="pickDate(${num},'${dt.label}')"><span>${dt.d}</span>${dt.m===9?'<span class="mo">Sep</span>':''}${isBusDay?'':''}${dt.m===9&&dt.d>=4&&dt.d<=6?'<span class="mo" style="color:#E10600">F1</span>':''}</div>`;
+  });
+  h+='</div>';
+  h+='<div style="font-size:10px;color:var(--grey);text-align:center;margin-top:8px;line-height:1.5">🚌 Aug 26 = Bus to Dolomites (can arrive morning + catch bus)<br>🏎️ Sep 4-6 = Monza F1 Italian GP</div>';
+  w.innerHTML=h}
+function pickDate(num,label){
+  if(num>=27&&num<=30)return;// locked wedding days
+  if(!cfg.arrive||cfg.depart){cfg.arrive=num;cfg.arriveLabel=label;cfg.depart=null;cfg.departLabel=''}
+  else if(num>cfg.arrive){cfg.depart=num;cfg.departLabel=label}
+  else{cfg.arrive=num;cfg.arriveLabel=label;cfg.depart=null;cfg.departLabel=''}
+  updateCal()}
+function updateCal(){document.querySelectorAll('.cal-cell').forEach(el=>{if(el.classList.contains('empty')||el.classList.contains('locked'))return;el.classList.remove('arrive','depart','range');const n=+el.dataset.num;if(cfg.arrive&&n===cfg.arrive)el.classList.add('arrive');if(cfg.depart&&n===cfg.depart)el.classList.add('depart');if(cfg.arrive&&cfg.depart&&n>cfg.arrive&&n<cfg.depart)el.classList.add('range')});const btn=document.getElementById('calOk');if(cfg.arrive&&cfg.depart){btn.classList.add('ready');cfg.when=cfg.arrive<27?(cfg.depart>30?'both':'before'):'after'}else btn.classList.remove('ready')}
 function confirmDates(){if(cfg.arrive&&cfg.depart)goTo(3)}
 
-// Rating: how worth it is the city for available days
-function getCityDays(){let before=0,after=0;if(cfg.arrive<26)before=25-cfg.arrive;if(cfg.depart>30)after=cfg.depart-30;return{before,after,total:before+after}}
-function rateCity(c){const d=getCityDays();const avail=cfg.when==='before'?d.before:cfg.when==='after'?d.after:d.total;const actPerDay=c.acts/Math.max(avail-1,1);// -1 for travel day to Venice
-const nightScore=c.sc.nightlife/10;const budgetScore=c.sc.budget/10;const raw=(actPerDay>.8?1:actPerDay)*4+nightScore*3+budgetScore*2+(c.sc.beach/10);return Math.min(10,Math.round(raw*10)/10)}
-function ratingClass(r){return r>=7.5?'high':r>=5.5?'mid':'low'}
+function getCityDays(){let before=0,after=0;if(cfg.arrive<27)before=Math.min(26,cfg.depart||26)-cfg.arrive;if(cfg.depart>30)after=cfg.depart-30;return{before,after,total:before+after}}
+function rateCity(c){const d=getCityDays();const avail=cfg.when==='before'?d.before:cfg.when==='after'?d.after:d.total;const actPerDay=c.acts/Math.max(avail-1,1);const ns=c.sc.nightlife/10;const bs=c.sc.budget/10;const raw=(actPerDay>.8?1:actPerDay)*4+ns*3+bs*2+(c.sc.beach/10);return Math.min(10,Math.round(raw*10)/10)}
 function ratingBg(r){return r>=7.5?'rgba(90,143,106,.1)':r>=5.5?'rgba(184,149,106,.1)':'rgba(199,93,58,.1)'}
 function ratingColor(r){return r>=7.5?'#5A8F6A':r>=5.5?'#B8956A':'#C75D3A'}
 
@@ -408,45 +452,47 @@ function renderMain(){
   document.getElementById('pills').innerHTML=[wl[cfg.when],cfg.dep,fl[cfg.ft],vl[cfg.ven],cfg.arriveLabel+' → '+cfg.departLabel].map(t=>`<span class="pill">${t}</span>`).join('');
   renderMap();renderGrid()}
 
-// Map
 function renderMap(){const m=document.getElementById('mapW');m.querySelectorAll('.dot').forEach(d=>d.remove());const svg=m.querySelector('svg');if(!svg)return;
-  const pos={};C.forEach(c=>pos[c.id]=[c.cid,c.cx,c.cy]);
-  C.forEach(c=>{const p=pos[c.id];if(!p)return;const el=svg.getElementById(p[0]);if(!el)return;const bb=el.getBBox();const sx=bb.x+bb.width*p[1],sy=bb.y+bb.height*p[2];const xp=sx/1000*100,yp=sy/684*100;
-    const d=document.createElement('div');d.className='dot';d.style.cssText=`left:${xp}%;top:${yp}%;background:${c.clr}`;d.innerHTML=`<span class="tp">${c.fl} ${c.city} — ${c.f[cfg.dep][0]}</span>`;d.onclick=()=>compareMode?toggleCityCompare(c.id):showDetail(c.id);m.appendChild(d)});
+  C.forEach(c=>{const el=svg.getElementById(c.cid);if(!el)return;const bb=el.getBBox();const sx=bb.x+bb.width*c.cx,sy=bb.y+bb.height*c.cy;const xp=sx/1000*100,yp=sy/684*100;
+    const d=document.createElement('div');d.className='dot';d.style.cssText=`left:${xp}%;top:${yp}%;background:${c.clr}`;d.innerHTML=`<span class="tp">${c.fl} ${c.city} — ${c.f[cfg.dep][0]}${c.f1?' '+c.f1:''}</span>`;d.onclick=()=>compareMode?toggleCityCompare(c.id):showDetail(c.id);m.appendChild(d)});
   const it=svg.getElementById('IT');if(it){const ib=it.getBBox();[{l:'Venice',rx:.52,ry:.08,o:.7},{l:'Dolomites',rx:.48,ry:.02,o:.5}].forEach(p=>{const sx=ib.x+ib.width*p.rx,sy=ib.y+ib.height*p.ry;const d=document.createElement('div');d.className='dot';d.style.cssText=`left:${sx/1000*100}%;top:${sy/684*100}%;background:#B8956A;width:8px;height:8px;border-width:1.5px;cursor:default;opacity:${p.o}`;d.innerHTML=`<span class="tp">${p.l}</span>`;m.appendChild(d)})}}
 
-// Cost chart
 function toggleChart(){const w=document.getElementById('chartWrap');if(w.style.display==='none'){w.style.display='block';renderChart()}else w.style.display='none'}
 function renderChart(){const w=document.getElementById('chartWrap');const sorted=[...C].sort((a,b)=>parseInt(a.f[cfg.dep][0].replace(/\D/,''))-parseInt(b.f[cfg.dep][0].replace(/\D/,'')));
   const maxP=parseInt(sorted[sorted.length-1].f[cfg.dep][0].split('-')[1]||'1500');
   w.innerHTML='<h3 style="font-family:Cormorant Garamond,serif;font-size:20px;font-weight:300;margin:8px 0 12px">Cost Comparison from '+cfg.dep+'</h3>'+sorted.map(c=>{const lo=parseInt(c.f[cfg.dep][0].replace(/\D/,''));const pct=lo/maxP*100;return`<div class="chart-row" onclick="showDetail('${c.id}')"><span class="chart-lbl">${c.fl} ${c.city}</span><div class="chart-bar" style="width:${pct}%;background:${c.clr}"></div><span class="chart-pr">${c.f[cfg.dep][0]}</span></div>`}).join('')}
 
-// Grid
-function renderGrid(){document.getElementById('grid').innerHTML=C.map(c=>{const r=rateCity(c);const rc=ratingColor(r);return`<div class="st${compareList.includes(c.id)?' cmp':''}" onclick="${compareMode?`toggleCityCompare('${c.id}')`:`showDetail('${c.id}')`}"><div class="rtg" style="background:${ratingBg(r)};color:${rc}">${r}</div><div class="fl">${c.fl}</div><div class="cn">${c.city}</div><div class="co">${c.co}</div><div class="pr">${c.f[cfg.dep][0]}</div></div>`}).join('')}
+function renderGrid(){document.getElementById('grid').innerHTML=C.map(c=>{const r=rateCity(c);const rc=ratingColor(r);return`<div class="st${compareList.includes(c.id)?' cmp':''}" onclick="${compareMode?`toggleCityCompare('${c.id}')`:`showDetail('${c.id}')`}"><div class="rtg" style="background:${ratingBg(r)};color:${rc}">${r}${c.f1?'  🏎️':''}</div><div class="fl">${c.fl}</div><div class="cn">${c.city}</div><div class="co">${c.co}</div><div class="pr">${c.f[cfg.dep][0]}</div></div>`}).join('')}
 
 function pip(v,clr){let h='';for(let i=0;i<10;i++)h+=`<div class="sp" style="background:${i<v?clr:'rgba(0,0,0,.06)'}"></div>`;return h}
-
-// Google Flights link
 function gfLink(from,to){return`https://www.google.com/travel/flights?q=flights+from+${from}+to+${to}+august+2026`}
 
-// Detail
 function showDetail(id){
   const c=C.find(x=>x.id===id);if(!c)return;const fl=c.f[cfg.dep];const d=document.getElementById('detail');const r=rateCity(c);const rc=ratingColor(r);
   const fL=parseInt(fl[0].replace(/\D/,'')),fH=parseInt(fl[0].split('-')[1]||fL);const hL=parseInt(c.h.t.match(/\d+/)[0]),hH=parseInt(c.h.t.match(/-(\d+)/)?.[1]||hL);const tvL=parseInt(c.tv.fly.p.replace(/\D/,'')),tvH=parseInt(c.tv.fly.p.split('-')[1]||tvL);
   const busRT=44,ven=175,dolH=600;const tL=fL+hL+tvL+ven+busRT+dolH,tH=fH+hH+tvH+250+busRT+800,tL2=fL+hL+tvL+ven,tH2=fH+hH+tvH+250;
+
+  // Bus timing section
+  const busInfo=cfg.when!=='after'?`<div class="sec" style="border-color:rgba(90,143,106,.2)"><div class="stg">🚌 Bus to Dolomites Options</div><div class="sbd" style="line-height:1.8"><b>Option A:</b> Arrive Venice Aug 25 evening. Sleep. Catch <b>7:50am</b> Cortina Express Aug 26 (direct, arrives ~10:20am).<br><b>Option B:</b> Land Venice morning Aug 26. Catch <b>10:20am</b> bus (changes at airport, departs 11:05am).<br><b>Option C:</b> Land Venice midday Aug 26. Catch <b>12:20pm</b> bus (changes at airport, departs 1:05pm).<br><br><span style="color:var(--grey)">Book at cortinaexpress.it or atvo.it. $18-25 each way (~$44 RT). SELLS OUT in August.</span></div></div>`
+  :`<div class="sec" style="border-color:rgba(90,143,106,.2)"><div class="stg">🚌 Bus from Dolomites</div><div class="sbd">Bus back to Venice: <b>1:15pm</b> (change at airport) or <b>3:30pm</b> (direct, arrives ~6pm). Aug 30. Then you're free to explore.</div></div>`;
+
+  // F1 callout
+  const f1Info=c.f1?`<div class="sec" style="border-color:#E10600;border-width:2px"><div class="stg" style="color:#E10600">🏎️ Monza F1 Italian Grand Prix</div><div class="sbd"><b>Sep 4-6, 2026</b> at Autodromo Nazionale Monza (30min train from Milan). Practice Friday, Qualifying Saturday, Race Sunday. Tickets from ~$150. The Tifosi atmosphere is absolutely electric. If you're doing an after-wedding trip through Milan, this is a once-in-a-lifetime add-on.</div></div>`:''
+
   let vp='';const iB=cfg.when!=='after';
   if(iB){vp=cfg.ven==='before'?`Fly ${cfg.dep} → Venice (1-2nt) → ${c.city} (2-3d) → Venice → bus Aug 26`:cfg.ven==='after'?`Fly ${cfg.dep} → ${c.city} (2-3d) → Venice by Aug 25 → bus Aug 26`:`Fly ${cfg.dep} → Venice (1nt) → ${c.city} (2-3d) → Venice → bus Aug 26`}
-  else{vp=cfg.ven==='before'?`Bus back Venice Aug 30 → Venice (1-2nt, Film Fest Sep 2!) → ${c.city} (2-3d) → fly home ${cfg.dep}`:cfg.ven==='after'?`Aug 30 → ${c.city} (2-3d) → Venice (Film Fest!) → fly home VCE`:`Venice Aug 30 (1nt) → ${c.city} → Venice → fly home`}
+  else{vp=cfg.ven==='before'?`Bus to Venice Aug 30 → Venice (1-2nt, Film Fest Sep 2!) → ${c.city} (2-3d) → fly home ${cfg.dep}`:cfg.ven==='after'?`Aug 30 → ${c.city} (2-3d) → Venice (Film Fest!) → fly home VCE`:`Venice Aug 30 (1nt) → ${c.city} → Venice → home`}
   const ftN=cfg.ft==='rt'?`Round Trip ${cfg.dep}↔${c.city}. Need separate Venice legs.`:cfg.ft==='oj'?`Open Jaw: ${cfg.dep}→${c.city} + Venice→${cfg.dep}. Google Flights multi-city.`:`One-Ways: ${cfg.dep}→${c.city} + ${c.city}→Venice + Venice→${cfg.dep}. Max flex.`;
   const p=c.prac;
   d.className='show';
   d.innerHTML=`<button class="bk" onclick="hideDetail()">← All Cities</button>
-<div class="dh"><h2>${c.fl} ${c.city}, ${c.co}</h2><div class="vb">${c.vibe}</div><div class="rt" style="background:${ratingBg(r)};color:${rc}">Trip Rating: ${r}/10</div></div>
+<div class="dh"><h2>${c.fl} ${c.city}, ${c.co}${c.f1?'<span class="f1badge">F1 GP SEP 4-6</span>':''}</h2><div class="vb">${c.vibe}</div><div class="rtg" style="display:inline-block;margin-top:6px;padding:3px 10px;border-radius:12px;background:${ratingBg(r)};color:${rc};font-size:12px;font-weight:700">Trip Rating: ${r}/10</div></div>
 <div class="scs">${Object.entries(c.sc).map(([k,v])=>`<div class="sr"><span class="sl">${k}</span><div class="sb">${pip(v,c.clr)}</div><span class="sv">${v}</span></div>`).join('')}</div>
-<div class="sec"><div class="stg">✈️ Flight from ${cfg.dep}</div><div class="spr">${fl[0]}</div><div class="sme">${fl[1]}</div><div class="sbd">${fl[2]}</div><div class="stp">${ftN}</div><a class="bkl" href="${gfLink(cfg.dep,c.city)}" target="_blank">Search on Google Flights →</a></div>
+<div class="sec"><div class="stg">✈️ Flight from ${cfg.dep}</div><div class="spr">${fl[0]}</div><div class="sme">${fl[1]}</div><div class="sbd">${fl[2]}</div><div class="stp">${ftN}</div><a class="bkl" href="${gfLink(cfg.dep,c.city)}" target="_blank">Search Google Flights →</a></div>
 <div class="sec"><div class="stg">🏨 Hotels · 2 Nights</div><div class="spr">${c.h.t}</div><div class="sme">${c.h.r}</div><div style="margin-top:8px">${c.h.p.map(x=>`<div class="hp">${x}</div>`).join('')}</div></div>
 <div class="sec"><div class="stg">🍽️ Restaurants</div>${c.rest.map(x=>`<div class="di">${x}</div>`).join('')}</div>
 <div class="sec"><div class="stg">🚄 To Venice</div><div class="ttog"><button class="sel" onclick="togTV(this,'fly','${id}')">✈️ Fly</button><button onclick="togTV(this,'train','${id}')">🚆 Train</button></div><div id="tvI"><div class="spr">${c.tv.fly.p}</div><div class="sme">${c.tv.fly.t}</div><div class="sbd">${c.tv.fly.d}</div></div></div>
+${busInfo}${f1Info}
 <div class="sec da"><div class="stg">📍 Day Trip</div><div class="spr" style="font-size:16px">${c.dt.n}</div><div class="sbd">${c.dt.d}</div></div>
 <div class="sec"><div class="stg">🔥 What To Do</div>${c.todo.map(t=>`<div class="di">${t}</div>`).join('')}</div>
 <div class="prac" onclick="this.classList.toggle('open')"><div class="prac-h">📋 Practical Info</div><div class="prac-b"><div class="prac-bi">
@@ -460,21 +506,19 @@ function showDetail(id){
 <div class="prac-r"><span class="k">Phone</span><span>${p.phone}</span></div>
 <div class="prac-r"><span class="k">Phrases</span><span>${p.lang}</span></div>
 </div></div></div>
-<div class="vp"><h4>🏛️ Venice + Dolomites Plan</h4><p>${vp}</p><p style="margin-top:6px;font-size:10px;color:var(--grey)">Cortina Express bus: Venice → Cortina. 2.5h, $18-25/way (~$44 RT). cortinaexpress.it</p></div>
+<div class="vp"><h4>🏛️ Venice + Dolomites Plan</h4><p>${vp}</p></div>
 <div class="tc"><div class="tr"><div><div style="font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px">Per Person Total</div><div style="font-size:10px;color:var(--grey);margin-top:2px">Flight + 2nt hotel + Venice transport + 1nt Venice + Dolomites (bus+4nt)</div></div><div class="ta" id="tA">$${tL.toLocaleString()}-${tH.toLocaleString()}</div></div>
 <div class="cost-toggle"><input type="checkbox" id="noDol" onchange="togDol(${tL},${tH},${tL2},${tH2})"><label for="noDol">Remove Dolomites costs (bus + hotel already covered)</label></div></div>
-<button class="shbtn" onclick="shareCity('${id}')">📋 Copy Summary to Clipboard</button>
+<button class="shbtn" onclick="shareCity('${id}')">📋 Copy Summary for Group Chat</button>
 <div style="text-align:center;padding:16px 0;font-size:10px;color:var(--grey);letter-spacing:2px;text-transform:uppercase">${cfg.arriveLabel} → ${cfg.departLabel}</div>`;
   d.scrollIntoView({behavior:'smooth',block:'start'})}
 
 function togTV(btn,m,id){const c=C.find(x=>x.id===id);btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');const i=c.tv[m];document.getElementById('tvI').innerHTML=`<div class="spr">${i.p}</div><div class="sme">${i.t}</div><div class="sbd">${i.d}</div>`}
 function togDol(a,b,c,d){const n=document.getElementById('noDol').checked;document.getElementById('tA').textContent=n?`$${c.toLocaleString()}-${d.toLocaleString()}`:`$${a.toLocaleString()}-${b.toLocaleString()}`}
 function hideDetail(){document.getElementById('detail').className='';document.getElementById('detail').innerHTML='';document.querySelector('.gw').scrollIntoView({behavior:'smooth'})}
-
-// Share
-function shareCity(id){const c=C.find(x=>x.id===id);const fl=c.f[cfg.dep];const r=rateCity(c);
-  const txt=`✦ PASSPORT TO THE DOLOMITES\n\n${c.fl} ${c.city}, ${c.co}\nTrip Rating: ${r}/10\n\nFlight from ${cfg.dep}: ${fl[0]}\nHotel (2nt): ${c.h.t}\nTo Venice: ${c.tv.fly.p} (${c.tv.fly.t})\n\nBeer: ${c.prac.beer} | Cocktail: ${c.prac.ckl}\nWeather: ${c.prac.w}\n\nDates: ${cfg.arriveLabel} → ${cfg.departLabel}\n\n${c.vibe}`;
-  navigator.clipboard.writeText(txt).then(()=>{const btn=document.querySelector('.shbtn');btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='📋 Copy Summary to Clipboard';btn.classList.remove('copied')},2000)})}
+function shareCity(id){const c=C.find(x=>x.id===id);const fl=c.f[cfg.dep];const r=rateCity(c);const p=c.prac;
+  const txt=`✦ PASSPORT TO THE DOLOMITES\n\n${c.fl} ${c.city}, ${c.co}\nTrip Rating: ${r}/10\n\nFlight from ${cfg.dep}: ${fl[0]} (${fl[1]})\nHotel 2nt: ${c.h.t}\nTo Venice: ${c.tv.fly.p} (${c.tv.fly.t})\n\n🍺 Beer: ${p.beer} | 🍸 Cocktail: ${p.ckl}\n🌡️ Weather: ${p.w}\n💵 Currency: ${p.cur}\n\nDates: ${cfg.arriveLabel} → ${cfg.departLabel}\n\n${c.vibe}${c.f1?'\n\n🏎️ MONZA F1 GP: Sep 4-6 nearby!':''}`;
+  navigator.clipboard.writeText(txt).then(()=>{const btn=document.querySelector('.shbtn');btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='📋 Copy Summary for Group Chat';btn.classList.remove('copied')},2000)})}
 
 // Hat Trick
 function openHat(){const ov=document.getElementById('hatO');ov.style.display='flex';void ov.offsetWidth;ov.classList.add('show');document.getElementById('hatVibe').textContent='';document.getElementById('hatPrice').textContent='';shuffleHat()}
@@ -483,21 +527,21 @@ function shuffleHat(){if(hatTimer){clearInterval(hatTimer);hatTimer=null}let cou
 function lockHat(){const id=C[hatIdx].id;closeHat();setTimeout(()=>showDetail(id),350)}
 
 // Compare
-function toggleCompare(){compareMode=!compareMode;compareList=[];document.getElementById('compBtn').textContent=compareMode?'⚖️ Cancel Compare':'⚖️ Compare';renderGrid();if(!compareMode)renderMap()}
+function toggleCompare(){compareMode=!compareMode;compareList=[];document.getElementById('compBtn').textContent=compareMode?'⚖️ Pick 2 Cities':'⚖️ Compare';renderGrid();if(!compareMode)renderMap()}
 function toggleCityCompare(id){if(compareList.includes(id))compareList=compareList.filter(x=>x!==id);else if(compareList.length<2)compareList.push(id);renderGrid();if(compareList.length===2)showCompare()}
 function showCompare(){compareMode=false;document.getElementById('compBtn').textContent='⚖️ Compare';const[a,b]=[C.find(x=>x.id===compareList[0]),C.find(x=>x.id===compareList[1])];const ra=rateCity(a),rb=rateCity(b);const fla=a.f[cfg.dep],flb=b.f[cfg.dep];
-  const rows=[['Rating',ra+'/10',rb+'/10',ra>rb],['Flight',fla[0],flb[0],parseInt(fla[0].replace(/\D/,''))<parseInt(flb[0].replace(/\D/,''))],['Hotel 2nt',a.h.t,b.h.t,parseInt(a.h.t)<parseInt(b.h.t)],['To Venice',a.tv.fly.p,b.tv.fly.p,parseInt(a.tv.fly.p.replace(/\D/,''))<parseInt(b.tv.fly.p.replace(/\D/,''))],['Beer',a.prac.beer,b.prac.beer],['Cocktail',a.prac.ckl,b.prac.ckl],['Weather',a.prac.w.split(',')[0],b.prac.w.split(',')[0]],['Currency',a.prac.cur,b.prac.cur],['Nightlife',a.sc.nightlife+'/10',b.sc.nightlife+'/10',a.sc.nightlife>b.sc.nightlife],['Beach',a.sc.beach+'/10',b.sc.beach+'/10',a.sc.beach>b.sc.beach],['Food',a.sc.food+'/10',b.sc.food+'/10',a.sc.food>b.sc.food],['Budget',a.sc.budget+'/10',b.sc.budget+'/10',a.sc.budget>b.sc.budget]];
+  const rows=[['Rating',ra+'/10',rb+'/10'],['Flight',fla[0],flb[0]],['Hotel 2nt',a.h.t,b.h.t],['To Venice',a.tv.fly.p,b.tv.fly.p],['Beer',a.prac.beer,b.prac.beer],['Cocktail',a.prac.ckl,b.prac.ckl],['Weather',a.prac.w.split(',')[0],b.prac.w.split(',')[0]],['Currency',a.prac.cur.split('.')[0],b.prac.cur.split('.')[0]],['Nightlife',a.sc.nightlife+'/10',b.sc.nightlife+'/10'],['Beach',a.sc.beach+'/10',b.sc.beach+'/10'],['Food',a.sc.food+'/10',b.sc.food+'/10'],['Budget',a.sc.budget+'/10',b.sc.budget+'/10']];
   document.getElementById('compTitle').textContent=a.city+' vs '+b.city;
-  document.getElementById('compGrid').innerHTML=`<div class="comp-col${ra>=rb?' comp-w':''}"><h4>${a.fl} ${a.city}</h4><div class="comp-s">Trip Rating</div><div class="comp-r"><span>Score</span><span class="v" style="color:${ratingColor(ra)}">${ra}/10</span></div><div class="comp-s">Costs</div>${rows.slice(1,4).map(r=>`<div class="comp-r"><span>${r[0]}</span><span class="v">${r[1]}</span></div>`).join('')}<div class="comp-s">Vibes</div>${rows.slice(4).map(r=>`<div class="comp-r"><span>${r[0]}</span><span class="v">${r[1]}</span></div>`).join('')}<button class="bkl" style="width:100%;text-align:center;margin-top:12px" onclick="closeCompare();showDetail('${a.id}')">View ${a.city} →</button></div>
-  <div class="comp-col${rb>ra?' comp-w':''}"><h4>${b.fl} ${b.city}</h4><div class="comp-s">Trip Rating</div><div class="comp-r"><span>Score</span><span class="v" style="color:${ratingColor(rb)}">${rb}/10</span></div><div class="comp-s">Costs</div>${rows.slice(1,4).map(r=>`<div class="comp-r"><span>${r[0]}</span><span class="v">${r[2]}</span></div>`).join('')}<div class="comp-s">Vibes</div>${rows.slice(4).map(r=>`<div class="comp-r"><span>${r[0]}</span><span class="v">${r[2]}</span></div>`).join('')}<button class="bkl" style="width:100%;text-align:center;margin-top:12px" onclick="closeCompare();showDetail('${b.id}')">View ${b.city} →</button></div>`;
+  const mkCol=(c,r,other)=>`<div class="comp-col${r>rateCity(other)?' comp-w':''}"><h4>${c.fl} ${c.city}</h4><div class="comp-s">Trip Rating</div><div class="comp-r"><span>Score</span><span class="v" style="color:${ratingColor(r)}">${r}/10</span></div><div class="comp-s">Costs</div>${rows.slice(1,4).map(r2=>`<div class="comp-r"><span>${r2[0]}</span><span class="v">${c===a?r2[1]:r2[2]}</span></div>`).join('')}<div class="comp-s">Vibes</div>${rows.slice(4).map(r2=>`<div class="comp-r"><span>${r2[0]}</span><span class="v">${c===a?r2[1]:r2[2]}</span></div>`).join('')}<button class="bkl" style="width:100%;text-align:center;margin-top:12px" onclick="closeCompare();showDetail('${c.id}')">View ${c.city} →</button></div>`;
+  document.getElementById('compGrid').innerHTML=mkCol(a,ra,b)+mkCol(b,rb,a);
   document.getElementById('compO').classList.add('show');compareList=[]}
 function closeCompare(){document.getElementById('compO').classList.remove('show');renderGrid()}
 
-// AI Recommendation
+// AI
 async function openAI(){document.getElementById('aiO').classList.add('show');document.getElementById('aiResult').textContent='Thinking...';
-  const d=getCityDays();const cityList=C.map(c=>c.city+'('+c.f[cfg.dep][0]+', nightlife:'+c.sc.nightlife+', budget:'+c.sc.budget+', beer:'+c.prac.beer+')').join(', ');
-  const prompt=`You're helping a group of single 30-year-old guys pick a European city for 2-3 days before/after a wedding in the Dolomites, Italy. They value nightlife, good food, fun experiences, and bang for buck. Available days: ${d.total} (${d.before} before wedding, ${d.after} after). Flying from ${cfg.dep}. Dates: ${cfg.arriveLabel} to ${cfg.departLabel}. Cities to choose from with flight costs and scores: ${cityList}. Give your TOP 3 picks with a one-line reason each, then your #1 recommendation with a 3-sentence pitch. Be direct, fun, and opinionated. No hedging.`;
-  try{const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})});const data=await res.json();const txt=data.content?.map(i=>i.text||'').join('\n')||'Could not get recommendation. Try again.';document.getElementById('aiResult').textContent=txt}catch(e){document.getElementById('aiResult').textContent='API error. Pick manually using the ratings and compare tool!'}}
+  const d=getCityDays();const cl=C.map(c=>c.city+'('+c.f[cfg.dep][0]+',NL:'+c.sc.nightlife+',BG:'+c.sc.budget+',beer:'+c.prac.beer+(c.f1?' F1 GP!':'')+')').join(', ');
+  const prompt=`You help a group of single 30-year-old guys pick a European city for 2-3 days before/after a wedding in the Dolomites Italy. They value nightlife, food, fun, bang for buck. Days available: ${d.total} (${d.before} before, ${d.after} after). Flying from ${cfg.dep}. Dates: ${cfg.arriveLabel} to ${cfg.departLabel}. ${d.after>0&&cfg.depart>33?'NOTE: Monza F1 Italian GP is Sep 4-6 near Milan.':''} Cities: ${cl}. Give TOP 3 picks with 1-line reason each, then #1 recommendation with a 3-sentence pitch. Be direct, fun, opinionated.`;
+  try{const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})});const data=await res.json();document.getElementById('aiResult').textContent=data.content?.map(i=>i.text||'').join('\n')||'Could not get recommendation.'}catch(e){document.getElementById('aiResult').textContent='API error. Use the ratings + compare tool to decide!'}}
 function closeAI(){document.getElementById('aiO').classList.remove('show')}
 </script>
 </body>
