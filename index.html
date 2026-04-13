@@ -741,7 +741,7 @@ function cloudLoadAll(){
   });
 }
 // XP for time on site (5 XP every 5 minutes)
-setInterval(function(){if(currentUser&&currentUser.name!=='Neha'&&currentUser.name!=='Akash'){addXP(5,'Time on Gurlwurl')}},300000);
+setInterval(function(){if(currentUser&&currentUser.name.toLowerCase()!=='neha'&&currentUser.name.toLowerCase()!=='akash'){addXP(5,'Time on Gurlwurl')}},300000);
 // Auto-sync every 30 seconds
 setInterval(function(){if(currentUser)syncAll()},30000);
 // Sync before leaving
@@ -883,7 +883,7 @@ function loadCitizenWall(){
     var existing=wall.querySelectorAll('.cw-card:not(.founder)');
     existing.forEach(function(e){e.remove()});
     r.citizens.forEach(function(c){
-      if(c.name==='Neha'||c.name==='Akash')return;
+      if(c.name.toLowerCase()==='neha'||c.name.toLowerCase()==='akash')return;
       var d=document.createElement('div');d.className='cw-card';
       d.innerHTML='<div class="cw-emoji">'+(c.status||'\u{1F469}')+'</div><div class="cw-name">'+c.name+'</div><div class="cw-rank">Citizen</div><div class="cw-num">CITIZEN #'+String(c.number).padStart(3,'0')+'</div>';
       wall.appendChild(d);
@@ -1380,8 +1380,8 @@ function getUnlockedEmojis(){var xp=getXP();var unlocked=[];for(var t in STATUS_
 
 function getXP(){return parseInt(LS.getItem('gw_xp')||'0')}
 function getTitle(){
-  if(currentUser&&currentUser.name==='Neha')return'Supreme Visionary';
-  if(currentUser&&currentUser.name==='Akash')return'Chief Architect';
+  if(currentUser&&currentUser.name.toLowerCase()==='neha')return'Supreme Visionary';
+  if(currentUser&&currentUser.name.toLowerCase()==='akash')return'Chief Architect';
   return null;
 }
 function getLevel(){if(typeof XP_LEVELS==='undefined')return{name:'Tourist',xp:0};var xp=getXP();var lvl=XP_LEVELS[0];for(var i=0;i<XP_LEVELS.length;i++){if(xp>=XP_LEVELS[i].xp)lvl=XP_LEVELS[i]}return lvl}
@@ -1893,7 +1893,7 @@ function initDesk(){
   h+='<div class="desk-btn" onclick="openPanel(\'hub\')"><div class="desk-btn-ico">\u{1FA2A}</div><div class="desk-btn-label">My Hub</div></div>';
   h+='<div class="desk-btn" onclick="openPanel(\'leaderboard\')"><div class="desk-btn-ico">\u{1F3C6}</div><div class="desk-btn-label">Leaderboard</div></div>';
   h+='<div class="desk-btn" onclick="openPanel(\'recipe\')"><div class="desk-btn-ico">\u{1F373}</div><div class="desk-btn-label">Recipes</div></div>';
-  if(currentUser&&currentUser.name==='Akash')h+='<div class="desk-btn" onclick="openPanel(\'admin\')"><div class="desk-btn-ico">\u{1F4CA}</div><div class="desk-btn-label">Admin</div></div>';
+  if(currentUser&&currentUser.name.toLowerCase()==='akash')h+='<div class="desk-btn" onclick="openPanel(\'admin\')"><div class="desk-btn-ico">\u{1F4CA}</div><div class="desk-btn-label">Admin</div></div>';
   h+='<div class="desk-btn" onclick="openPanel(\'theme\')"><div class="desk-btn-ico">\u{1F3A8}</div><div class="desk-btn-label">Theme</div></div>';
   h+='<div class="desk-btn coming-soon-badge" style="opacity:.3;pointer-events:none"><div class="desk-btn-ico">\u{1F5FA}</div><div class="desk-btn-label">Map</div></div>';
   h+='</div></div>';
@@ -2570,7 +2570,7 @@ function saveCustomRecipe(){
 
 /* ADMIN DASHBOARD */
 function initAdmin(){
-  if(!currentUser||currentUser.name!=='Akash'){document.getElementById('adminBody').innerHTML='<p style="text-align:center;color:rgba(255,255,255,.3);padding:40px">Access denied</p>';return}
+  if(!currentUser||currentUser.name.toLowerCase()!=='akash'){document.getElementById('adminBody').innerHTML='<p style="text-align:center;color:rgba(255,255,255,.3);padding:40px">Access denied</p>';return}
   document.getElementById('adminBody').innerHTML='<div style="text-align:center;padding:40px"><p style="font-size:.75rem;color:rgba(255,255,255,.3)">Loading analytics...</p></div>';
   fetch('/api/admin').then(function(r){return r.json()}).then(function(d){
     if(!d.ok){document.getElementById('adminBody').innerHTML='<p style="color:rgba(255,255,255,.3);padding:20px">Failed: '+(d.error||'')+'</p>';return}
