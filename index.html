@@ -1877,6 +1877,7 @@ function initDesk(){
   h+='<div class="desk-btn" onclick="openGame(\'oracle\')"><div class="desk-btn-ico">\u{2728}</div><div class="desk-btn-label">Oracle</div></div>';
   h+='<div class="desk-btn" onclick="openPanel(\'cycle\')"><div class="desk-btn-ico">\u{1F319}</div><div class="desk-btn-label">Moon Cycle</div></div>';
   h+='<div class="desk-btn" onclick="openPanel(\'vision\')"><div class="desk-btn-ico">\u{1F4CB}</div><div class="desk-btn-label">Vision Board</div></div>';
+  if(currentUser&&currentUser.name.toLowerCase()==='akash')h+='<div class="desk-btn" onclick="openPanel(\'admin\')"><div class="desk-btn-ico">\u{1F4CA}</div><div class="desk-btn-label">Admin</div></div>';
 
   h+='</div></div></div>';
 
@@ -1893,9 +1894,8 @@ function initDesk(){
   h+='<div class="desk-btn" onclick="openPanel(\'hub\')"><div class="desk-btn-ico">\u{1FA2A}</div><div class="desk-btn-label">My Hub</div></div>';
   h+='<div class="desk-btn" onclick="openPanel(\'leaderboard\')"><div class="desk-btn-ico">\u{1F3C6}</div><div class="desk-btn-label">Leaderboard</div></div>';
   h+='<div class="desk-btn" onclick="openPanel(\'recipe\')"><div class="desk-btn-ico">\u{1F373}</div><div class="desk-btn-label">Recipes</div></div>';
-  if(currentUser&&currentUser.name.toLowerCase()==='akash')h+='<div class="desk-btn" onclick="openPanel(\'admin\')"><div class="desk-btn-ico">\u{1F4CA}</div><div class="desk-btn-label">Admin</div></div>';
   h+='<div class="desk-btn" onclick="openPanel(\'theme\')"><div class="desk-btn-ico">\u{1F3A8}</div><div class="desk-btn-label">Theme</div></div>';
-  h+='<div class="desk-btn coming-soon-badge" style="opacity:.3;pointer-events:none"><div class="desk-btn-ico">\u{1F5FA}</div><div class="desk-btn-label">Map</div></div>';
+  
   h+='</div></div>';
 
   document.getElementById('deskContent').innerHTML=h;
